@@ -24,6 +24,11 @@ module.exports = {
     filename: './[name]/index.js',
     path: path.resolve(__dirname, 'demo'),
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   module: {
     rules: [
       {
