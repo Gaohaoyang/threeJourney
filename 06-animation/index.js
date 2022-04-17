@@ -10,13 +10,23 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/00-helloThreejs/index.ts":
-/*!**************************************!*\
-  !*** ./src/00-helloThreejs/index.ts ***!
-  \**************************************/
+/***/ "./src/06-animation/index.ts":
+/*!***********************************!*\
+  !*** ./src/06-animation/index.ts ***!
+  \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ \"./node_modules/_three@0.139.2@three/build/three.module.js\");\n\nvar scene = new three__WEBPACK_IMPORTED_MODULE_0__.Scene(); // 创建场景\n\nvar cube = new three__WEBPACK_IMPORTED_MODULE_0__.Mesh(new three__WEBPACK_IMPORTED_MODULE_0__.BoxGeometry(1, 1, 1), new three__WEBPACK_IMPORTED_MODULE_0__.MeshBasicMaterial({\n  color: 0xff0000\n}));\nscene.add(cube);\nvar camera = new three__WEBPACK_IMPORTED_MODULE_0__.PerspectiveCamera(45, 4 / 3, 1, 1000);\ncamera.position.set(1, 1, 5);\nscene.add(camera); // 相机加入场景\n\ncamera.lookAt(cube.position); // 相机视点设置为cube\n// 创建渲染器\n\nvar renderer = new three__WEBPACK_IMPORTED_MODULE_0__.WebGLRenderer({\n  canvas: document.querySelector('#mainCanvas')\n});\nrenderer.render(scene, camera); // 使用渲染器渲染这个场景\n\n//# sourceURL=webpack://threeJourney/./src/00-helloThreejs/index.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ \"./node_modules/_three@0.139.2@three/build/three.module.js\");\n/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gsap */ \"./node_modules/_gsap@3.10.3@gsap/index.js\");\n/* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/stats */ \"./src/common/stats.ts\");\n\n\n // Canvas\n\nvar canvas = document.querySelector('#mainCanvas'); // Scene\n\nvar scene = new three__WEBPACK_IMPORTED_MODULE_1__.Scene(); // Object\n\nvar cube = new three__WEBPACK_IMPORTED_MODULE_1__.Mesh(new three__WEBPACK_IMPORTED_MODULE_1__.BoxGeometry(1, 1, 1), new three__WEBPACK_IMPORTED_MODULE_1__.MeshBasicMaterial({\n  color: 0x607d8b\n}));\nscene.add(cube); // Camera\n\nvar camera = new three__WEBPACK_IMPORTED_MODULE_1__.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight);\ncamera.position.set(0, 0, 3);\ncamera.lookAt(cube.position); // Renderer\n\nvar renderer = new three__WEBPACK_IMPORTED_MODULE_1__.WebGLRenderer({\n  canvas: canvas\n});\nrenderer.setSize(canvas.clientWidth, canvas.clientHeight);\ngsap__WEBPACK_IMPORTED_MODULE_2__[\"default\"].fromTo(cube.position, {\n  x: -1.5\n}, {\n  x: 1.5,\n  duration: 1,\n  yoyo: true,\n  repeat: -1,\n  ease: 'sine.inOut'\n}); // Animations\n\nvar tick = function tick() {\n  _common_stats__WEBPACK_IMPORTED_MODULE_0__[\"default\"].begin(); // Render\n\n  renderer.render(scene, camera);\n  _common_stats__WEBPACK_IMPORTED_MODULE_0__[\"default\"].end();\n  requestAnimationFrame(tick);\n};\n\ntick();\n\n//# sourceURL=webpack://threeJourney/./src/06-animation/index.ts?");
+
+/***/ }),
+
+/***/ "./src/common/stats.ts":
+/*!*****************************!*\
+  !*** ./src/common/stats.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var stats_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! stats.js */ \"./node_modules/_stats.js@0.17.0@stats.js/build/stats.min.js\");\n/* harmony import */ var stats_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(stats_js__WEBPACK_IMPORTED_MODULE_0__);\n\nvar stats = new (stats_js__WEBPACK_IMPORTED_MODULE_0___default())();\nstats.dom.style.left = 'auto';\nstats.dom.style.top = '10px';\nstats.dom.style.left = '10px';\ndocument.body.appendChild(stats.dom);\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (stats);\n\n//# sourceURL=webpack://threeJourney/./src/common/stats.ts?");
 
 /***/ })
 
@@ -40,7 +50,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var thre
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -82,6 +92,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var thre
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -118,7 +140,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var thre
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"./00-helloThreejs": 0
+/******/ 			"./06-animation": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -168,7 +190,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var thre
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules__three_0_139_2_three_build_three_module_js"], () => (__webpack_require__("./src/00-helloThreejs/index.ts")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules__three_0_139_2_three_build_three_module_js","vendors-node_modules__gsap_3_10_3_gsap_index_js-node_modules__stats_js_0_17_0_stats_js_build_-eec118"], () => (__webpack_require__("./src/06-animation/index.ts")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
