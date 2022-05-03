@@ -1,70 +1,55 @@
-interface touchType {
-  x: null | number
-  y: null | number
-  isTouch: boolean
-}
-
-const captureTouch = (element: HTMLElement) => {
-  console.log('captureTouch')
-  const touch: touchType = {
-    x: null,
-    y: null,
-    isTouch: false,
-  }
-  element.addEventListener('touchstart', () => {
-    touch.isTouch = true
-  })
-  element.addEventListener('touchend', () => {
-    touch.isTouch = false
-    touch.x = null
-    touch.y = null
-  })
-  element.addEventListener('touchmove', (e) => {
-    const { pageX, pageY } = e.touches[0]
-    touch.x = pageX
-    touch.y = pageY
-  })
-  return touch
-}
-
-const captureMouse = (element: HTMLElement) => {
-  const mouse: {
-    x: number
-    y: number
-    event: MouseEvent | null
-  } = {
-    x: 0,
-    y: 0,
-    event: null,
-  }
-  const { offsetLeft, offsetTop } = element
-
-  element.addEventListener('mousemove', (e) => {
-    let x
-    let y
-    x = e.pageX
-    y = e.pageY
-    x -= offsetLeft
-    y -= offsetTop
-    mouse.x = x
-    mouse.y = y
-    mouse.event = e
-  })
-  return mouse
-}
+/* eslint-disable no-lonely-if */
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable no-param-reassign */
+import { PerspectiveCamera, WebGLRenderer } from 'three'
 
 /**
- * 是否包含在区域内
+ * 监听 resize 事件
  */
-const containPoint = (
-  rect: {
-    x: number
-    y: number
+export const listenResize = (
+  sizes: {
     width: number
     height: number
   },
-  x: number,
-  y: number,
-) => x > rect.x && x < rect.x + rect.width && y > rect.y && y < rect.y + rect.height
+  camera: PerspectiveCamera,
+  renderer: WebGLRenderer
+) => {
+  window.addEventListener('resize', () => {
+    // update sizes
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
 
-export { captureTouch, captureMouse, containPoint }
+    // update camera
+    camera.aspect = sizes.width / sizes.height
+    camera.updateProjectionMatrix()
+
+    // update renderer
+    renderer.setSize(sizes.width, sizes.height)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  })
+}
+
+/**
+ * 全屏
+ */
+export const dbClkfullScreen = (canvas: HTMLElement) => {
+  window.addEventListener('dblclick', () => {
+    // @ts-ignore
+    const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
+    if (fullscreenElement) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen()
+      } else {
+        // @ts-ignore
+        document.webkitExitFullscreen()
+      }
+    } else {
+      if (canvas.requestFullscreen) {
+        canvas.requestFullscreen()
+      } else {
+        // @ts-ignore
+        canvas.webkitRequestFullscreen()
+      }
+    }
+  })
+}

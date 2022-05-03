@@ -61,6 +61,24 @@ Learn the shader language to unleash the true power of WebGL and create stunning
 - [ ] 30 Animated galaxy 1h 13mn
 - [ ] 31 Modified materials 51mn
 
+# 05 Extra
+
+Creating a cool WebGL experience is useless if most computers can’t run it.
+
+Learn how to monitor and optimize performance to achieve the best possible frame rate.
+
+9 lessons — 11h 10mn
+
+- [ ] 32 Post-processing 1h 26mn
+- [ ] 33 Performance tips 1h 12mn
+- [ ] 34 Intro and loading progress 49mn
+- [ ] 35 Mixing HTML and WebGL 58mn
+- [ ] 36 Creating a scene in Blender 2h 04mn
+- [ ] 37 Baking and exporting the scene 2h 11mn
+- [ ] 38 Importing and optimizing the scene 48mn
+- [ ] 39 Adding details to the scene 1h 34mn
+- [ ] 40 The end 3mn#
+
 ---
 
 https://bilibili.iiilab.com/
