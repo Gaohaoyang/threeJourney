@@ -13,7 +13,7 @@ Add a debug panel to tweak your environment and animate everything.
 - [x] 05 Transform objects 46mn
 - [x] 06 Animations 30mn
 - [x] 07 Cameras 57mn
-- [ ] 08 Fullscreen and resizing 30mn
+- [x] 08 Fullscreen and resizing 30mn
 - [ ] 09 Geometries 35mn
 - [ ] 10 Debug UI 38mn
 - [ ] 11 Textures 1h 14mn
