@@ -1,8 +1,10 @@
 import * as THREE from 'three'
 import './style.css'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import * as dat from 'dat.gui'
+import gsap from 'gsap'
 import stats from '../common/stats'
-import { listenResize, dbClkfullScreen } from '../common/utils'
+import { listenResize } from '../common/utils'
 
 // Canvas
 const canvas = document.querySelector('#mainCanvas') as HTMLCanvasElement
@@ -10,24 +12,15 @@ const canvas = document.querySelector('#mainCanvas') as HTMLCanvasElement
 // Scene
 const scene = new THREE.Scene()
 
-// Object
-const geometry = new THREE.BufferGeometry()
-
-const triangleVertices = []
-for (let index = 0; index < 300; index += 1) {
-  triangleVertices.push(Math.random() - 0.5)
-}
-
-const vertices = new Float32Array(triangleVertices)
-
-geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
-
+const box = new THREE.BoxGeometry(1, 1, 1)
+const defaultColor = 0x607d8b
 const material = new THREE.MeshBasicMaterial({
   color: 0x607d8b,
-  wireframe: true,
 })
-const triangle = new THREE.Mesh(geometry, material)
-scene.add(triangle)
+
+// Object
+const cubeMesh = new THREE.Mesh(box, material)
+scene.add(cubeMesh)
 
 // Size
 const sizes = {
@@ -50,7 +43,6 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
-dbClkfullScreen(canvas)
 listenResize(sizes, camera, renderer)
 
 // Animations
@@ -65,3 +57,36 @@ const tick = () => {
 }
 
 tick()
+
+/**
+ * Debug
+ */
+const gui = new dat.GUI({
+  // closed: true,
+  width: 400,
+})
+// gui.hide() // press H to show
+
+gui.add(cubeMesh.position, 'y').min(-3).max(3).step(0.01)
+  .name('cubeMesh Y') // 别名
+gui.add(cubeMesh.position, 'x').min(-3).max(3).step(0.01)
+gui.add(cubeMesh.position, 'z').min(-3).max(3).step(0.01)
+
+gui.add(cubeMesh, 'visible') // boolean
+gui.add(cubeMesh.material, 'wireframe') // boolean
+
+const debugObj = {
+  color: defaultColor,
+  spin() {
+    gsap.to(cubeMesh.rotation, {
+      duration: 1,
+      y: cubeMesh.rotation.y + Math.PI * 2,
+    })
+  },
+}
+
+gui.addColor(debugObj, 'color').onChange((e) => {
+  cubeMesh.material.color.set(e)
+})
+
+gui.add(debugObj, 'spin') // function

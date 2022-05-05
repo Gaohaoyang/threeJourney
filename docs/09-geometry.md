@@ -99,7 +99,7 @@ const geometry = new THREE.BufferGeometry()
 
 const triangleVertices = []
 for (let index = 0; index < 300; index += 1) {
-  triangleVertices.push(Math.random())
+  triangleVertices.push(Math.random() - 0.5)
 }
 
 const vertices = new Float32Array(triangleVertices)
@@ -114,7 +114,7 @@ const triangle = new THREE.Mesh(geometry, material)
 scene.add(triangle)
 ```
 
-![](https://gw.alicdn.com/imgextra/i2/O1CN01DIYa9Q1NMEdal3ewK_!!6000000001555-1-tps-1131-489.gif)
+![](https://gw.alicdn.com/imgextra/i1/O1CN01BrURqS26VzmtArZLT_!!6000000007668-1-tps-1131-581.gif)
 
 完整代码和 demo 如下
 
@@ -124,4 +124,4 @@ scene.add(triangle)
 
 # 小结
 
-我们学习了 threejs 内置的集合体，也学会了如何创建自己的几何体，加油
+我们学习了 threejs 内置的集合体，也学会了如何创建自己的几何体。
