@@ -63,7 +63,7 @@ tick()
  */
 const gui = new dat.GUI({
   // closed: true,
-  width: 400,
+  // width: 400,
 })
 // gui.hide() // press H to show
 
