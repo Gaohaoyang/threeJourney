@@ -12,7 +12,7 @@ export const listenResize = (
     height: number
   },
   camera: PerspectiveCamera,
-  renderer: WebGLRenderer
+  renderer: WebGLRenderer,
 ) => {
   window.addEventListener('resize', () => {
     // update sizes
