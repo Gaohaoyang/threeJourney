@@ -8,7 +8,7 @@
 
 # dat.GUI
 
-我们将学习 [dat.GUI](https://github.com/dataarts/dat.gui)，这个 debugUI 的 api 也非常简单可以直接参考[api文档](https://github.com/dataarts/dat.gui/blob/master/API.md)
+我们将学习 [dat.GUI](https://github.com/dataarts/dat.gui)，这个 debugUI 的 api 也非常简单可以直接参考 [api文档](https://github.com/dataarts/dat.gui/blob/master/API.md)
 
 我们添加如下代码
 
