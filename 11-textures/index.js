@@ -24,10 +24,73 @@ document.body.appendChild(stats.dom);
 
 /***/ }),
 
-/***/ "./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/08-fullscreenAndResizing/style.css":
-/*!********************************************************************************************************!*\
-  !*** ./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/08-fullscreenAndResizing/style.css ***!
-  \********************************************************************************************************/
+/***/ "./src/common/utils.ts":
+/*!*****************************!*\
+  !*** ./src/common/utils.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "dbClkfullScreen": () => (/* binding */ dbClkfullScreen),
+/* harmony export */   "listenResize": () => (/* binding */ listenResize)
+/* harmony export */ });
+/* eslint-disable no-lonely-if */
+
+/* eslint-disable import/prefer-default-export */
+
+/* eslint-disable no-param-reassign */
+
+/**
+ * 监听 resize 事件
+ */
+var listenResize = function listenResize(sizes, camera, renderer) {
+  window.addEventListener('resize', function () {
+    // update sizes
+    sizes.width = window.innerWidth;
+    sizes.height = window.innerHeight; // update camera
+
+    camera.aspect = sizes.width / sizes.height;
+    camera.updateProjectionMatrix(); // update renderer
+
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  });
+};
+/**
+ * 全屏
+ */
+
+var dbClkfullScreen = function dbClkfullScreen(canvas) {
+  window.addEventListener('dblclick', function () {
+    // @ts-ignore
+    var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
+
+    if (fullscreenElement) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else {
+        // @ts-ignore
+        document.webkitExitFullscreen();
+      }
+    } else {
+      if (canvas.requestFullscreen) {
+        canvas.requestFullscreen();
+      } else {
+        // @ts-ignore
+        canvas.webkitRequestFullscreen();
+      }
+    }
+  });
+};
+
+/***/ }),
+
+/***/ "./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/11-textures/style.css":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/11-textures/style.css ***!
+  \*******************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -44,7 +107,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_6_7_1_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_6_7_1_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "html,\nbody {\n  overflow: hidden; /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n", "",{"version":3,"sources":["webpack://./src/08-fullscreenAndResizing/style.css"],"names":[],"mappings":"AAAA;;EAEE,gBAAgB,EAAE,cAAc;AAClC;;AAEA;EACE,SAAS;EACT,UAAU;AACZ;;AAEA;EACE,eAAe;EACf,MAAM;EACN,OAAO;EACP,aAAa;AACf","sourcesContent":["html,\nbody {\n  overflow: hidden; /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "html,\nbody {\n  overflow: hidden; /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n", "",{"version":3,"sources":["webpack://./src/11-textures/style.css"],"names":[],"mappings":"AAAA;;EAEE,gBAAgB,EAAE,cAAc;AAClC;;AAEA;EACE,SAAS;EACT,UAAU;AACZ;;AAEA;EACE,eAAe;EACf,MAAM;EACN,OAAO;EACP,aAAa;AACf","sourcesContent":["html,\nbody {\n  overflow: hidden; /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -210,10 +273,10 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
 
 /***/ }),
 
-/***/ "./src/08-fullscreenAndResizing/style.css":
-/*!************************************************!*\
-  !*** ./src/08-fullscreenAndResizing/style.css ***!
-  \************************************************/
+/***/ "./src/11-textures/style.css":
+/*!***********************************!*\
+  !*** ./src/11-textures/style.css ***!
+  \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -233,7 +296,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_3_3_1_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_3_3_1_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _node_modules_style_loader_3_3_1_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../node_modules/_style-loader@3.3.1@style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/_style-loader@3.3.1@style-loader/dist/runtime/styleTagTransform.js");
 /* harmony import */ var _node_modules_style_loader_3_3_1_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_3_3_1_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_6_7_1_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./style.css */ "./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/08-fullscreenAndResizing/style.css");
+/* harmony import */ var _node_modules_css_loader_6_7_1_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./style.css */ "./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/11-textures/style.css");
 
       
       
@@ -52988,72 +53051,99 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/*!***********************************************!*\
-  !*** ./src/08-fullscreenAndResizing/index.ts ***!
-  \***********************************************/
+/*!**********************************!*\
+  !*** ./src/11-textures/index.ts ***!
+  \**********************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three */ "./node_modules/_three@0.139.2@three/build/three.module.js");
-/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ "./src/08-fullscreenAndResizing/style.css");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three */ "./node_modules/_three@0.139.2@three/build/three.module.js");
+/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ "./src/11-textures/style.css");
 /* harmony import */ var three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls */ "./node_modules/_three@0.139.2@three/examples/jsm/controls/OrbitControls.js");
 /* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/stats */ "./src/common/stats.ts");
+/* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/utils */ "./src/common/utils.ts");
+/* eslint-disable max-len */
 
 
 
- // Canvas
+
+
+/**
+ * Textures
+ */
+// const image = new Image()
+// image.src = '../assets/textures/door/color.jpg'
+// const texture = new THREE.Texture(image)
+// image.onload = () => {
+//   texture.needsUpdate = true
+// }
+
+var loadingManager = new three__WEBPACK_IMPORTED_MODULE_4__.LoadingManager();
+
+loadingManager.onStart = function (url, itemsLoaded, itemsTotal) {
+  console.log("Started loading file: ".concat(url, ".\nLoaded ").concat(itemsLoaded, " of ").concat(itemsTotal, " files."));
+};
+
+loadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
+  console.log("Loading file: ".concat(url, ".\nLoaded ").concat(itemsLoaded, " of ").concat(itemsTotal, " files."));
+};
+
+loadingManager.onLoad = function () {
+  console.log('Loading complete!');
+};
+
+loadingManager.onError = function (url) {
+  console.log("There was an error loading ".concat(url));
+};
+
+var textureLoader = new three__WEBPACK_IMPORTED_MODULE_4__.TextureLoader(loadingManager);
+var colorTexture = textureLoader.load('../assets/textures/door/color.jpg'); // const colorTexture = textureLoader.load('https://gw.alicdn.com/imgextra/i4/O1CN01Ow2oCS1m9kEL8DTpD_!!6000000004912-2-tps-16-16.png')
+// const alphaTexture = textureLoader.load('../assets/textures/door/alpha.jpg')
+// const ambientOcclusionTexture = textureLoader.load('../assets/textures/door/ambientOcclusion.jpg')
+// const heightTexture = textureLoader.load('../assets/textures/door/height.jpg')
+// const metalnessTexture = textureLoader.load('../assets/textures/door/metalness.jpg')
+// colorTexture.offset.x = 1
+// colorTexture.offset.y = 1
+// colorTexture.wrapS = THREE.MirroredRepeatWrapping
+// colorTexture.wrapT = THREE.MirroredRepeatWrapping
+// colorTexture.offset.x = 0.5
+// colorTexture.offset.y = 0
+// colorTexture.wrapS = THREE.RepeatWrapping
+// colorTexture.wrapT = THREE.RepeatWrapping
+// colorTexture.center = new THREE.Vector2(0.5, 0.5)
+// colorTexture.rotation = Math.PI / 4
+// colorTexture.magFilter = THREE.NearestFilter
+
+colorTexture.generateMipmaps = false; // Canvas
 
 var canvas = document.querySelector('#mainCanvas'); // Scene
 
-var scene = new three__WEBPACK_IMPORTED_MODULE_3__.Scene(); // Object
+var scene = new three__WEBPACK_IMPORTED_MODULE_4__.Scene();
+var box = new three__WEBPACK_IMPORTED_MODULE_4__.BoxGeometry(1, 1, 1);
+var material = new three__WEBPACK_IMPORTED_MODULE_4__.MeshBasicMaterial({
+  // color: 0x607d8b,
+  map: colorTexture
+});
+console.log(box.attributes.uv); // Object
 
-var cube = new three__WEBPACK_IMPORTED_MODULE_3__.Mesh(new three__WEBPACK_IMPORTED_MODULE_3__.BoxGeometry(1, 1, 1), new three__WEBPACK_IMPORTED_MODULE_3__.MeshBasicMaterial({
-  color: 0x607d8b
-}));
-scene.add(cube); // Size
+var cubeMesh = new three__WEBPACK_IMPORTED_MODULE_4__.Mesh(box, material);
+scene.add(cubeMesh); // Size
 
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
 }; // Camera
 
-var camera = new three__WEBPACK_IMPORTED_MODULE_3__.PerspectiveCamera(75, sizes.width / sizes.height, 1, 100);
-camera.position.set(0, 0, 3);
+var camera = new three__WEBPACK_IMPORTED_MODULE_4__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
+camera.position.set(0, 0, 2.6);
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
 controls.enableDamping = true; // controls.enabled = false
 // Renderer
 
-var renderer = new three__WEBPACK_IMPORTED_MODULE_3__.WebGLRenderer({
+var renderer = new three__WEBPACK_IMPORTED_MODULE_4__.WebGLRenderer({
   canvas: canvas
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-window.addEventListener('dblclick', function () {
-  var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
-
-  if (fullscreenElement) {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else {
-      document.webkitExitFullscreen();
-    }
-  } else {
-    if (canvas.requestFullscreen) {
-      canvas.requestFullscreen();
-    } else {
-      canvas.webkitRequestFullscreen();
-    }
-  }
-});
-window.addEventListener('resize', function () {
-  // update sizes
-  sizes.width = window.innerWidth;
-  sizes.height = window.innerHeight; // update camera
-
-  camera.aspect = sizes.width / sizes.height;
-  camera.updateProjectionMatrix(); // update renderer
-
-  renderer.setSize(sizes.width, sizes.height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-}); // Animations
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_3__.listenResize)(sizes, camera, renderer); // Animations
 
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].begin();
