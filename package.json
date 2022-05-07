@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack && webpack serve --progress",
-    "build": "webpack",
+    "start": "rm -rf demo && webpack && webpack serve --progress",
+    "build": "rm -rf demo && webpack",
     "eslint-init": "eslint --init",
     "deploy": "gh-pages -d demo",
     "pub": "yarn build && yarn deploy"

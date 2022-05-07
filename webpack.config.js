@@ -23,12 +23,9 @@ module.exports = {
   output: {
     filename: './[name]/index.js',
     path: path.resolve(__dirname, 'demo'),
+    assetModuleFilename: 'images/[hash][ext][query]',
   },
-  // optimization: {
-  //   splitChunks: {
-  //     chunks: 'all',
-  //   },
-  // },
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -54,6 +51,10 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.(png|jpg)$/,
+        type: 'asset/resource',
+      },
     ],
   },
   resolve: {
@@ -64,8 +65,11 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'src/assets/*',
-          to: 'assets/[name][ext]',
+          from: 'src/assets/**/*',
+          to({ absoluteFilename }) {
+            const pathAndName = absoluteFilename.split('src/')[1]
+            return pathAndName
+          },
         },
       ],
     }),

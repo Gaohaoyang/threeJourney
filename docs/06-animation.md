@@ -9,7 +9,7 @@ Three.js 中的动画与其他 Canvas 动画类似，都是使用了 `requestAni
 
 可以使用 requestAnimationFrame 获取时间差，动画基于这个时间差
 
-```ts
+```js
 import * as THREE from 'three'
 import stats from '../common/stats'
 
@@ -67,7 +67,7 @@ tick(0)
 
 ## `clock.getDelta()` 实现动画
 
-```ts
+```js
 import * as THREE from 'three'
 import stats from '../common/stats'
 
@@ -139,7 +139,7 @@ tick()
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01TjqFGj1bmi9IsZHXa_!!6000000003508-1-tps-774-559.gif)
 
-```ts
+```js
 import * as THREE from 'three'
 import stats from '../common/stats'
 
@@ -192,14 +192,14 @@ tick()
 
 其中核心代码是这 2 行
 
-```ts
+```js
 cube.position.y = Math.sin(elapsedTime)
 cube.position.x = Math.cos(elapsedTime)
 ```
 
 当然我们也可以让物体不动，让相机运动出现的效果相同
 
-```ts
+```js
 camera.position.y = Math.sin(elapsedTime)
 camera.position.x = Math.cos(elapsedTime)
 ```
@@ -208,7 +208,7 @@ camera.position.x = Math.cos(elapsedTime)
 
 还可以让相机在圆周运动的同时总是指向物体，效果如下
 
-```ts
+```js
 // Animations
 const tick = () => {
   stats.begin()
@@ -232,7 +232,7 @@ const tick = () => {
 
 除了手写位移或三角函数实现动画外，也可以使用第三方库来实现，例如下个例子使用了 GSAP
 
-```ts
+```js
 import * as THREE from 'three'
 import gsap from 'gsap'
 import stats from '../common/stats'
