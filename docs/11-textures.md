@@ -367,6 +367,6 @@ Textures 资源
 
 本节的 demo 和源码
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/10-textures/)
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/11-textures/)
 
-[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/10-textures)
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/11-textures)
