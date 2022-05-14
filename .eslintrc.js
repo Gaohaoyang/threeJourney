@@ -18,6 +18,8 @@ module.exports = {
     },
   },
   rules: {
+    indent: 'off',
+    '@typescript-eslint/indent': ['error', 2],
     semi: ['error', 'never'],
     'no-console': 'off',
     'import/extensions': [
