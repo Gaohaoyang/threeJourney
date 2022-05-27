@@ -4,7 +4,7 @@ Threejs 中几何体的基类是 `BufferGeometry`，而 BufferGeometry 是面片
 
 # Threejs 内置几何体
 
-Threejs 内置几何体可以直接前往 [threejs 官网文档](https://threejs.org/docs/index.html#api/zh/geometries/BoxGeometry)查看。这里我们主要看看如何创建自己的几何体
+Threejs 内置几何体可以直接前往 [threejs 官网文档](https://threejs.org/docs/index.html#api/zh/geometries/BoxGeometry) 查看。这里我们主要看看如何创建自己的几何体
 
 # 创建自己的几何体
 

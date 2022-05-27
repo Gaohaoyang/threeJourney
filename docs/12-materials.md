@@ -345,7 +345,7 @@ material.gradientMap = gradientTexture
 
 # MeshStandardMaterial(标准网格材质)
 
-MeshStandardMaterial 是基于物理渲染的（physically based rendering, PBR）。它支持光效，并有一个更拟真的算法，支持了更多参数如粗糙度、金属性。
+[MeshStandardMaterial](https://threejs.org/docs/index.html#api/zh/materials/MeshStandardMaterial) 是基于物理渲染的（physically based rendering, PBR）。它支持光效，并有一个更拟真的算法，支持了更多参数如粗糙度、金属性。
 
 之所以是 Standard 因为 PBR 已经在很多软件、引擎和库里成为一种标准。
 
@@ -367,13 +367,130 @@ material.metalness = 0.45
 material.roughness = 0.65
 ```
 
-`.metalness : Float`
+## `.metalness : Float`
 
 材质与金属的相似度。非金属材质，如木材或石材，使用0.0，金属使用1.0，通常没有中间值。 默认值为0.0。0.0到1.0之间的值可用于生锈金属的外观。如果还提供了metalnessMap，则两个值相乘。
 
-`.roughness : Float`
+## `.roughness : Float`
 
 材质的粗糙程度。0.0表示平滑的镜面反射，1.0表示完全漫反射。默认值为1.0。如果还提供roughnessMap，则两个值相乘。
 
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01kdGrqa20osQ8WbbQo_!!6000000006897-2-tps-1126-588.png)
+
+Add a debug UI
+
+这次选用 lil-gui 作为 debug UI，可以查看其官网了解用法 [lil-gui](https://lil-gui.georgealways.com/)。
+
+```js
+import * as dat from 'lil-gui'
+
+...
+
+const gui = new dat.GUI()
+
+gui.add(material, 'metalness').min(0).max(1).step(0.0001)
+gui.add(material, 'roughness').min(0).max(1).step(0.0001)
+```
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01iRMKLS1iwVwVmg7iD_!!6000000004477-2-tps-267-87.png)
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01lBE1fX1lwv91vKGzR_!!6000000004884-1-tps-1125-443.gif)
+
+## `.map : Texture`
+
+颜色贴图。默认为null。纹理贴图颜色由漫反射颜色.color调节。
+
+```js
+material.map = doorColorTexture
+```
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01zpU6Jw1exC4GIyjDd_!!6000000003937-2-tps-1121-555.png)
+
+## `.aoMap : Texture`
+
+ambient occlusion map，该纹理的红色通道用作环境遮挡贴图。默认值为null。aoMap需要第二组UV。
+
+我们先为3个几何体添加第二组 uv 属性
+
+```js
+sphere.geometry.setAttribute('uv2', new THREE.BufferAttribute(sphere.geometry.attributes.uv.array, 2))
+plane.geometry.setAttribute('uv2', new THREE.BufferAttribute(plane.geometry.attributes.uv.array, 2))
+torus.geometry.setAttribute('uv2', new THREE.BufferAttribute(torus.geometry.attributes.uv.array, 2))
+
+console.log(sphere.geometry)
+```
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01bCUpOo1UZFCMtC0WP_!!6000000002531-2-tps-938-312.png)
+
+```js
+material.aoMap = doorAmbientOcclusionTexture
+material.aoMapIntensity = 1
+```
+
+这里使用的 ao 纹理贴图 (doorAmbientOcclusionTexture) 为
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01lGpRzm1UulodEbFzy_!!6000000002578-0-tps-1024-1024.jpg)
+
+## `.aoMapIntensity : Float`
+
+环境遮挡效果的强度。默认值为1。零是不遮挡效果。
+
+增加一个 debug 项 aoMapIntensity，可以更直观的看到阴影效果强度。
+
+```js
+gui.add(material, 'aoMapIntensity').min(0).max(1).step(0.0001)
+```
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01SAvBiq1F7Z1eMWA3D_!!6000000000440-1-tps-1125-504.gif)
+
+## `.displacementMap : Texture`
+
+位移贴图会影响网格顶点的位置，与仅影响材质的光照和阴影的其他贴图不同，移位的顶点可以投射阴影，阻挡其他对象， 以及充当真实的几何体。位移纹理是指：网格的所有顶点被映射为图像中每个像素的值（白色是最高的），并且被重定位。
+
+我们 displacementMap 使用的 doorHeightTexture 贴图如下
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01G079ye1mhdXdGwprp_!!6000000004986-0-tps-1024-1024.jpg)
+
+```js
+material.displacementMap = doorHeightTexture
+```
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01tnmlYP1N9rwfsQJoh_!!6000000001528-2-tps-1140-549.png)
+
+看起来很糟糕，因为我们的几何体顶点太少导致，并且 displacementMap 默认位移太大导致的。
+
+## `.displacementScale : Float`
+
+位移贴图对网格的影响程度（黑色是无位移，白色是最大位移）。如果没有设置位移贴图，则不会应用此值。默认值为1。
+
+```js
+material.displacementScale = 0.05
+
+const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 64, 64), material)
+sphere.position.set(-1.5, 0, 0)
+
+const plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1, 100, 100), material)
+
+const torus = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.2, 64, 128), material)
+torus.position.set(1.5, 0, 0)
+
+gui.add(material, 'displacementScale').min(0).max(0.1).step(0.0001)
+```
+
+可以看到位移贴图的效果如下
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01qJcNGT1W0YQtbE6PG_!!6000000002726-1-tps-1125-504.gif)
+
+## `.metalnessMap : Texture`
+
+该纹理的蓝色通道用于改变材质的金属度。
+
+## `.roughnessMap : Texture`
+
+该纹理的绿色通道用于改变材质的粗糙度。
+
+使用 metalnessMap 和 roughnessMap 代替 metalness roughness
+
+```js
+```

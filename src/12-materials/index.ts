@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import './style.css'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import * as dat from 'dat.gui'
+import * as dat from 'lil-gui'
 import stats from '../common/stats'
 import { listenResize } from '../common/utils'
 
@@ -58,14 +58,26 @@ const gradientTexture = textureLoader.load('../assets/textures/gradients/5.jpg')
 const material = new THREE.MeshStandardMaterial()
 material.metalness = 0.45
 material.roughness = 0.65
+material.map = doorColorTexture
+material.aoMap = doorAmbientOcclusionTexture
+material.aoMapIntensity = 1
+material.displacementMap = doorHeightTexture
+material.displacementScale = 0.05
+material.metalnessMap = doorMetalnessTexture
 
-const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), material)
+const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 64, 64), material)
 sphere.position.set(-1.5, 0, 0)
 
-const plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), material)
+const plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1, 100, 100), material)
 
-const torus = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.2, 16, 32), material)
+const torus = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.2, 64, 128), material)
 torus.position.set(1.5, 0, 0)
+
+sphere.geometry.setAttribute('uv2', new THREE.BufferAttribute(sphere.geometry.attributes.uv.array, 2))
+plane.geometry.setAttribute('uv2', new THREE.BufferAttribute(plane.geometry.attributes.uv.array, 2))
+torus.geometry.setAttribute('uv2', new THREE.BufferAttribute(torus.geometry.attributes.uv.array, 2))
+
+// console.log(sphere.geometry)
 
 scene.add(sphere, plane, torus)
 
@@ -136,4 +148,7 @@ tick()
  */
 const gui = new dat.GUI()
 
-gui.add(material, 'wireframe') // boolean
+gui.add(material, 'metalness').min(0).max(1).step(0.0001)
+gui.add(material, 'roughness').min(0).max(1).step(0.0001)
+gui.add(material, 'aoMapIntensity').min(0).max(1).step(0.0001)
+gui.add(material, 'displacementScale').min(0).max(0.1).step(0.0001)
