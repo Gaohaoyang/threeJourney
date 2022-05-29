@@ -1,5 +1,7 @@
 Materials 材质
 
+本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。包含以下内容
+
 Materials 是用来给几何体的每个可见像素上色的。其中的算法程序成为 shaders。我们暂时不学习如何写 shaders，我们先使用内置的 materials，具体可以参考文档 [Material](https://threejs.org/docs/index.html#api/zh/materials/Material)
 
 # MeshBasicMaterial 基础网格材质
@@ -492,5 +494,146 @@ gui.add(material, 'displacementScale').min(0).max(0.1).step(0.0001)
 
 使用 metalnessMap 和 roughnessMap 代替 metalness roughness
 
+metalness.jpg
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01dFaCfK269YNjppqGN_!!6000000007619-0-tps-1024-1024.jpg)
+
+roughness.jpg
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN018ailjB1YUtuQbZ40j_!!6000000003063-0-tps-1024-1024.jpg)
+
 ```js
+material.metalnessMap = doorMetalnessTexture
+material.roughnessMap = doorRoughnessTexture
 ```
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01wMzdrV1CgQK4JV5bU_!!6000000000110-2-tps-1130-495.png)
+
+看起来反射有些奇怪，这是因为之前设置的 `metalness` 和 `roughness` 属性依然生效，我们需要将这2 个属性值设置为默认值
+
+```js
+material.metalnessMap = doorMetalnessTexture
+material.roughnessMap = doorRoughnessTexture
+material.metalness = 0
+material.roughness = 1
+```
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01qBttNh1TuwLaCH5UL_!!6000000002443-2-tps-1135-498.png)
+
+## `.normalMap : Texture`
+
+用于创建法线贴图的纹理。RGB值会影响每个像素片段的曲面法线，并更改颜色照亮的方式。法线贴图不会改变曲面的实际形状，只会改变光照。
+
+使用如下的法线贴图
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01Rly6mW1EoKOUa2lSD_!!6000000000398-0-tps-1024-1024.jpg)
+
+```js
+material.normalMap = doorNormalTexture
+```
+
+效果如下，可以看出材质表面光照效果已经不是平面了，光照射时可以明显的看到法线起伏的效果
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01i0kcRy1X2DU42gGKc_!!6000000002865-2-tps-2480-1326.png)
+
+## `.normalScale : Vector2`
+
+法线贴图对材质的影响程度。典型范围是0-1。默认值是Vector2设置为（1,1）。
+
+```js
+material.normalMap = doorNormalTexture
+material.normalScale.set(0.5, 0.5)
+```
+
+## `.alphaMap : Texture`
+
+alpha贴图是一张灰度纹理，用于控制整个表面的不透明度。（黑色：完全透明；白色：完全不透明）。 默认值为null。
+
+我们使用 alphaMap 图片为
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01TXzNdh1fx1XRRjYea_!!6000000004072-0-tps-1024-1024.jpg)
+
+```js
+material.alphaMap = doorAlphaTexture
+material.transparent = true
+```
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01cDcI4G24zBnxAOmZ0_!!6000000007461-2-tps-1130-554.png)
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01yY9rnf24ihY1P5DYr_!!6000000007425-2-tps-1134-547.png)
+
+至此我们就得到了一个很精致好看的门，MeshStandardMaterial 的属性基本也学习的差不多了。
+
+demo 和源码
+
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/12-materials/)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/12-materials)
+
+
+# MeshPhysicalMaterial 物理网格材质
+
+`Material → MeshStandardMaterial →`
+
+详见文档 [MeshPhysicalMaterial](https://threejs.org/docs/index.html#api/zh/materials/MeshPhysicalMaterial)
+
+MeshStandardMaterial 的扩展，提供了更高级的基于物理的渲染属性：
+
+- Clearcoat: 有些类似于车漆，碳纤，被水打湿的表面的材质需要在面上再增加一个透明的，具有一定反光特性的面。而且这个面说不定有一定的起伏与粗糙度。Clearcoat 可以在不需要重新创建一个透明的面的情况下做到类似的效果。
+
+- 基于物理的透明度:.opacity属性有一些限制:在透明度比较高的时候，反射也随之减少。使用基于物理的透光性.transmission属性可以让一些很薄的透明表面，例如玻璃，变得更真实一些。
+
+- 高级光线反射: 为非金属材质提供了更多更灵活的光线反射。
+
+# PointsMaterial
+
+用于粒子效果，后续会深入学习粒子特效
+
+# ShaderMaterial and RawShaderMaterial
+
+在创建自己的 materials 时使用，后续会深入学习。用于创建 shaders
+
+# Environment map
+
+环境贴图，在几何体上用于反射出周围环境的一种纹理贴图。
+
+使用 6 张图片，形成一个立方体，所以我们需要使用 [CubeTextureLoader](https://threejs.org/docs/index.html#api/zh/loaders/CubeTextureLoader) 来加载
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01NkGTiA29ee7PPx9wS_!!6000000008093-2-tps-666-150.png)
+
+```js
+const envMapTexture = new THREE.CubeTextureLoader()
+  .setPath('../assets/textures/environmentMaps/0/')
+  .load(['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg'])
+
+const material = new THREE.MeshStandardMaterial()
+material.metalness = 0.7
+material.roughness = 0.2
+material.envMap = envMapTexture
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01XjtBjn1EsuLwASvAX_!!6000000000408-1-tps-1125-504.gif)
+
+可以调节 metalness 和 roughness 观察变化。能够看到反射的不同效果。
+
+demo 和源码
+
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/12-materialsEnvironmentMap/)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/12-materialsEnvironmentMap)
+
+## 在哪寻找环境贴图
+
+有个很好的网站 [https://polyhaven.com/](https://polyhaven.com/) HDRIHaven 是免费的并且使用了 [CC0 license](https://polyhaven.com/license)
+
+下载了 hdr 图片文件后，可以在 [https://matheowis.github.io/HDRI-to-CubeMap/](https://matheowis.github.io/HDRI-to-CubeMap/) 在线转换为6张 cube map 图片。
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01ZRLUvn1WwijV0eJbg_!!6000000002853-2-tps-1131-483.png)
+
+# 小结
+
+本节我们研究了 Three.js 中的基础材质、法线材质、MatCap 材质、Depth 深度材质，以及与光相关的 Lambert/Phong/Toon/Standard/Physical Material。剩下了后续粒子动效和 Shader 会细讲的 2 个材质。最后又学习了环境贴图，模拟物体金属反光的效果。
+
+下一节将学习 3D 文字。
