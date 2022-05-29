@@ -1,6 +1,16 @@
-Materials 材质
-
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。包含以下内容
+
+- [Three.js 之 1 Animation 动画](https://juejin.cn/post/7095621578976657421)
+- [Three.js 之 2 Camera 相机](https://juejin.cn/post/7101207231382683655)
+- [Three.js 之 3 画布与全屏](https://juejin.cn/post/7101207945387442212)
+- [Three.js 之 4 Geometry 几何体](https://juejin.cn/post/7101208474775715876)
+- [Three.js 之 5 debug UI](https://juejin.cn/post/7101209060753539109)
+- [Three.js 之 6 Texture 纹理](https://juejin.cn/post/7101209181822124069)
+- [Three.js 之 7 Materials 材质](https://juejin.cn/post/7103191619373006885/)
+
+未完待续
+
+Materials 材质
 
 Materials 是用来给几何体的每个可见像素上色的。其中的算法程序成为 shaders。我们暂时不学习如何写 shaders，我们先使用内置的 materials，具体可以参考文档 [Material](https://threejs.org/docs/index.html#api/zh/materials/Material)
 

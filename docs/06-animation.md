@@ -1,5 +1,16 @@
+本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。包含以下内容
 
-animation 动画
+- [Three.js 之 1 Animation 动画](https://juejin.cn/post/7095621578976657421)
+- [Three.js 之 2 Camera 相机](https://juejin.cn/post/7101207231382683655)
+- [Three.js 之 3 画布与全屏](https://juejin.cn/post/7101207945387442212)
+- [Three.js 之 4 Geometry 几何体](https://juejin.cn/post/7101208474775715876)
+- [Three.js 之 5 debug UI](https://juejin.cn/post/7101209060753539109)
+- [Three.js 之 6 Texture 纹理](https://juejin.cn/post/7101209181822124069)
+- [Three.js 之 7 Materials 材质](https://juejin.cn/post/7103191619373006885/)
+
+未完待续
+
+Animation 动画
 
 Three.js 中的动画与其他 Canvas 动画类似，都是使用了 `requestAnimationFrame` api，接下来就详细讲讲基于时间间隔动画、Threejs 内置的时钟、以及第三方动画库
 

@@ -1,3 +1,15 @@
+本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。包含以下内容
+
+- [Three.js 之 1 Animation 动画](https://juejin.cn/post/7095621578976657421)
+- [Three.js 之 2 Camera 相机](https://juejin.cn/post/7101207231382683655)
+- [Three.js 之 3 画布与全屏](https://juejin.cn/post/7101207945387442212)
+- [Three.js 之 4 Geometry 几何体](https://juejin.cn/post/7101208474775715876)
+- [Three.js 之 5 debug UI](https://juejin.cn/post/7101209060753539109)
+- [Three.js 之 6 Texture 纹理](https://juejin.cn/post/7101209181822124069)
+- [Three.js 之 7 Materials 材质](https://juejin.cn/post/7103191619373006885/)
+
+未完待续
+
 本节将学习 debug UI。用于实时方便调整动画或物体的各种参数。我们可以自己开发，也可以使用一个三方库，这里我们选择使用现成的库。常见的库有
 
 - dat.GUI

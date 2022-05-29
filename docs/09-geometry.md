@@ -1,3 +1,15 @@
+本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。包含以下内容
+
+- [Three.js 之 1 Animation 动画](https://juejin.cn/post/7095621578976657421)
+- [Three.js 之 2 Camera 相机](https://juejin.cn/post/7101207231382683655)
+- [Three.js 之 3 画布与全屏](https://juejin.cn/post/7101207945387442212)
+- [Three.js 之 4 Geometry 几何体](https://juejin.cn/post/7101208474775715876)
+- [Three.js 之 5 debug UI](https://juejin.cn/post/7101209060753539109)
+- [Three.js 之 6 Texture 纹理](https://juejin.cn/post/7101209181822124069)
+- [Three.js 之 7 Materials 材质](https://juejin.cn/post/7103191619373006885/)
+
+未完待续
+
 先前我们一直使用立方体，本节我们将学习一下其他几何体。
 
 Threejs 中几何体的基类是 `BufferGeometry`，而 BufferGeometry 是面片、线或点几何体的有效表述。包括顶点位置，面片索引、法相量、颜色值、UV 坐标和自定义缓存属性值。使用 BufferGeometry 可以有效减少向 GPU 传输上述数据所需的开销。
