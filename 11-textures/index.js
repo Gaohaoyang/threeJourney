@@ -34,7 +34,8 @@ document.body.appendChild(stats.dom);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "dbClkfullScreen": () => (/* binding */ dbClkfullScreen),
-/* harmony export */   "listenResize": () => (/* binding */ listenResize)
+/* harmony export */   "listenResize": () => (/* binding */ listenResize),
+/* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
 
@@ -62,26 +63,33 @@ var listenResize = function listenResize(sizes, camera, renderer) {
  * 全屏
  */
 
+var setFullScreen = function setFullScreen(canvas) {
+  // @ts-ignore
+  var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
+
+  if (fullscreenElement) {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else {
+      // @ts-ignore
+      document.webkitExitFullscreen();
+    }
+  } else {
+    if (canvas.requestFullscreen) {
+      canvas.requestFullscreen();
+    } else {
+      // @ts-ignore
+      canvas.webkitRequestFullscreen();
+    }
+  }
+};
+/**
+ * 双击全屏
+ */
+
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
-    // @ts-ignore
-    var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
-
-    if (fullscreenElement) {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else {
-        // @ts-ignore
-        document.webkitExitFullscreen();
-      }
-    } else {
-      if (canvas.requestFullscreen) {
-        canvas.requestFullscreen();
-      } else {
-        // @ts-ignore
-        canvas.webkitRequestFullscreen();
-      }
-    }
+    setFullScreen(canvas);
   });
 };
 
