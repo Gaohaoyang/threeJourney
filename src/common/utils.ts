@@ -32,24 +32,31 @@ export const listenResize = (
 /**
  * 全屏
  */
+export const setFullScreen = (canvas: HTMLElement) => {
+  // @ts-ignore
+  const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
+  if (fullscreenElement) {
+    if (document.exitFullscreen) {
+      document.exitFullscreen()
+    } else {
+      // @ts-ignore
+      document.webkitExitFullscreen()
+    }
+  } else {
+    if (canvas.requestFullscreen) {
+      canvas.requestFullscreen()
+    } else {
+      // @ts-ignore
+      canvas.webkitRequestFullscreen()
+    }
+  }
+}
+
+/**
+ * 双击全屏
+ */
 export const dbClkfullScreen = (canvas: HTMLElement) => {
   window.addEventListener('dblclick', () => {
-    // @ts-ignore
-    const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
-    if (fullscreenElement) {
-      if (document.exitFullscreen) {
-        document.exitFullscreen()
-      } else {
-        // @ts-ignore
-        document.webkitExitFullscreen()
-      }
-    } else {
-      if (canvas.requestFullscreen) {
-        canvas.requestFullscreen()
-      } else {
-        // @ts-ignore
-        canvas.webkitRequestFullscreen()
-      }
-    }
+    setFullScreen(canvas)
   })
 }

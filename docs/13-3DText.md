@@ -186,8 +186,49 @@ tick()
 
 # Add a matcap material
 
+可以在 [https://github.com/nidorx/matcaps](https://github.com/nidorx/matcaps) 这里找到需要的纹理素材，如果商用，请确保版权。不需要特别高分辨率，256*256 足矣。
 
+```js
+const textureLoader = new THREE.TextureLoader()
+const matcapTexture = textureLoader.load('../assets/textures/matcaps/1.png')
+
+const textMaterial = new THREE.MeshMatcapMaterial()
+textMaterial.matcap = matcapTexture
+```
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01RMYToA24DYcAi1BDR_!!6000000007357-2-tps-1135-559.png)
 
 # Add objects
 
-# Optimize
+我们在添加一些几何体悬浮在周围。可以在 for 循环中创建各种几何体。
+
+```js
+const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
+const boxGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6)
+
+for (let i = 0; i < 100; i += 1) {
+  let mesh
+  if (i % 10 <= 2) {
+    mesh = new THREE.Mesh(boxGeometry, material)
+  } else {
+    mesh = new THREE.Mesh(donutGeometry, material)
+  }
+  mesh.position.set(
+    (Math.random() - 0.5) * 10,
+    (Math.random() - 0.5) * 10,
+    (Math.random() - 0.5) * 10
+  )
+  mesh.setRotationFromEuler(
+    new THREE.Euler(Math.PI * Math.random(), Math.PI * Math.random(), Math.PI * Math.random())
+  )
+  const radomeScale = Math.random() * 0.5 + 0.5
+  mesh.scale.set(radomeScale, radomeScale, radomeScale)
+  scene.add(mesh)
+}
+```
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01gSCTYV1tqWXNMjCc1_!!6000000005953-2-tps-1126-681.png)
+
+# Animation
+
+
