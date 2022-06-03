@@ -39,8 +39,6 @@ fontLoader.load(
   '../assets/fonts/Fira Code Medium_Regular.json',
   // onLoad回调
   (font) => {
-    // console.log('loaded', font)
-
     const textureLoader = new THREE.TextureLoader()
     const matcapTexture = textureLoader.load('../assets/textures/matcaps/9.png')
 

@@ -231,4 +231,57 @@ for (let i = 0; i < 100; i += 1) {
 
 # Animation
 
+可以直接使用 OrbitControls 进行旋转
 
+```js
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+```
+
+添加如下代码
+
+```js
+const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
+controls.autoRotate = true
+controls.autoRotateSpeed = 0.4
+```
+
+别忘了在 `requestAnimationFrame` 中 update
+
+```js
+// Animations
+const tick = () => {
+  stats.begin()
+
+  controls.update()
+
+  // Render
+  renderer.render(scene, camera)
+  stats.end()
+  requestAnimationFrame(tick)
+}
+
+tick()
+```
+
+# GUI controls
+
+使用前面学到的 `lil-gui` 增加一些控制项，配置背景色
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01VQZYZs1ExUJefsIRz_!!6000000000418-2-tps-249-197.png)
+
+最终效果如下
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01MmCpPO1itlZIJnK0t_!!6000000004471-2-tps-1126-681.png)
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01eODF1g1ucc7fuUjXY_!!6000000006058-1-tps-1008-464.gif)
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN013zENey1TXa95mkCWj_!!6000000002392-2-tps-200-200.png)
+
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/13-3DText/)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/13-3DText)
+
+# 小结
+
+本节我们算是做了第一个小作品。学习了 3D 文字，运用了之前学得材质、纹理、控制器等。keep going!
