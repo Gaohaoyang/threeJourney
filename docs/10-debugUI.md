@@ -7,6 +7,7 @@
 - [Three.js 之 5 debug UI](https://juejin.cn/post/7101209060753539109)
 - [Three.js 之 6 Texture 纹理](https://juejin.cn/post/7101209181822124069)
 - [Three.js 之 7 Materials 材质](https://juejin.cn/post/7103191619373006885/)
+- [Three.js 之 8 炫酷的 3D Text](https://juejin.cn/post/7104817223444725774)
 
 未完待续
 

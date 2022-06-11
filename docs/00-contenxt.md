@@ -19,7 +19,7 @@ Add a debug panel to tweak your environment and animate everything.
 - [x] 11 Textures 1h 14mn
 - [x] 12 Materials 1h 21mn
 - [x] 13 3D Text 44mn
-- [ ] 14 Go live 24mn
+- [x] 14 Go live 24mn
 
 # 02 Classic techniques
 

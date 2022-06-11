@@ -1,3 +1,16 @@
+本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。包含以下内容
+
+- [Three.js 之 1 Animation 动画](https://juejin.cn/post/7095621578976657421)
+- [Three.js 之 2 Camera 相机](https://juejin.cn/post/7101207231382683655)
+- [Three.js 之 3 画布与全屏](https://juejin.cn/post/7101207945387442212)
+- [Three.js 之 4 Geometry 几何体](https://juejin.cn/post/7101208474775715876)
+- [Three.js 之 5 debug UI](https://juejin.cn/post/7101209060753539109)
+- [Three.js 之 6 Texture 纹理](https://juejin.cn/post/7101209181822124069)
+- [Three.js 之 7 Materials 材质](https://juejin.cn/post/7103191619373006885/)
+- [Three.js 之 8 炫酷的 3D Text](https://juejin.cn/post/7104817223444725774)
+
+未完待续
+
 本节将学习 3D Text，并做一个炫酷的 3D Text 展示页面。我们将使用 [TextGeometry](https://threejs.org/docs/#examples/zh/geometries/TextGeometry) 文本缓冲几何体来实现。
 
 # typeface font
