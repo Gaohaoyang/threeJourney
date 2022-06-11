@@ -95,9 +95,9 @@ var dbClkfullScreen = function dbClkfullScreen(canvas) {
 
 /***/ }),
 
-/***/ "./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/13-3DText/style.css":
+/***/ "./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/15-lights/style.css":
 /*!*****************************************************************************************!*\
-  !*** ./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/13-3DText/style.css ***!
+  !*** ./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/15-lights/style.css ***!
   \*****************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
@@ -115,7 +115,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_6_7_1_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_6_7_1_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "html,\nbody {\n  overflow: hidden; /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n", "",{"version":3,"sources":["webpack://./src/13-3DText/style.css"],"names":[],"mappings":"AAAA;;EAEE,gBAAgB,EAAE,cAAc;AAClC;;AAEA;EACE,SAAS;EACT,UAAU;AACZ;;AAEA;EACE,eAAe;EACf,MAAM;EACN,OAAO;EACP,aAAa;AACf","sourcesContent":["html,\nbody {\n  overflow: hidden; /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "html,\nbody {\n  overflow: hidden;\n  /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n", "",{"version":3,"sources":["webpack://./src/15-lights/style.css"],"names":[],"mappings":"AAAA;;EAEE,gBAAgB;EAChB,cAAc;AAChB;;AAEA;EACE,SAAS;EACT,UAAU;AACZ;;AAEA;EACE,eAAe;EACf,MAAM;EACN,OAAO;EACP,aAAa;AACf","sourcesContent":["html,\nbody {\n  overflow: hidden;\n  /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2575,9 +2575,9 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
 
 /***/ }),
 
-/***/ "./src/13-3DText/style.css":
+/***/ "./src/15-lights/style.css":
 /*!*********************************!*\
-  !*** ./src/13-3DText/style.css ***!
+  !*** ./src/15-lights/style.css ***!
   \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -2598,7 +2598,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_3_3_1_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_3_3_1_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _node_modules_style_loader_3_3_1_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../node_modules/_style-loader@3.3.1@style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/_style-loader@3.3.1@style-loader/dist/runtime/styleTagTransform.js");
 /* harmony import */ var _node_modules_style_loader_3_3_1_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_3_3_1_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_6_7_1_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./style.css */ "./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/13-3DText/style.css");
+/* harmony import */ var _node_modules_css_loader_6_7_1_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./style.css */ "./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/15-lights/style.css");
 
       
       
@@ -55281,280 +55281,93 @@ class MapControls extends OrbitControls {
 
 /***/ }),
 
-/***/ "./node_modules/_three@0.139.2@three/examples/jsm/geometries/TextGeometry.js":
-/*!***********************************************************************************!*\
-  !*** ./node_modules/_three@0.139.2@three/examples/jsm/geometries/TextGeometry.js ***!
-  \***********************************************************************************/
+/***/ "./node_modules/_three@0.139.2@three/examples/jsm/helpers/RectAreaLightHelper.js":
+/*!***************************************************************************************!*\
+  !*** ./node_modules/_three@0.139.2@three/examples/jsm/helpers/RectAreaLightHelper.js ***!
+  \***************************************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "TextGeometry": () => (/* binding */ TextGeometry)
+/* harmony export */   "RectAreaLightHelper": () => (/* binding */ RectAreaLightHelper)
 /* harmony export */ });
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/_three@0.139.2@three/build/three.module.js");
+
+
 /**
- * Text = 3D Text
- *
- * parameters = {
- *  font: <THREE.Font>, // font
- *
- *  size: <float>, // size of the text
- *  height: <float>, // thickness to extrude text
- *  curveSegments: <int>, // number of points on the curves
- *
- *  bevelEnabled: <bool>, // turn on bevel
- *  bevelThickness: <float>, // how deep into text bevel goes
- *  bevelSize: <float>, // how far from text outline (including bevelOffset) is bevel
- *  bevelOffset: <float> // how far from text outline does bevel start
- * }
+ *  This helper must be added as a child of the light
  */
 
+class RectAreaLightHelper extends three__WEBPACK_IMPORTED_MODULE_0__.Line {
 
+	constructor( light, color ) {
 
-class TextGeometry extends three__WEBPACK_IMPORTED_MODULE_0__.ExtrudeGeometry {
+		const positions = [ 1, 1, 0, - 1, 1, 0, - 1, - 1, 0, 1, - 1, 0, 1, 1, 0 ];
 
-	constructor( text, parameters = {} ) {
+		const geometry = new three__WEBPACK_IMPORTED_MODULE_0__.BufferGeometry();
+		geometry.setAttribute( 'position', new three__WEBPACK_IMPORTED_MODULE_0__.Float32BufferAttribute( positions, 3 ) );
+		geometry.computeBoundingSphere();
 
-		const font = parameters.font;
+		const material = new three__WEBPACK_IMPORTED_MODULE_0__.LineBasicMaterial( { fog: false } );
 
-		if ( font === undefined ) {
+		super( geometry, material );
 
-			super(); // generate default extrude geometry
+		this.light = light;
+		this.color = color; // optional hardwired color for the helper
+		this.type = 'RectAreaLightHelper';
+
+		//
+
+		const positions2 = [ 1, 1, 0, - 1, 1, 0, - 1, - 1, 0, 1, 1, 0, - 1, - 1, 0, 1, - 1, 0 ];
+
+		const geometry2 = new three__WEBPACK_IMPORTED_MODULE_0__.BufferGeometry();
+		geometry2.setAttribute( 'position', new three__WEBPACK_IMPORTED_MODULE_0__.Float32BufferAttribute( positions2, 3 ) );
+		geometry2.computeBoundingSphere();
+
+		this.add( new three__WEBPACK_IMPORTED_MODULE_0__.Mesh( geometry2, new three__WEBPACK_IMPORTED_MODULE_0__.MeshBasicMaterial( { side: three__WEBPACK_IMPORTED_MODULE_0__.BackSide, fog: false } ) ) );
+
+	}
+
+	updateMatrixWorld() {
+
+		this.scale.set( 0.5 * this.light.width, 0.5 * this.light.height, 1 );
+
+		if ( this.color !== undefined ) {
+
+			this.material.color.set( this.color );
+			this.children[ 0 ].material.color.set( this.color );
 
 		} else {
 
-			const shapes = font.generateShapes( text, parameters.size );
+			this.material.color.copy( this.light.color ).multiplyScalar( this.light.intensity );
 
-			// translate parameters to ExtrudeGeometry API
+			// prevent hue shift
+			const c = this.material.color;
+			const max = Math.max( c.r, c.g, c.b );
+			if ( max > 1 ) c.multiplyScalar( 1 / max );
 
-			parameters.depth = parameters.height !== undefined ? parameters.height : 50;
-
-			// defaults
-
-			if ( parameters.bevelThickness === undefined ) parameters.bevelThickness = 10;
-			if ( parameters.bevelSize === undefined ) parameters.bevelSize = 8;
-			if ( parameters.bevelEnabled === undefined ) parameters.bevelEnabled = false;
-
-			super( shapes, parameters );
+			this.children[ 0 ].material.color.copy( this.material.color );
 
 		}
 
-		this.type = 'TextGeometry';
+		// ignore world scale on light
+		this.matrixWorld.extractRotation( this.light.matrixWorld ).scale( this.scale ).copyPosition( this.light.matrixWorld );
+
+		this.children[ 0 ].matrixWorld.copy( this.matrixWorld );
+
+	}
+
+	dispose() {
+
+		this.geometry.dispose();
+		this.material.dispose();
+		this.children[ 0 ].geometry.dispose();
+		this.children[ 0 ].material.dispose();
 
 	}
 
 }
-
-
-
-
-
-/***/ }),
-
-/***/ "./node_modules/_three@0.139.2@three/examples/jsm/loaders/FontLoader.js":
-/*!******************************************************************************!*\
-  !*** ./node_modules/_three@0.139.2@three/examples/jsm/loaders/FontLoader.js ***!
-  \******************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Font": () => (/* binding */ Font),
-/* harmony export */   "FontLoader": () => (/* binding */ FontLoader)
-/* harmony export */ });
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/_three@0.139.2@three/build/three.module.js");
-
-
-class FontLoader extends three__WEBPACK_IMPORTED_MODULE_0__.Loader {
-
-	constructor( manager ) {
-
-		super( manager );
-
-	}
-
-	load( url, onLoad, onProgress, onError ) {
-
-		const scope = this;
-
-		const loader = new three__WEBPACK_IMPORTED_MODULE_0__.FileLoader( this.manager );
-		loader.setPath( this.path );
-		loader.setRequestHeader( this.requestHeader );
-		loader.setWithCredentials( scope.withCredentials );
-		loader.load( url, function ( text ) {
-
-			let json;
-
-			try {
-
-				json = JSON.parse( text );
-
-			} catch ( e ) {
-
-				console.warn( 'THREE.FontLoader: typeface.js support is being deprecated. Use typeface.json instead.' );
-				json = JSON.parse( text.substring( 65, text.length - 2 ) );
-
-			}
-
-			const font = scope.parse( json );
-
-			if ( onLoad ) onLoad( font );
-
-		}, onProgress, onError );
-
-	}
-
-	parse( json ) {
-
-		return new Font( json );
-
-	}
-
-}
-
-//
-
-class Font {
-
-	constructor( data ) {
-
-		this.type = 'Font';
-
-		this.data = data;
-
-	}
-
-	generateShapes( text, size = 100 ) {
-
-		const shapes = [];
-		const paths = createPaths( text, size, this.data );
-
-		for ( let p = 0, pl = paths.length; p < pl; p ++ ) {
-
-			Array.prototype.push.apply( shapes, paths[ p ].toShapes() );
-
-		}
-
-		return shapes;
-
-	}
-
-}
-
-function createPaths( text, size, data ) {
-
-	const chars = Array.from( text );
-	const scale = size / data.resolution;
-	const line_height = ( data.boundingBox.yMax - data.boundingBox.yMin + data.underlineThickness ) * scale;
-
-	const paths = [];
-
-	let offsetX = 0, offsetY = 0;
-
-	for ( let i = 0; i < chars.length; i ++ ) {
-
-		const char = chars[ i ];
-
-		if ( char === '\n' ) {
-
-			offsetX = 0;
-			offsetY -= line_height;
-
-		} else {
-
-			const ret = createPath( char, scale, offsetX, offsetY, data );
-			offsetX += ret.offsetX;
-			paths.push( ret.path );
-
-		}
-
-	}
-
-	return paths;
-
-}
-
-function createPath( char, scale, offsetX, offsetY, data ) {
-
-	const glyph = data.glyphs[ char ] || data.glyphs[ '?' ];
-
-	if ( ! glyph ) {
-
-		console.error( 'THREE.Font: character "' + char + '" does not exists in font family ' + data.familyName + '.' );
-
-		return;
-
-	}
-
-	const path = new three__WEBPACK_IMPORTED_MODULE_0__.ShapePath();
-
-	let x, y, cpx, cpy, cpx1, cpy1, cpx2, cpy2;
-
-	if ( glyph.o ) {
-
-		const outline = glyph._cachedOutline || ( glyph._cachedOutline = glyph.o.split( ' ' ) );
-
-		for ( let i = 0, l = outline.length; i < l; ) {
-
-			const action = outline[ i ++ ];
-
-			switch ( action ) {
-
-				case 'm': // moveTo
-
-					x = outline[ i ++ ] * scale + offsetX;
-					y = outline[ i ++ ] * scale + offsetY;
-
-					path.moveTo( x, y );
-
-					break;
-
-				case 'l': // lineTo
-
-					x = outline[ i ++ ] * scale + offsetX;
-					y = outline[ i ++ ] * scale + offsetY;
-
-					path.lineTo( x, y );
-
-					break;
-
-				case 'q': // quadraticCurveTo
-
-					cpx = outline[ i ++ ] * scale + offsetX;
-					cpy = outline[ i ++ ] * scale + offsetY;
-					cpx1 = outline[ i ++ ] * scale + offsetX;
-					cpy1 = outline[ i ++ ] * scale + offsetY;
-
-					path.quadraticCurveTo( cpx1, cpy1, cpx, cpy );
-
-					break;
-
-				case 'b': // bezierCurveTo
-
-					cpx = outline[ i ++ ] * scale + offsetX;
-					cpy = outline[ i ++ ] * scale + offsetY;
-					cpx1 = outline[ i ++ ] * scale + offsetX;
-					cpy1 = outline[ i ++ ] * scale + offsetY;
-					cpx2 = outline[ i ++ ] * scale + offsetX;
-					cpy2 = outline[ i ++ ] * scale + offsetY;
-
-					path.bezierCurveTo( cpx1, cpy1, cpx2, cpy2, cpx, cpy );
-
-					break;
-
-			}
-
-		}
-
-	}
-
-	return { offsetX: glyph.ha * scale, path: path };
-
-}
-
-Font.prototype.isFont = true;
 
 
 
@@ -55634,178 +55447,196 @@ var __webpack_exports__ = {};
 (() => {
 "use strict";
 /*!********************************!*\
-  !*** ./src/13-3DText/index.ts ***!
+  !*** ./src/15-lights/index.ts ***!
   \********************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! three */ "./node_modules/_three@0.139.2@three/build/three.module.js");
-/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ "./src/13-3DText/style.css");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! three */ "./node_modules/_three@0.139.2@three/build/three.module.js");
+/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ "./src/15-lights/style.css");
 /* harmony import */ var three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls */ "./node_modules/_three@0.139.2@three/examples/jsm/controls/OrbitControls.js");
-/* harmony import */ var three_examples_jsm_loaders_FontLoader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three/examples/jsm/loaders/FontLoader */ "./node_modules/_three@0.139.2@three/examples/jsm/loaders/FontLoader.js");
-/* harmony import */ var three_examples_jsm_geometries_TextGeometry__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three/examples/jsm/geometries/TextGeometry */ "./node_modules/_three@0.139.2@three/examples/jsm/geometries/TextGeometry.js");
-/* harmony import */ var lil_gui__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lil-gui */ "./node_modules/_lil-gui@0.16.1@lil-gui/dist/lil-gui.esm.js");
-/* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/stats */ "./src/common/stats.ts");
-/* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../common/utils */ "./src/common/utils.ts");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-/* eslint-disable max-len */
+/* harmony import */ var three_examples_jsm_helpers_RectAreaLightHelper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three/examples/jsm/helpers/RectAreaLightHelper */ "./node_modules/_three@0.139.2@three/examples/jsm/helpers/RectAreaLightHelper.js");
+/* harmony import */ var lil_gui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lil-gui */ "./node_modules/_lil-gui@0.16.1@lil-gui/dist/lil-gui.esm.js");
+/* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/stats */ "./src/common/stats.ts");
+/* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/utils */ "./src/common/utils.ts");
 
 
 
 
 
 
+ // Canvas
 
+var canvas = document.querySelector('#mainCanvas'); // Scene
 
-console.log('Haoyang Gao 20220602');
-var defaultSceneColor = 0x512da8;
-var defaultTextInfo = "Joe G's world!";
-var debugObj = {
-  sceneColor: defaultSceneColor,
-  text: defaultTextInfo,
-  fullScreen: false,
-  removeMesh: function removeMesh() {},
-  addMesh: function addMesh() {},
-  showTextBounding: false
-}; // Canvas
-
-var canvas = document.querySelector('#mainCanvas');
+var scene = new three__WEBPACK_IMPORTED_MODULE_6__.Scene();
 /**
- * Debug
+ * Objects
+ */
+// Material
+
+var material = new three__WEBPACK_IMPORTED_MODULE_6__.MeshStandardMaterial();
+material.metalness = 0;
+material.roughness = 0.4; // Objects
+
+var sphere = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(new three__WEBPACK_IMPORTED_MODULE_6__.SphereGeometry(0.5, 32, 32), material);
+sphere.position.set(-1.5, 0, 0);
+var cube = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(new three__WEBPACK_IMPORTED_MODULE_6__.BoxGeometry(0.75, 0.75, 0.75), material);
+var torus = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(new three__WEBPACK_IMPORTED_MODULE_6__.TorusGeometry(0.3, 0.2, 32, 64), material);
+torus.position.set(1.5, 0, 0);
+var plane = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(new three__WEBPACK_IMPORTED_MODULE_6__.PlaneGeometry(5, 5), material);
+plane.rotation.set(-Math.PI / 2, 0, 0);
+plane.position.set(0, -0.65, 0);
+scene.add(sphere, cube, torus, plane);
+/**
+ * Lights
  */
 
-var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_4__.GUI(); // Scene
-
-var scene = new three__WEBPACK_IMPORTED_MODULE_7__.Scene();
-scene.background = new three__WEBPACK_IMPORTED_MODULE_7__.Color(0x512da8); // Load font
-
-var fontLoader = new three_examples_jsm_loaders_FontLoader__WEBPACK_IMPORTED_MODULE_2__.FontLoader();
-fontLoader.load('../assets/fonts/Fira Code Medium_Regular.json', // onLoad回调
-function (font) {
-  var textureLoader = new three__WEBPACK_IMPORTED_MODULE_7__.TextureLoader();
-  var matcapTexture = textureLoader.load('../assets/textures/matcaps/9.png');
-  var material = new three__WEBPACK_IMPORTED_MODULE_7__.MeshMatcapMaterial();
-  material.matcap = matcapTexture; // material.wireframe = false
-
-  var text;
-
-  var createText = function createText() {
-    var textInfo = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultTextInfo;
-    var textGeometry = new three_examples_jsm_geometries_TextGeometry__WEBPACK_IMPORTED_MODULE_3__.TextGeometry(textInfo, {
-      font: font,
-      size: 0.5,
-      height: 0.2,
-      curveSegments: 12,
-      bevelEnabled: true,
-      bevelThickness: 0.03,
-      bevelSize: 0.02,
-      bevelOffset: 0,
-      bevelSegments: 5
-    });
-    textGeometry.center();
-    text = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(textGeometry, material);
-    scene.add(text);
-  };
-
-  createText(); // const boxHelper = new THREE.BoxHelper(text, 0xffff00)
-  // boxHelper.visible = false
-  // scene.add(boxHelper)
-
-  var donutGeometry = new three__WEBPACK_IMPORTED_MODULE_7__.TorusGeometry(0.3, 0.2, 20, 45);
-  var boxGeometry = new three__WEBPACK_IMPORTED_MODULE_7__.BoxGeometry(0.6, 0.6, 0.6);
-  var meshArr = [];
-
-  var createMesh = function createMesh() {
-    var mesh;
-
-    for (var i = 0; i < 100; i += 1) {
-      if (i % 10 <= 1) {
-        mesh = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(boxGeometry, material);
-      } else {
-        mesh = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(donutGeometry, material);
-      }
-
-      mesh.position.set((Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10);
-      mesh.setRotationFromEuler(new three__WEBPACK_IMPORTED_MODULE_7__.Euler(Math.PI * Math.random(), Math.PI * Math.random(), Math.PI * Math.random()));
-      var radomScale = Math.random() * 0.5 + 0.5;
-      mesh.scale.set(radomScale, radomScale, radomScale);
-      meshArr.push(mesh);
-    }
-
-    scene.add.apply(scene, _toConsumableArray(meshArr));
-  };
-
-  var removeMesh = function removeMesh() {
-    scene.remove.apply(scene, _toConsumableArray(meshArr));
-    meshArr = [];
-  };
-
-  createMesh();
-  gui.add(debugObj, 'text').onChange(function (e) {
-    // console.log(e)
-    scene.remove(text);
-    createText(e);
-  });
-  gui.addColor(debugObj, 'sceneColor').onChange(function (e) {
-    scene.background = new three__WEBPACK_IMPORTED_MODULE_7__.Color(e);
-  });
-
-  debugObj.addMesh = function () {
-    createMesh();
-  };
-
-  gui.add(debugObj, 'addMesh');
-
-  debugObj.removeMesh = function () {
-    removeMesh();
-  };
-
-  gui.add(debugObj, 'removeMesh');
-  gui.add(debugObj, 'fullScreen').onChange(function () {
-    (0,_common_utils__WEBPACK_IMPORTED_MODULE_6__.setFullScreen)(document.body);
-  });
-}); // Size
+var ambientLight = new three__WEBPACK_IMPORTED_MODULE_6__.AmbientLight('#ffffff', 0.5);
+scene.add(ambientLight);
+var directionalLight = new three__WEBPACK_IMPORTED_MODULE_6__.DirectionalLight('#ffffaa', 0.5);
+directionalLight.position.set(1, 0.25, 0);
+scene.add(directionalLight);
+var directionalLightHelper = new three__WEBPACK_IMPORTED_MODULE_6__.DirectionalLightHelper(directionalLight);
+scene.add(directionalLightHelper);
+var hemisphereLight = new three__WEBPACK_IMPORTED_MODULE_6__.HemisphereLight('#B71C1C', '#004D40', 0.6);
+scene.add(hemisphereLight);
+var hemisphereLightHelper = new three__WEBPACK_IMPORTED_MODULE_6__.HemisphereLightHelper(hemisphereLight, 2);
+scene.add(hemisphereLightHelper);
+var pointLight = new three__WEBPACK_IMPORTED_MODULE_6__.PointLight(0xff9000, 0.5, 10, 2);
+pointLight.position.set(1, 1, 1);
+scene.add(pointLight);
+var pointLightHelper = new three__WEBPACK_IMPORTED_MODULE_6__.PointLightHelper(pointLight);
+scene.add(pointLightHelper);
+var rectAreaLight = new three__WEBPACK_IMPORTED_MODULE_6__.RectAreaLight(0x4e00ff, 10, 1, 1);
+rectAreaLight.position.set(-1.5, 0, 1.5);
+rectAreaLight.lookAt(new three__WEBPACK_IMPORTED_MODULE_6__.Vector3());
+scene.add(rectAreaLight);
+var rectAreaLightHelper = new three_examples_jsm_helpers_RectAreaLightHelper__WEBPACK_IMPORTED_MODULE_2__.RectAreaLightHelper(rectAreaLight);
+scene.add(rectAreaLightHelper);
+var spotLight = new three__WEBPACK_IMPORTED_MODULE_6__.SpotLight(0x78ff00, 0.5, 10, Math.PI * 0.1, 0.25, 1);
+spotLight.position.set(0, 2, 3);
+scene.add(spotLight);
+var spotLightHelper = new three__WEBPACK_IMPORTED_MODULE_6__.SpotLightHelper(spotLight);
+scene.add(spotLightHelper); // Size
 
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
 }; // Camera
 
-var camera = new three__WEBPACK_IMPORTED_MODULE_7__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(2, 2, 3);
+var camera = new three__WEBPACK_IMPORTED_MODULE_6__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
+camera.position.set(1, 1, 2);
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
-controls.enableDamping = true;
-controls.autoRotate = true;
-controls.autoRotateSpeed = 0.4;
-gui.add(controls, 'autoRotate');
-gui.add(controls, 'autoRotateSpeed').min(0.1).max(20).step(0.001); // Renderer
+controls.enableDamping = true; // controls.autoRotate = true
+// controls.enabled = false
+// Renderer
 
-var renderer = new three__WEBPACK_IMPORTED_MODULE_7__.WebGLRenderer({
+var renderer = new three__WEBPACK_IMPORTED_MODULE_6__.WebGLRenderer({
   canvas: canvas
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_6__.listenResize)(sizes, camera, renderer); // Animations
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_5__.listenResize)(sizes, camera, renderer); // Clock
+
+var clock = new three__WEBPACK_IMPORTED_MODULE_6__.Clock(); // Animations
 
 var tick = function tick() {
-  _common_stats__WEBPACK_IMPORTED_MODULE_5__["default"].begin();
-  controls.update(); // Render
+  _common_stats__WEBPACK_IMPORTED_MODULE_4__["default"].begin();
+  var elapsedTime = clock.getElapsedTime(); // Update Objects
+
+  sphere.rotation.y = 0.1 * elapsedTime;
+  cube.rotation.y = 0.1 * elapsedTime;
+  torus.rotation.y = 0.1 * elapsedTime;
+  sphere.rotation.x = 0.15 * elapsedTime;
+  cube.rotation.x = 0.15 * elapsedTime;
+  torus.rotation.x = 0.15 * elapsedTime;
+  controls.update();
+  spotLightHelper.update(); // Render
 
   renderer.render(scene, camera);
-  _common_stats__WEBPACK_IMPORTED_MODULE_5__["default"].end();
+  _common_stats__WEBPACK_IMPORTED_MODULE_4__["default"].end();
   requestAnimationFrame(tick);
 };
 
 tick();
+/**
+ * Debug
+ */
+
+var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_3__.GUI();
+var meshFolder = gui.addFolder('Mesh');
+meshFolder.add(material, 'metalness', 0, 1, 0.0001);
+meshFolder.add(material, 'roughness', 0, 1, 0.0001);
+meshFolder.add(material, 'wireframe');
+var ambientLightFolder = gui.addFolder('AmbientLight');
+ambientLightFolder.add(ambientLight, 'visible').listen();
+ambientLightFolder.add(ambientLight, 'intensity', 0, 1, 0.001);
+var directionalLightFolder = gui.addFolder('DirectionalLight');
+directionalLightFolder.add(directionalLight, 'visible').onChange(function (visible) {
+  directionalLightHelper.visible = visible;
+}).listen();
+directionalLightFolder.add(directionalLightHelper, 'visible').name('helper visible').listen();
+directionalLightFolder.add(directionalLight, 'intensity', 0, 1, 0.001);
+var hemisphereLightFolder = gui.addFolder('HemisphereLight');
+hemisphereLightFolder.add(hemisphereLight, 'visible').onChange(function (visible) {
+  hemisphereLightHelper.visible = visible;
+}).listen();
+hemisphereLightFolder.add(hemisphereLightHelper, 'visible').name('helper visible').listen();
+hemisphereLightFolder.add(hemisphereLight, 'intensity', 0, 1, 0.001);
+var pointLightFolder = gui.addFolder('PointLight');
+pointLightFolder.add(pointLight, 'visible').onChange(function (visible) {
+  pointLightHelper.visible = visible;
+}).listen();
+pointLightFolder.add(pointLightHelper, 'visible').name('helper visible').listen();
+pointLightFolder.add(pointLight, 'distance', 0, 100, 0.00001);
+pointLightFolder.add(pointLight, 'decay', 0, 10, 0.00001);
+var rectAreaLightFolder = gui.addFolder('RectAreaLight');
+rectAreaLightFolder.add(rectAreaLight, 'visible').onChange(function (visible) {
+  rectAreaLightHelper.visible = visible;
+}).listen();
+rectAreaLightFolder.add(rectAreaLightHelper, 'visible').name('helper visible').listen();
+rectAreaLightFolder.add(rectAreaLight, 'intensity', 0, 80, 0.0001);
+rectAreaLightFolder.add(rectAreaLight, 'width', 0, 5, 0.0001);
+rectAreaLightFolder.add(rectAreaLight, 'height', 0, 5, 0.0001);
+var spotLightFolder = gui.addFolder('SpotLight');
+spotLightFolder.add(spotLight, 'visible').onChange(function (visible) {
+  spotLightHelper.visible = visible;
+}).listen();
+spotLightFolder.add(spotLightHelper, 'visible').name('helper visible').listen();
+spotLightFolder.add(spotLight, 'intensity', 0, 5, 0.001);
+spotLightFolder.add(spotLight, 'distance', 0, 20, 0.001);
+spotLightFolder.add(spotLight, 'angle', 0, Math.PI / 2, 0.001);
+spotLightFolder.add(spotLight, 'penumbra', 0, 1, 0.001);
+spotLightFolder.add(spotLight, 'decay', 0, 10, 0.001);
+var guiObj = {
+  turnOffAllLights: function turnOffAllLights() {
+    ambientLight.visible = false;
+    directionalLight.visible = false;
+    directionalLightHelper.visible = false;
+    hemisphereLight.visible = false;
+    hemisphereLightHelper.visible = false;
+    pointLight.visible = false;
+    pointLightHelper.visible = false;
+    rectAreaLight.visible = false;
+    rectAreaLightHelper.visible = false;
+    spotLight.visible = false;
+    spotLightHelper.visible = false;
+  },
+  turnOnAllLights: function turnOnAllLights() {
+    ambientLight.visible = true;
+    directionalLight.visible = true;
+    directionalLightHelper.visible = true;
+    hemisphereLight.visible = true;
+    hemisphereLightHelper.visible = true;
+    pointLight.visible = true;
+    pointLightHelper.visible = true;
+    rectAreaLight.visible = true;
+    rectAreaLightHelper.visible = true;
+    spotLight.visible = true;
+    spotLightHelper.visible = true;
+  }
+};
+gui.add(guiObj, 'turnOffAllLights');
+gui.add(guiObj, 'turnOnAllLights');
 })();
 
 /******/ })()
