@@ -365,4 +365,112 @@ pointLight.shadow.camera.far = 5
 
 # 烘焙投影(Baking Shadow)
 
+如果场景物体简单，Three.js 内置的投影非常好用，但是可能会比较复杂。另一个好的方案是 baked shadow 烘焙投影。我们之前讲过 baking light，而 baking shadow 与之类似。shadow 被集成在纹理中，直接贴图到材质中使用。
+
+我们使用这样的一张贴图放在平面上
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN018blFUo1KE2iHhNFGn_!!6000000001131-0-tps-1024-1024.jpg)
+
+```js
+// Texture
+const textureLoader = new THREE.TextureLoader()
+const bakedShadow = textureLoader.load('../assets/textures/bakedShadow.jpg')
+
+...
+
+const plane = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), new THREE.MeshBasicMaterial({
+  map: bakedShadow,
+}))
+```
+
+显而易见，这么做的缺点是投影的固定的，不能随着物体或光照的移动而实时渲染。对于固定的物体来说是没有问题的。
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01V4w91v1gQnHYqrawN_!!6000000004137-2-tps-1132-617.png)
+
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/16-shadows-baking/)
+
+可扫码访问
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01I475cZ1idHJV93We0_!!6000000004435-2-tps-200-200.png)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/16-shadows-baking)
+
 # 自行绘制模拟投影
+
+另一种方式就是自行绘制一个投影平面，跟随物体一起运动，这里举个例子
+
+首先将之前修改过的底面阴影纹理移除，在增加一个平面，赋材质投影 alpha 贴图(黑色部分透明渲染)。贴图如下
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01zqoKTn1JJFbHKRZkH_!!6000000001007-0-tps-512-512.jpg)
+
+```js
+// Texture
+const textureLoader = new THREE.TextureLoader()
+const simpleShadow = textureLoader.load('../assets/textures/simpleShadow.jpg')
+
+...
+
+const shadowPlane = new THREE.Mesh(
+  new THREE.PlaneGeometry(1.5, 1.5),
+  new THREE.MeshBasicMaterial({
+    color: '#000000',
+    transparent: true,
+    alphaMap: simpleShadow,
+  }),
+)
+
+shadowPlane.rotateX(-Math.PI / 2)
+shadowPlane.position.y = plane.position.y + 0.01
+
+scene.add(sphere, plane, shadowPlane)
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01FogtRW1WAAksJ6TP6_!!6000000002747-2-tps-1131-584.png)
+
+接下来我们增加一些运动，并设置光影平面跟随小球运动
+
+```js
+// Clock
+const clock = new THREE.Clock()
+
+// Animations
+const tick = () => {
+  stats.begin()
+  const elapsedTime = clock.getElapsedTime()
+
+  sphere.position.x = Math.sin(elapsedTime) * 1.5
+  sphere.position.z = Math.cos(elapsedTime) * 1.5
+  sphere.position.y = Math.abs(Math.sin(elapsedTime * 2.5))
+
+  shadowPlane.position.x = sphere.position.x
+  shadowPlane.position.z = sphere.position.z
+  shadowPlane.material.opacity = (1 - sphere.position.y) * 0.6
+
+  controls.update()
+
+  // Render
+  renderer.render(scene, camera)
+  stats.end()
+  requestAnimationFrame(tick)
+}
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01Jaa9yA1Np5b6mSjCb_!!6000000001618-1-tps-500-277.gif)
+
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/16-shadows-baking-simulation/)
+
+可扫码访问
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01lXa7ZJ1ks3JwuWmiW_!!6000000004738-2-tps-200-200.png)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/16-shadows-baking-simulation)
+
+# 小结
+
+本节学习了投影的 3 种方式，怎么使用还是要看具体场景。但原则就是开销越小越好，可以混合使用这 3 种投影技术
