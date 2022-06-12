@@ -355,6 +355,14 @@ pointLight.shadow.camera.far = 5
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01lqxrjJ1qKW0ztioCK_!!6000000005477-1-tps-480-240.gif)
 
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/16-shadows/)
+
+可扫码访问
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01fTsl611huqtZPmhaw_!!6000000004338-2-tps-200-200.png)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/16-shadows)
+
 # 烘焙投影(Baking Shadow)
 
 # 自行绘制模拟投影
