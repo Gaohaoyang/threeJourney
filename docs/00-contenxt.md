@@ -27,7 +27,7 @@ Illuminate your scene with various lights, start practicing environment creation
 
 7 lessons — 7h 06mn
 
-- [ ] 15 Lights 43mn
+- [x] 15 Lights 43mn
 - [ ] 16 Shadows 1h 00mn
 - [ ] 17 Haunted House 1h 15mn
 - [ ] 18 Particles 49mn
