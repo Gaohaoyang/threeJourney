@@ -1,3 +1,16 @@
+本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。包含以下内容
+
+- [Three.js 之 1 Animation 动画](https://juejin.cn/post/7095621578976657421)
+- [Three.js 之 2 Camera 相机](https://juejin.cn/post/7101207231382683655)
+- [Three.js 之 3 画布与全屏](https://juejin.cn/post/7101207945387442212)
+- [Three.js 之 4 Geometry 几何体](https://juejin.cn/post/7101208474775715876)
+- [Three.js 之 5 debug UI](https://juejin.cn/post/7101209060753539109)
+- [Three.js 之 6 Texture 纹理](https://juejin.cn/post/7101209181822124069)
+- [Three.js 之 7 Materials 材质](https://juejin.cn/post/7103191619373006885/)
+- [Three.js 之 8 炫酷的 3D Text](https://juejin.cn/post/7104817223444725774)
+- [Three.js 之 9 Light 光](https://juejin.cn/post/7107886009253101599/)
+- [Three.js 之 10 Shadow 投影](https://juejin.cn/post/7108379667387645982)
+
 Shadows 影
 
 我们已经学习了光，现在想要增加一些影。几何体的背光面确实是暗的，这被称为 core shadow，我们缺失的是 drop shadow (投影)，物体投射到其他物体上的影子。

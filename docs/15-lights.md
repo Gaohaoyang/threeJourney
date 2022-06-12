@@ -9,6 +9,7 @@
 - [Three.js 之 7 Materials 材质](https://juejin.cn/post/7103191619373006885/)
 - [Three.js 之 8 炫酷的 3D Text](https://juejin.cn/post/7104817223444725774)
 - [Three.js 之 9 Light 光](https://juejin.cn/post/7107886009253101599/)
+- [Three.js 之 10 Shadow 投影](https://juejin.cn/post/7108379667387645982)
 
 未完待续
 
