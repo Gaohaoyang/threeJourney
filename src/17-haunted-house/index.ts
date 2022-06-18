@@ -3,6 +3,7 @@ import './style.css'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import stats from '../common/stats'
 import { listenResize, dbClkfullScreen } from '../common/utils'
+import * as dat from 'lil-gui'
 
 // Canvas
 const canvas = document.querySelector('#mainCanvas') as HTMLCanvasElement
@@ -267,6 +268,13 @@ camera.position.set(7, 1.8, 8)
 
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
+controls.autoRotate = true
+controls.autoRotateSpeed = 0.2
+controls.maxDistance = 20
+controls.minDistance = 4
+controls.zoomSpeed = 0.3
+controls.maxPolarAngle = 87 * (Math.PI / 180)
+// controls.minPolarAngle = 30 * (Math.PI / 180)
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
@@ -315,3 +323,11 @@ const tick = () => {
 }
 
 tick()
+
+/**
+ * Debug
+ */
+const gui = new dat.GUI()
+
+gui.add(controls, 'autoRotate')
+gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
