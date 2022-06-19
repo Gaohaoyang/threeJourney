@@ -1,3 +1,19 @@
+本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。包含以下内容
+
+- [Three.js 之 1 Animation 动画](https://juejin.cn/post/7095621578976657421)
+- [Three.js 之 2 Camera 相机](https://juejin.cn/post/7101207231382683655)
+- [Three.js 之 3 画布与全屏](https://juejin.cn/post/7101207945387442212)
+- [Three.js 之 4 Geometry 几何体](https://juejin.cn/post/7101208474775715876)
+- [Three.js 之 5 debug UI](https://juejin.cn/post/7101209060753539109)
+- [Three.js 之 6 Texture 纹理](https://juejin.cn/post/7101209181822124069)
+- [Three.js 之 7 Materials 材质](https://juejin.cn/post/7103191619373006885/)
+- [Three.js 之 8 炫酷的 3D Text](https://juejin.cn/post/7104817223444725774)
+- [Three.js 之 9 Light 光](https://juejin.cn/post/7107886009253101599/)
+- [Three.js 之 10 Shadow 投影](https://juejin.cn/post/7108379667387645982)
+- [Three.js 之 11 Haunted House 恐怖鬼屋](https://juejin.cn/post/7110777125518442526)
+
+未完待续
+
 本节将使用我们之前学习的内容来创建一个鬼屋。我们会创建一个房子，有门、屋顶、和一些灌木，我们也会创建一些墓碑，还有幽灵的光飘过并产生投影。
 
 开始之前先约定一下关于长度单位的问题。
@@ -495,4 +511,4 @@ grave.castShadow = true
 
 # 小结
 
-本节使用前面所学知识实现了一个完整的 demo，当然这个 demo 还有很多可以优化的地方，比如墓碑上的字，墓碑不重叠的算法，增加音效等。读者有兴趣可以试着添加，深入研究。
+本节使用前面所学知识实现了一个完整的 demo，当然这个 demo 还有很多可以优化的地方，比如墓碑上的字，墓碑不重叠的算法，增加音效等。读者有兴趣可以试着添加深入研究，比如最后我又加了些恐怖的音效。
