@@ -300,7 +300,7 @@ audioLoaderPositional.load('../assets/sounds/baby-cry.mp3', (buffer) => {
   soundPositional.setBuffer(buffer)
   soundPositional.setRefDistance(20)
   soundPositional.setLoop(true)
-  soundPositional.setVolume(0.3)
+  soundPositional.setVolume(0.1)
   soundPositional.play()
 })
 ghost1.add(soundPositional)
