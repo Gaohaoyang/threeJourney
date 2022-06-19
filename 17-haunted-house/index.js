@@ -55360,9 +55360,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! three */ "./node_modules/_three@0.139.2@three/build/three.module.js");
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ "./src/17-haunted-house/style.css");
 /* harmony import */ var three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls */ "./node_modules/_three@0.139.2@three/examples/jsm/controls/OrbitControls.js");
-/* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/stats */ "./src/common/stats.ts");
-/* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/utils */ "./src/common/utils.ts");
-/* harmony import */ var lil_gui__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lil-gui */ "./node_modules/_lil-gui@0.16.1@lil-gui/dist/lil-gui.esm.js");
+/* harmony import */ var lil_gui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lil-gui */ "./node_modules/_lil-gui@0.16.1@lil-gui/dist/lil-gui.esm.js");
+/* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/stats */ "./src/common/stats.ts");
+/* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/utils */ "./src/common/utils.ts");
 
 
 
@@ -55589,7 +55589,42 @@ controls.maxDistance = 20;
 controls.minDistance = 4;
 controls.zoomSpeed = 0.3;
 controls.maxPolarAngle = 87 * (Math.PI / 180); // controls.minPolarAngle = 30 * (Math.PI / 180)
-// Renderer
+// Sound
+// 创建一个 AudioListener 并将其添加到 camera 中
+
+var listener = new three__WEBPACK_IMPORTED_MODULE_5__.AudioListener();
+camera.add(listener); // 创建一个全局 audio 源
+
+var sound = new three__WEBPACK_IMPORTED_MODULE_5__.Audio(listener); // 加载一个 sound 并将其设置为 Audio 对象的缓冲区
+
+var audioLoader = new three__WEBPACK_IMPORTED_MODULE_5__.AudioLoader();
+audioLoader.load('../assets/sounds/ghost.mp3', function (buffer) {
+  sound.setBuffer(buffer);
+  sound.setLoop(true);
+  sound.setVolume(0.5);
+  sound.play();
+}); // 创建一个 positional audio 源
+
+var soundPositional = new three__WEBPACK_IMPORTED_MODULE_5__.PositionalAudio(listener);
+var audioLoaderPositional = new three__WEBPACK_IMPORTED_MODULE_5__.AudioLoader();
+audioLoaderPositional.load('../assets/sounds/baby-cry.mp3', function (buffer) {
+  soundPositional.setBuffer(buffer);
+  soundPositional.setRefDistance(20);
+  soundPositional.setLoop(true);
+  soundPositional.setVolume(0.1);
+  soundPositional.play();
+});
+ghost1.add(soundPositional);
+var ghostSound = new three__WEBPACK_IMPORTED_MODULE_5__.PositionalAudio(listener);
+var ghostSoundLoader = new three__WEBPACK_IMPORTED_MODULE_5__.AudioLoader();
+ghostSoundLoader.load('../assets/sounds/horror-ghost-14.wav', function (buffer) {
+  ghostSound.setBuffer(buffer);
+  ghostSound.setRefDistance(20);
+  ghostSound.setLoop(true);
+  ghostSound.setVolume(0.6);
+  ghostSound.play();
+});
+ghost2.add(ghostSound); // Renderer
 
 var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
   canvas: canvas,
@@ -55600,13 +55635,13 @@ renderer.setClearColor('#262837');
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_5__.PCFSoftShadowMap;
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_3__.listenResize)(sizes, camera, renderer);
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_3__.dbClkfullScreen)(document.body); // Animations
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer);
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.dbClkfullScreen)(document.body); // Animations
 
 var clock = new three__WEBPACK_IMPORTED_MODULE_5__.Clock();
 
 var tick = function tick() {
-  _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].begin();
+  _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].begin();
   var elapsedTime = clock.getElapsedTime(); // Ghosts
 
   var ghost1Angle = elapsedTime * 0.5;
@@ -55624,7 +55659,7 @@ var tick = function tick() {
   controls.update(); // Render
 
   renderer.render(scene, camera);
-  _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].end();
+  _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].end();
   requestAnimationFrame(tick);
 };
 
@@ -55633,9 +55668,23 @@ tick();
  * Debug
  */
 
-var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_4__.GUI();
+var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
 gui.add(controls, 'autoRotate');
 gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01);
+var guiObj = {
+  soundOff: function soundOff() {
+    sound.pause();
+    soundPositional.pause();
+    ghostSound.pause();
+  },
+  soundOn: function soundOn() {
+    sound.play();
+    soundPositional.play();
+    ghostSound.play();
+  }
+};
+gui.add(guiObj, 'soundOff');
+gui.add(guiObj, 'soundOn');
 })();
 
 /******/ })()
