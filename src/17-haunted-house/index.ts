@@ -1,9 +1,9 @@
 import * as THREE from 'three'
 import './style.css'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import * as dat from 'lil-gui'
 import stats from '../common/stats'
 import { listenResize, dbClkfullScreen } from '../common/utils'
-import * as dat from 'lil-gui'
 
 // Canvas
 const canvas = document.querySelector('#mainCanvas') as HTMLCanvasElement
@@ -276,6 +276,46 @@ controls.zoomSpeed = 0.3
 controls.maxPolarAngle = 87 * (Math.PI / 180)
 // controls.minPolarAngle = 30 * (Math.PI / 180)
 
+// Sound
+// 创建一个 AudioListener 并将其添加到 camera 中
+const listener = new THREE.AudioListener()
+camera.add(listener)
+
+// 创建一个全局 audio 源
+const sound = new THREE.Audio(listener)
+
+// 加载一个 sound 并将其设置为 Audio 对象的缓冲区
+const audioLoader = new THREE.AudioLoader()
+audioLoader.load('../assets/sounds/ghost.mp3', (buffer) => {
+  sound.setBuffer(buffer)
+  sound.setLoop(true)
+  sound.setVolume(0.5)
+  sound.play()
+})
+
+// 创建一个 positional audio 源
+const soundPositional = new THREE.PositionalAudio(listener)
+const audioLoaderPositional = new THREE.AudioLoader()
+audioLoaderPositional.load('../assets/sounds/baby-cry.mp3', (buffer) => {
+  soundPositional.setBuffer(buffer)
+  soundPositional.setRefDistance(20)
+  soundPositional.setLoop(true)
+  soundPositional.setVolume(0.3)
+  soundPositional.play()
+})
+ghost1.add(soundPositional)
+
+const ghostSound = new THREE.PositionalAudio(listener)
+const ghostSoundLoader = new THREE.AudioLoader()
+ghostSoundLoader.load('../assets/sounds/horror-ghost-14.wav', (buffer) => {
+  ghostSound.setBuffer(buffer)
+  ghostSound.setRefDistance(20)
+  ghostSound.setLoop(true)
+  ghostSound.setVolume(0.6)
+  ghostSound.play()
+})
+ghost2.add(ghostSound)
+
 // Renderer
 const renderer = new THREE.WebGLRenderer({
   canvas,
@@ -331,3 +371,18 @@ const gui = new dat.GUI()
 
 gui.add(controls, 'autoRotate')
 gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
+
+const guiObj = {
+  soundOff() {
+    sound.pause()
+    soundPositional.pause()
+    ghostSound.pause()
+  },
+  soundOn() {
+    sound.play()
+    soundPositional.play()
+    ghostSound.play()
+  },
+}
+gui.add(guiObj, 'soundOff')
+gui.add(guiObj, 'soundOn')
