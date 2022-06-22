@@ -55604,17 +55604,17 @@ audioLoader.load('../assets/sounds/ghost.mp3', function (buffer) {
   sound.setVolume(0.5);
   sound.play();
 }); // 创建一个 positional audio 源
+// const soundPositional = new THREE.PositionalAudio(listener)
+// const audioLoaderPositional = new THREE.AudioLoader()
+// audioLoaderPositional.load('../assets/sounds/baby-cry.mp3', (buffer) => {
+//   soundPositional.setBuffer(buffer)
+//   soundPositional.setRefDistance(20)
+//   soundPositional.setLoop(true)
+//   soundPositional.setVolume(0.1)
+//   soundPositional.play()
+// })
+// ghost1.add(soundPositional)
 
-var soundPositional = new three__WEBPACK_IMPORTED_MODULE_5__.PositionalAudio(listener);
-var audioLoaderPositional = new three__WEBPACK_IMPORTED_MODULE_5__.AudioLoader();
-audioLoaderPositional.load('../assets/sounds/baby-cry.mp3', function (buffer) {
-  soundPositional.setBuffer(buffer);
-  soundPositional.setRefDistance(20);
-  soundPositional.setLoop(true);
-  soundPositional.setVolume(0.1);
-  soundPositional.play();
-});
-ghost1.add(soundPositional);
 var ghostSound = new three__WEBPACK_IMPORTED_MODULE_5__.PositionalAudio(listener);
 var ghostSoundLoader = new three__WEBPACK_IMPORTED_MODULE_5__.AudioLoader();
 ghostSoundLoader.load('../assets/sounds/horror-ghost-14.wav', function (buffer) {
@@ -55673,13 +55673,13 @@ gui.add(controls, 'autoRotate');
 gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01);
 var guiObj = {
   soundOff: function soundOff() {
-    sound.pause();
-    soundPositional.pause();
+    sound.pause(); // soundPositional.pause()
+
     ghostSound.pause();
   },
   soundOn: function soundOn() {
-    sound.play();
-    soundPositional.play();
+    sound.play(); // soundPositional.play()
+
     ghostSound.play();
   }
 };
