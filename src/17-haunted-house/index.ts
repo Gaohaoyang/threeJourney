@@ -294,16 +294,16 @@ audioLoader.load('../assets/sounds/ghost.mp3', (buffer) => {
 })
 
 // 创建一个 positional audio 源
-const soundPositional = new THREE.PositionalAudio(listener)
-const audioLoaderPositional = new THREE.AudioLoader()
-audioLoaderPositional.load('../assets/sounds/baby-cry.mp3', (buffer) => {
-  soundPositional.setBuffer(buffer)
-  soundPositional.setRefDistance(20)
-  soundPositional.setLoop(true)
-  soundPositional.setVolume(0.1)
-  soundPositional.play()
-})
-ghost1.add(soundPositional)
+// const soundPositional = new THREE.PositionalAudio(listener)
+// const audioLoaderPositional = new THREE.AudioLoader()
+// audioLoaderPositional.load('../assets/sounds/baby-cry.mp3', (buffer) => {
+//   soundPositional.setBuffer(buffer)
+//   soundPositional.setRefDistance(20)
+//   soundPositional.setLoop(true)
+//   soundPositional.setVolume(0.1)
+//   soundPositional.play()
+// })
+// ghost1.add(soundPositional)
 
 const ghostSound = new THREE.PositionalAudio(listener)
 const ghostSoundLoader = new THREE.AudioLoader()
@@ -375,12 +375,12 @@ gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
 const guiObj = {
   soundOff() {
     sound.pause()
-    soundPositional.pause()
+    // soundPositional.pause()
     ghostSound.pause()
   },
   soundOn() {
     sound.play()
-    soundPositional.play()
+    // soundPositional.play()
     ghostSound.play()
   },
 }
