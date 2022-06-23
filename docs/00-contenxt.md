@@ -29,7 +29,7 @@ Illuminate your scene with various lights, start practicing environment creation
 
 - [x] 15 Lights 43mn
 - [x] 16 Shadows 1h 00mn
-- [ ] 17 Haunted House 1h 15mn
+- [x] 17 Haunted House 1h 15mn
 - [ ] 18 Particles 49mn
 - [ ] 19 Galaxy Generator 1h 08mn
 - [ ] 20 Raycaster 45mn
