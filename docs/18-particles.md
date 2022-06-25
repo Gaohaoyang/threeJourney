@@ -81,14 +81,6 @@ const canvas = document.querySelector('#mainCanvas') as HTMLCanvasElement
 const scene = new THREE.Scene()
 
 /**
- * Objects
- */
-// Material
-const material = new THREE.MeshStandardMaterial()
-material.metalness = 0
-material.roughness = 0.4
-
-/**
  * Particles
  */
 // geometry
@@ -159,3 +151,195 @@ gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
 gui.add(pointMaterial, 'size', 0.01, 0.1, 0.001)
 gui.add(pointMaterial, 'sizeAttenuation')
 ```
+
+# 自定义几何体
+
+为了创建一个自定义几何体，我们需要使用 `BufferGeometry` 类，并且添加 postion 属性，可以参考我们之前学习的 Three.js 之 4 Geometry 几何体 章节。
+
+```js
+// geometry
+const particlesGeometry = new THREE.BufferGeometry()
+const count = 5000
+const positions = new Float32Array(count * 3) // 每个点由三个坐标值组成（x, y, z）
+for (let i = 0; i < count * 3; i += 1) {
+  positions[i] = (Math.random() - 0.5) * 5
+}
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+```
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01fsW0xV1M2FkdHNt5C_!!6000000001376-2-tps-1131-635.png)
+
+我们尝试将粒子个数设置的更高，仍然能得到非常好的性能和帧率，如下图，将
+
+```js
+const count = 500000
+```
+
+仍然满帧运行
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01Xm0Ytd1kOjyIqHVSg_!!6000000004674-2-tps-1100-605.png)
+
+接下来我们设置个数为 5000，并设置 `pointMaterial.size` 为 0.1
+
+## Color, map and alpha map
+
+首先为材质设置颜色
+
+```js
+pointMaterial.color = new THREE.Color('#ff88cc')
+```
+
+再增加纹理贴图，我们使用如下的贴图
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01DO6Ed61QtcMKsVnK2_!!6000000002034-2-tps-56-56.png)
+
+```js
+/**
+ * Textures
+ */
+const textureLoader = new THREE.TextureLoader()
+const particleTexture = textureLoader.load('https://gw.alicdn.com/imgextra/i3/O1CN01DO6Ed61QtcMKsVnK2_!!6000000002034-2-tps-56-56.png')
+```
+
+赋给材质
+
+```js
+pointMaterial.map = particleTexture
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01eac34m1bFHFVyqrSp_!!6000000003435-2-tps-1129-630.png)
+
+这些好看的纹理贴图来自 [Kenney](https://www.kenney.nl/) 的站点，在这里可以找到更多。这个圆环就是来自这个包中 [https://www.kenney.nl/assets/particle-pack](https://www.kenney.nl/assets/particle-pack.)
+
+但仔细看，可以发现这个例子没有透明，挡住了后面的粒子，如下图
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01oGBDNr1rsEnLDl1a1_!!6000000005686-2-tps-1036-452.png)
+
+我们设置 alphaMap 和 transparent
+
+```js
+pointMaterial.alphaMap = particleTexture
+pointMaterial.transparent = true
+```
+
+透明的效果有了，但还是能看到偶尔出现的边缘，如下图
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01ucoHu925IsqI9IbYm_!!6000000007504-2-tps-1101-513.png)
+
+这是因为粒子在创建的时候，WebGL 认为它们在同一层，没法区分哪一个在哪一个之前。这个问题稍为复杂一点，有多种方式可以解决。
+
+## alphaTest
+
+`.alphaTest : Float`
+
+设置运行 [alphaTest](https://threejs.org/docs/index.html#api/zh/materials/Material.alphaTest) 时要使用的alpha值。如果不透明度低于此值，则不会渲染材质。默认值为0。
+
+就是让 WebGL 明白什么时候根据像素的透明度不进行渲染。默认为 0 即总是会渲染，如果我们设置一个很小的值，则如何 alpha 为 0 时不会被渲染
+
+```js
+pointMaterial.alphaTest = 0.001
+```
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01e5ooIu1VmoYYjHNtf_!!6000000002696-1-tps-717-326.gif)
+
+仔细看这个方案不是很完美，还是能看到一些毛边
+
+## depthTest
+
+是否在渲染此材质时启用深度测试。默认为 true。
+
+这个遮挡的背景问题正是因为开启了 depthTest，WebGL 不知道哪个在前哪个在后，导致的，所以我们可以关掉这个深度测试。
+
+```js
+// pointMaterial.alphaTest = 0.001
+pointMaterial.depthTest = false
+```
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01ipgMz71I5Dr30l5yv_!!6000000000841-2-tps-1118-514.png)
+
+
+看起来效果不错。但是因为我们关闭了深度测试，会导致另一个bug，如果我们创建一个几何体，那么这个几何体就会总是在这些粒子之后了。
+
+```js
+// cube
+const cube = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial())
+scene.add(cube)
+```
+
+如下图，这是一个很奇怪的透视效果。如果没有其他几何体的话，使用 depthTest 关闭的方案就足够了，接下来我们再看看其他方案
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01l66gf61jYWp9JPetC_!!6000000004560-2-tps-1135-528.png)
+
+## depthWrite
+
+渲染此材质是否对深度缓冲区有任何影响。默认为 true。
+
+WebGL 在渲染是会检测当前渲染的深度和之前已经渲染的物体深度的对比，已渲染的深度会被缓存在 depth buffer 中。这是我们设置 depthWrite 为 false 相当于告知发现更近的粒子时 WebGL 不要在将其写入 depth buffer 中。
+
+```js
+pointMaterial.depthWrite = false
+```
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01X7CGbY1vcRbExZgmJ_!!6000000006193-2-tps-1131-537.png)
+
+## Blending
+
+混合，设置将叠加的部分的效果
+
+```js
+pointMaterial.depthWrite = false
+pointMaterial.blending = THREE.AdditiveBlending
+```
+
+我们增加一些粒子，可以看到叠加的部分变得更加高亮，我们可以用这个效果制作烟火、火焰等
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01GLPBKq1jewMxmUOT7_!!6000000004574-2-tps-1133-535.png)
+
+要注意的时，这个效果可能会带来性能问题
+
+## 替换颜色
+
+我们一起看看怎么设置每个粒子的颜色
+
+我们需要给 `particlesGeometry` 设置另一组属性
+
+```js
+const particlesGeometry = new THREE.BufferGeometry()
+const count = 20000
+const positions = new Float32Array(count * 3) // 每个点由三个坐标值组成（x, y, z）
+const colors = new Float32Array(count * 3) // 每个颜色由三个rgb组成
+for (let i = 0; i < count * 3; i += 1) {
+  positions[i] = (Math.random() - 0.5) * 10
+  colors[i] = Math.random()
+}
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+
+...
+
+pointMaterial.vertexColors = true
+```
+
+`vertexColors` 是否使用顶点着色。默认值为 false。
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01XSeXkh1FEtN27wfAT_!!6000000000456-2-tps-1137-538.png)
+
+需要注意的是，原有的 color 仍然是生效的，两种颜色做了混合，现在我们注释掉原有颜色
+
+```js
+// pointMaterial.color = new THREE.Color('#ff88cc')
+```
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01E6N18h1lxNXmEMiLv_!!6000000004885-2-tps-1136-537.png)
+
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/18-particlesCustomGeometry/)
+
+可扫码访问
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN010d5WtS1KE2iG93vj6_!!6000000001131-2-tps-200-200.png)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/18-particlesCustomGeometry)
+
+# Animate 动画
