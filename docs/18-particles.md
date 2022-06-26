@@ -343,3 +343,125 @@ pointMaterial.vertexColors = true
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/18-particlesCustomGeometry)
 
 # Animate 动画
+
+有很多种方式制作动画
+
+## 直接控制 Points 对象
+
+因为 Points 类是集成字 Object3D，所以和 Mesh 类一样，可以控制其位置、旋转、放大等属性
+
+```js
+// Animations
+const clock = new THREE.Clock()
+const tick = () => {
+  stats.begin()
+
+  const elapsedTime = clock.getElapsedTime()
+  particles.position.x = 0.1 * Math.sin(elapsedTime)
+
+  controls.update()
+  pointMaterial.needsUpdate = true
+
+  // Render
+  renderer.render(scene, camera)
+  stats.end()
+  requestAnimationFrame(tick)
+}
+```
+
+并增加坐标轴助手 axesHelper，便于观察
+
+```js
+const axesHelper = new THREE.AxesHelper(1)
+scene.add(axesHelper)
+```
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01cSxptR1WKFT7OUOh7_!!6000000002769-1-tps-500-236.gif)
+
+接下来我们试着控制每一个粒子
+
+## 通过修改 attributes 制作动画
+
+每个粒子独立动画，就需要控制粒子的属性了。接下来我们做一个波浪形的动画效果
+
+先将上面的动画代码注释掉。添加如下代码，设置每个点的 position，让其上下浮动
+
+```js
+// Animations
+const clock = new THREE.Clock()
+const tick = () => {
+  stats.begin()
+
+  const elapsedTime = clock.getElapsedTime()
+  // particles.position.x = 0.1 * Math.sin(elapsedTime)
+
+  for (let i = 0; i < count; i += 1) {
+    particlesGeometry.attributes.position.setY(i, Math.sin(elapsedTime))
+  }
+  particlesGeometry.attributes.position.needsUpdate = true
+
+  controls.update()
+  // pointMaterial.needsUpdate = true
+
+  // Render
+  renderer.render(scene, camera)
+  stats.end()
+  requestAnimationFrame(tick)
+}
+
+tick()
+```
+
+注意要设置 position update `particlesGeometry.attributes.position.needsUpdate = true`
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN016tgO8025bCgXsfGSJ_!!6000000007544-1-tps-567-262.gif)
+
+接下来，需要将 Y 轴的运动与 X 位置关联起来，以便让其产生波动的效果。
+
+```js
+// Animations
+const clock = new THREE.Clock()
+const tick = () => {
+  stats.begin()
+
+  const elapsedTime = clock.getElapsedTime()
+  // particles.position.x = 0.1 * Math.sin(elapsedTime)
+
+  for (let i = 0; i < count; i += 1) {
+    const x = particlesGeometry.attributes.position.getX(i)
+    particlesGeometry.attributes.position.setY(i, Math.sin(elapsedTime + x))
+  }
+  particlesGeometry.attributes.position.needsUpdate = true
+
+  controls.update()
+  // pointMaterial.needsUpdate = true
+
+  // Render
+  renderer.render(scene, camera)
+  stats.end()
+  requestAnimationFrame(tick)
+}
+
+tick()
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01HtxK0Q20VdnO7RxRN_!!6000000006855-1-tps-520-225.gif)
+
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/18-particlesAnimation/)
+
+可扫码访问
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01MrC0kE1BvFXQl1KNZ_!!6000000000007-2-tps-200-200.png)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/18-particlesAnimation)
+
+看似很完美，但是应该尽量避免使用这个技术，因为非常占用性能。我们在每帧设置计算了所有粒子的位置，数量少时性能还可以，但是粒子数量变大后，会非常占用计算机的性能。更好的解法是使用自定义 shader 的方案，我们后续会进行详细学习。
+
+# 小结
+
+本节我们学习了粒子效果，学习了 PointsMaterial/Points 类生成粒子，如何自定义粒子位置颜色等，研究了粒子的遮挡关系，最后学习了一点控制粒子的动画。Keep going!
+
