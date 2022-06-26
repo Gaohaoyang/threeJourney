@@ -55431,22 +55431,35 @@ var sizes = {
 var camera = new three__WEBPACK_IMPORTED_MODULE_5__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
 camera.position.set(2, 1.8, 2);
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
-controls.enableDamping = true; // controls.autoRotateSpeed = 0.2
-
-controls.zoomSpeed = 0.3; // Renderer
+controls.enableDamping = true;
+controls.autoRotateSpeed = 1;
+controls.zoomSpeed = 0.3; // const axesHelper = new THREE.AxesHelper(1)
+// scene.add(axesHelper)
+// Renderer
 
 var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
-  canvas: canvas
+  canvas: canvas // antialias: true,
+
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer);
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.dbClkfullScreen)(document.body); // Animations
 
+var clock = new three__WEBPACK_IMPORTED_MODULE_5__.Clock();
+
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].begin();
-  controls.update();
-  pointMaterial.needsUpdate = true; // Render
+  var elapsedTime = clock.getElapsedTime(); // particles.position.x = 0.1 * Math.sin(elapsedTime)
+
+  for (var _i = 0; _i < count; _i += 1) {
+    var x = particlesGeometry.attributes.position.getX(_i);
+    particlesGeometry.attributes.position.setY(_i, Math.sin(elapsedTime + x));
+  }
+
+  particlesGeometry.attributes.position.needsUpdate = true;
+  controls.update(); // pointMaterial.needsUpdate = true
+  // Render
 
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].end();
@@ -55461,6 +55474,7 @@ tick();
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
 gui.add(controls, 'autoRotate');
 gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01);
+gui.close();
 })();
 
 /******/ })()
