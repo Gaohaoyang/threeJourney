@@ -11,6 +11,7 @@
 - [Three.js 之 9 Light 光](https://juejin.cn/post/7107886009253101599/)
 - [Three.js 之 10 Shadow 投影](https://juejin.cn/post/7108379667387645982)
 - [Three.js 之 11 Haunted House 恐怖鬼屋](https://juejin.cn/post/7110777125518442526)
+- [Three.js 之 12 Particles 粒子效果](https://juejin.cn/post/7113540626347458591/)
 
 未完待续
 
