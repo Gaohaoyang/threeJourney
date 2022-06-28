@@ -161,7 +161,7 @@ const tick = () => {
 tick()
 ```
 
-![](https://gw.alicdn.com/imgextra/i2/O1CN01wRccOC1fmwpWmkeOr_!!6000000004050-1-tps-348-212.gif)
+![](https://gw.alicdn.com/imgextra/i1/O1CN011DDy2n1ibRjJr7abI_!!6000000004431-1-tps-349-311.gif)
 
 在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/20-raycaster/)
 
@@ -170,3 +170,5 @@ tick()
 ![](https://gw.alicdn.com/imgextra/i1/O1CN016BK6t21Ea87dIN4Ud_!!6000000000367-2-tps-200-200.png)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/20-raycaster)
+
+# 使用鼠标光线投射

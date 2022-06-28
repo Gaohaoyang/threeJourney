@@ -25,28 +25,40 @@ camera.position.set(0, 0, 28)
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
 controls.zoomSpeed = 0.3
-controls.autoRotateSpeed = 0.7
-// controls.autoRotate = true
+// controls.autoRotateSpeed = 1
+controls.autoRotate = true
 
 /**
  * Objects
  */
 const object1 = new THREE.Mesh(
   new THREE.SphereGeometry(1, 32, 32),
-  new THREE.MeshBasicMaterial({ color: '#B71C1C' })
+  new THREE.MeshStandardMaterial({ color: '#B71C1C' })
 )
 object1.position.setX(-4)
 const object2 = new THREE.Mesh(
   new THREE.SphereGeometry(1, 32, 32),
-  new THREE.MeshBasicMaterial({ color: '#B71C1C' })
+  new THREE.MeshStandardMaterial({ color: '#B71C1C' })
 )
 const object3 = new THREE.Mesh(
   new THREE.SphereGeometry(1, 32, 32),
-  new THREE.MeshBasicMaterial({ color: '#B71C1C' })
+  new THREE.MeshStandardMaterial({ color: '#B71C1C' })
 )
 object3.position.setX(4)
 
 scene.add(object1, object2, object3)
+
+const cube = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2), new THREE.MeshStandardMaterial())
+cube.position.setY(-8)
+scene.add(cube)
+
+const directionLight = new THREE.DirectionalLight()
+directionLight.position.set(1, 1, 1)
+const ambientLight = new THREE.AmbientLight(new THREE.Color('#ffffff'), 0.3)
+scene.add(ambientLight, directionLight)
+
+const directionLightHelper = new THREE.DirectionalLightHelper(directionLight, 2)
+scene.add(directionLightHelper)
 
 /**
  * Raycaster
@@ -76,6 +88,7 @@ scene.add(arrowHelper)
 // Renderer
 const renderer = new THREE.WebGLRenderer({
   canvas,
+  antialias: true,
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -121,3 +134,5 @@ const gui = new dat.GUI()
 
 gui.add(controls, 'autoRotate')
 gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
+gui.add(arrowHelper, 'visible').name('arrowHelper visible')
+gui.add(directionLightHelper, 'visible').name('directionLightHelper visible')
