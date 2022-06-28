@@ -19,7 +19,7 @@ const sizes = {
 
 // Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(0, 0, 10)
+camera.position.set(0, 0, 28)
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
@@ -52,10 +52,16 @@ scene.add(object1, object2, object3)
  * Raycaster
  */
 const raycaster = new THREE.Raycaster()
-const rayOrigin = new THREE.Vector3(-6,  0, 0)
+const rayOrigin = new THREE.Vector3(-6, 0, 0)
 const rayDirections = new THREE.Vector3(10, 0, 0)
 rayDirections.normalize()
 raycaster.set(rayOrigin, rayDirections)
+
+// const intersect = raycaster.intersectObject(object1)
+// const intersects = raycaster.intersectObjects([object1, object2, object3])
+
+// console.log(intersect)
+// console.log(intersects)
 
 const arrowHelper = new THREE.ArrowHelper(
   raycaster.ray.direction,
@@ -63,7 +69,7 @@ const arrowHelper = new THREE.ArrowHelper(
   15,
   0xff0000,
   1,
-  0.5,
+  0.5
 )
 scene.add(arrowHelper)
 
@@ -78,8 +84,25 @@ listenResize(sizes, camera, renderer)
 dbClkfullScreen(document.body)
 
 // Animations
+const clock = new THREE.Clock()
 const tick = () => {
   stats.begin()
+
+  const elapsedTime = clock.getElapsedTime()
+  object1.position.setY(Math.sin(elapsedTime * 2) * 2)
+  object2.position.setY(Math.sin(elapsedTime * 1.5) * 2)
+  object3.position.setY(Math.sin(elapsedTime * 3) * 2)
+
+  const objectsToTest = [object1, object2, object3]
+  const intersects = raycaster.intersectObjects(objectsToTest)
+
+  objectsToTest.forEach((item) => {
+    item.material.color.set('#B71C1C')
+  })
+
+  intersects.forEach((item) => {
+    item.object.material.color.set('#F9A825')
+  })
 
   controls.update()
 
