@@ -55384,25 +55384,34 @@ camera.position.set(0, 0, 28); // Controls
 
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
 controls.enableDamping = true;
-controls.zoomSpeed = 0.3;
-controls.autoRotateSpeed = 0.7; // controls.autoRotate = true
+controls.zoomSpeed = 0.3; // controls.autoRotateSpeed = 1
 
+controls.autoRotate = true;
 /**
  * Objects
  */
 
-var object1 = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(1, 32, 32), new three__WEBPACK_IMPORTED_MODULE_5__.MeshBasicMaterial({
+var object1 = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(1, 32, 32), new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial({
   color: '#B71C1C'
 }));
 object1.position.setX(-4);
-var object2 = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(1, 32, 32), new three__WEBPACK_IMPORTED_MODULE_5__.MeshBasicMaterial({
+var object2 = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(1, 32, 32), new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial({
   color: '#B71C1C'
 }));
-var object3 = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(1, 32, 32), new three__WEBPACK_IMPORTED_MODULE_5__.MeshBasicMaterial({
+var object3 = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(1, 32, 32), new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial({
   color: '#B71C1C'
 }));
 object3.position.setX(4);
 scene.add(object1, object2, object3);
+var cube = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.BoxGeometry(2, 2, 2), new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial());
+cube.position.setY(-8);
+scene.add(cube);
+var directionLight = new three__WEBPACK_IMPORTED_MODULE_5__.DirectionalLight();
+directionLight.position.set(1, 1, 1);
+var ambientLight = new three__WEBPACK_IMPORTED_MODULE_5__.AmbientLight(new three__WEBPACK_IMPORTED_MODULE_5__.Color('#ffffff'), 0.3);
+scene.add(ambientLight, directionLight);
+var directionLightHelper = new three__WEBPACK_IMPORTED_MODULE_5__.DirectionalLightHelper(directionLight, 2);
+scene.add(directionLightHelper);
 /**
  * Raycaster
  */
@@ -55420,7 +55429,8 @@ var arrowHelper = new three__WEBPACK_IMPORTED_MODULE_5__.ArrowHelper(raycaster.r
 scene.add(arrowHelper); // Renderer
 
 var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
-  canvas: canvas
+  canvas: canvas,
+  antialias: true
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -55458,6 +55468,8 @@ tick();
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
 gui.add(controls, 'autoRotate');
 gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01);
+gui.add(arrowHelper, 'visible').name('arrowHelper visible');
+gui.add(directionLightHelper, 'visible').name('directionLightHelper visible');
 })();
 
 /******/ })()
