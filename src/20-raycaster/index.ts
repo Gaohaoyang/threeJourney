@@ -1,0 +1,100 @@
+import * as THREE from 'three'
+import './style.css'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import * as dat from 'lil-gui'
+import stats from '../common/stats'
+import { listenResize, dbClkfullScreen } from '../common/utils'
+
+// Canvas
+const canvas = document.querySelector('#mainCanvas') as HTMLCanvasElement
+
+// Scene
+const scene = new THREE.Scene()
+
+// Size
+const sizes = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+}
+
+// Camera
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+camera.position.set(0, 0, 10)
+
+// Controls
+const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
+controls.zoomSpeed = 0.3
+controls.autoRotateSpeed = 0.7
+// controls.autoRotate = true
+
+/**
+ * Objects
+ */
+const object1 = new THREE.Mesh(
+  new THREE.SphereGeometry(1, 32, 32),
+  new THREE.MeshBasicMaterial({ color: '#B71C1C' })
+)
+object1.position.setX(-4)
+const object2 = new THREE.Mesh(
+  new THREE.SphereGeometry(1, 32, 32),
+  new THREE.MeshBasicMaterial({ color: '#B71C1C' })
+)
+const object3 = new THREE.Mesh(
+  new THREE.SphereGeometry(1, 32, 32),
+  new THREE.MeshBasicMaterial({ color: '#B71C1C' })
+)
+object3.position.setX(4)
+
+scene.add(object1, object2, object3)
+
+/**
+ * Raycaster
+ */
+const raycaster = new THREE.Raycaster()
+const rayOrigin = new THREE.Vector3(-6,  0, 0)
+const rayDirections = new THREE.Vector3(10, 0, 0)
+rayDirections.normalize()
+raycaster.set(rayOrigin, rayDirections)
+
+const arrowHelper = new THREE.ArrowHelper(
+  raycaster.ray.direction,
+  raycaster.ray.origin,
+  15,
+  0xff0000,
+  1,
+  0.5,
+)
+scene.add(arrowHelper)
+
+// Renderer
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+})
+renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+listenResize(sizes, camera, renderer)
+dbClkfullScreen(document.body)
+
+// Animations
+const tick = () => {
+  stats.begin()
+
+  controls.update()
+
+  // Render
+  renderer.render(scene, camera)
+  stats.end()
+  requestAnimationFrame(tick)
+}
+
+tick()
+
+/**
+ * Debug
+ */
+const gui = new dat.GUI()
+
+gui.add(controls, 'autoRotate')
+gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
