@@ -172,3 +172,35 @@ tick()
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/20-raycaster)
 
 # 使用鼠标光线投射
+
+我们也可以使用 raycaster 来检测一个物体是否在鼠标后面。其核心原理就是我们需要发射一个从相机位置到鼠标方向的射线。
+
+## Hover
+
+首先我们需要获取鼠标的位置，通过监听 `mousemove` 事件
+
+```js
+const mouse = new THREE.Vector2()
+
+window.addEventListener('mousemove', (event) => {
+  mouse.x = (event.clientX / sizes.width) * 2 - 1
+  mouse.y = -(event.clientY / sizes.height) * 2 + 1
+  console.log(mouse)
+})
+```
+
+将鼠标的坐标转换为 -1 到 1 的值。这是因为接下来我们要使用的 api 需要 -1 到 1 的值。
+
+`.setFromCamera ( coords : Vector2, camera : Camera ) : undefined`
+
+- coords —— 在标准化设备坐标中鼠标的二维坐标 —— X分量与Y分量应当在-1到1之间。
+- camera —— 射线所来源的摄像机。
+
+使用一个新的原点和方向来更新射线。
+
+我们在 tick 中增加如下代码
+
+```js
+
+```
+

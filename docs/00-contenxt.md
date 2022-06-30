@@ -31,7 +31,7 @@ Illuminate your scene with various lights, start practicing environment creation
 - [x] 16 Shadows 1h 00mn
 - [x] 17 Haunted House 1h 15mn
 - [x] 18 Particles 49mn
-- [ ] 19 Galaxy Generator 1h 08mn
+- [x] 19 Galaxy Generator 1h 08mn
 - [ ] 20 Raycaster 45mn
 - [ ] 21 Scroll based animation 1h 23mn
 
