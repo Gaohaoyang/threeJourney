@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #263238;
+}
+
+.webgl {
+  position: fixed;
+  top: 0;
+  left: 0;
+  outline: none;
+}
+
+.section {
+  padding-left: 10%;
+  padding-right: 10%;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  font-size: 7vmin;
+  position: relative;
+  color: #fff;
+}
+
+section:nth-child(odd) {
+  justify-content: flex-end;
+}
