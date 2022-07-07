@@ -54105,7 +54105,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // Canvas
+
+/**
+ * Debug
+ */
+
+var parameters = {
+  materialColor: '#ffffff'
+}; // Canvas
 
 var canvas = document.querySelector('#mainCanvas'); // Scene
 
@@ -54114,22 +54121,40 @@ var scene = new three__WEBPACK_IMPORTED_MODULE_4__.Scene(); // Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-}; // Camera
+};
+var objectsDistance = 4; // Camera
 
 var camera = new three__WEBPACK_IMPORTED_MODULE_4__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(0, 0, 6);
+camera.position.set(0, 0, 4);
 /**
  * Objects
  */
+// Texture
 
-var cube = new three__WEBPACK_IMPORTED_MODULE_4__.Mesh(new three__WEBPACK_IMPORTED_MODULE_4__.BoxGeometry(1, 1, 1), new three__WEBPACK_IMPORTED_MODULE_4__.MeshStandardMaterial());
-scene.add(cube);
-var directionLight = new three__WEBPACK_IMPORTED_MODULE_4__.DirectionalLight();
-directionLight.position.set(1.5, 1, 1);
-var ambientLight = new three__WEBPACK_IMPORTED_MODULE_4__.AmbientLight(new three__WEBPACK_IMPORTED_MODULE_4__.Color('#ffffff'), 0.2);
-scene.add(ambientLight, directionLight);
-var directionLightHelper = new three__WEBPACK_IMPORTED_MODULE_4__.DirectionalLightHelper(directionLight, 2);
-scene.add(directionLightHelper); // Renderer
+var textureLoader = new three__WEBPACK_IMPORTED_MODULE_4__.TextureLoader();
+var gradientTexture = textureLoader.load('../assets/textures/gradients/5.jpg');
+gradientTexture.magFilter = three__WEBPACK_IMPORTED_MODULE_4__.NearestFilter; // Material
+
+var material = new three__WEBPACK_IMPORTED_MODULE_4__.MeshToonMaterial({
+  color: parameters.materialColor,
+  gradientMap: gradientTexture
+}); // Meshes
+
+var mesh1 = new three__WEBPACK_IMPORTED_MODULE_4__.Mesh(new three__WEBPACK_IMPORTED_MODULE_4__.TorusGeometry(1, 0.4, 16, 60), material);
+var mesh2 = new three__WEBPACK_IMPORTED_MODULE_4__.Mesh(new three__WEBPACK_IMPORTED_MODULE_4__.ConeGeometry(1, 2, 32), material);
+var mesh3 = new three__WEBPACK_IMPORTED_MODULE_4__.Mesh(new three__WEBPACK_IMPORTED_MODULE_4__.TorusKnotGeometry(0.8, 0.35, 100, 16), material);
+mesh1.position.y = -objectsDistance * 0;
+mesh2.position.y = -objectsDistance * 1;
+mesh3.position.y = -objectsDistance * 2;
+scene.add(mesh1, mesh2, mesh3);
+var sectionMeshes = [mesh1, mesh2, mesh3];
+/**
+ * Lights
+ */
+
+var directionalLight = new three__WEBPACK_IMPORTED_MODULE_4__.DirectionalLight('#ffffff', 1);
+directionalLight.position.set(1, 1, 0);
+scene.add(directionalLight); // Renderer
 
 var renderer = new three__WEBPACK_IMPORTED_MODULE_4__.WebGLRenderer({
   canvas: canvas,
@@ -54141,8 +54166,15 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_3__.listenResize)(sizes, camera, renderer);
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_3__.dbClkfullScreen)(document.documentElement); // Animations
 
+var clock = new three__WEBPACK_IMPORTED_MODULE_4__.Clock();
+
 var tick = function tick() {
-  _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].begin(); // Render
+  _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].begin();
+  var elapsedTime = clock.getElapsedTime(); // Animate meshes
+
+  sectionMeshes.forEach(function (mesh) {
+    mesh.rotation.set(elapsedTime * 0.1, elapsedTime * 0.12, 0);
+  }); // Render
 
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].end();
@@ -54150,12 +54182,10 @@ var tick = function tick() {
 };
 
 tick();
-/**
- * Debug
- */
-
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_1__.GUI();
-gui.add(directionLightHelper, 'visible').name('directionLightHelper visible');
+gui.addColor(parameters, 'materialColor').onChange(function () {
+  material.color.set(parameters.materialColor);
+});
 })();
 
 /******/ })()
