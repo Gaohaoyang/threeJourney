@@ -143,3 +143,178 @@ gui.add(directionLightHelper, 'visible').name('directionLightHelper visible')
 效果如下
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01bJcItJ1Y2xksDRCuZ_!!6000000003002-1-tps-721-439.gif)
+
+# 物体
+
+## 几何体
+
+我们将原有的立方体移除，使用 Three.js 内置的 圆环 TorusGeometry、圆锥 ConeGeometry 和圆环扭结 TorusKnotGeometry
+
+```js
+// Meshes
+const mesh1 = new THREE.Mesh(
+  new THREE.TorusGeometry(1, 0.4, 16, 60),
+  new THREE.MeshBasicMaterial({ color: '#ff0000' }),
+)
+const mesh2 = new THREE.Mesh(
+  new THREE.ConeGeometry(1, 2, 32),
+  new THREE.MeshBasicMaterial({ color: '#ff0000' }),
+)
+const mesh3 = new THREE.Mesh(
+  new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16),
+  new THREE.MeshBasicMaterial({ color: '#ff0000' }),
+)
+
+scene.add(mesh1, mesh2, mesh3)
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01b50dQd1nKZDTxcgUo_!!6000000005071-2-tps-1133-595.png)
+
+别着急，随后我们修改几何体的为位置和相机视角
+
+接下来我们设置材质
+
+## 材质
+
+我们使用卡通材质
+
+```js
+// Material
+const material = new THREE.MeshToonMaterial({ color: parameters.materialColor })
+
+// Meshes
+const mesh1 = new THREE.Mesh(new THREE.TorusGeometry(1, 0.4, 16, 60), material)
+const mesh2 = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 32), material)
+const mesh3 = new THREE.Mesh(new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16), material)
+
+scene.add(mesh1, mesh2, mesh3)
+```
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01lq6de21e1UAaBaXhj_!!6000000003811-2-tps-1130-584.png)
+
+## 灯光
+
+我们把刚刚移除的灯光重新加回来
+
+```js
+/**
+ * Lights
+ */
+const directionalLight = new THREE.DirectionalLight('#ffffff', 1)
+directionalLight.position.set(1, 1, 0)
+scene.add(directionalLight)
+```
+
+现在效果好多了
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01TxEhQk1Y7XiOLqqNU_!!6000000003012-2-tps-1133-591.png)
+
+```js
+const gui = new dat.GUI()
+gui.addColor(parameters, 'materialColor').onChange(() => {
+  material.color.set(parameters.materialColor)
+})
+```
+
+增加 gui 就可以在右上角调节颜色了
+
+## Gradient texture 渐变纹理
+
+```js
+// Texture
+const textureLoader = new THREE.TextureLoader()
+const gradientTexture = textureLoader.load('../assets/textures/gradients/5.jpg')
+gradientTexture.magFilter = THREE.NearestFilter
+
+// Material
+const material = new THREE.MeshToonMaterial({
+  color: parameters.materialColor,
+  gradientMap: gradientTexture,
+})
+```
+
+这里注意 `magFilter` 的使用，如果遗忘了复习 [Three.js 之 6 Texture 纹理](https://gaohaoyang.github.io/2022/05/23/three-textures/#minification-filter-%E7%BC%A9%E5%B0%8F%E6%BB%A4%E9%95%9C)。
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01xfd2sR1WS2CktnMa1_!!6000000002786-2-tps-1132-590.png)
+
+## 位置
+
+Three.js 默认是根据竖直方向的高度定相机视野适配的，高度等比适配
+
+例如我设置如下代码
+
+```js
+
+mesh1.position.y = 4
+mesh1.scale.set(0.5, 0.5, 0.5)
+
+mesh2.visible = false
+
+mesh3.position.y = -4
+mesh3.scale.set(0.5, 0.5, 0.5)
+```
+
+不管怎么移动窗口，可以看到2个物体距顶部和底部的距离比例不变。如下图
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01xWiNBI1XcrBCejzC4_!!6000000002945-1-tps-935-783.gif)
+
+我们移除刚才的测试代码
+
+声明一个物体距离
+
+```js
+const objectsDistance = 4
+```
+
+并设置在每个物体上
+
+```js
+mesh1.position.y = -objectsDistance * 0
+mesh2.position.y = -objectsDistance * 1
+mesh3.position.y = -objectsDistance * 2
+```
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01BdLY191mQgtfo6Eq3_!!6000000004949-2-tps-1132-647.png)
+
+现在我们只能看到第一个物体
+
+## 增加一些物体的自转
+
+将几何体放入数组
+
+```js
+const sectionMeshes: THREE.Mesh<THREE.BufferGeometry, THREE.MeshToonMaterial>[] = [
+  mesh1,
+  mesh2,
+  mesh3,
+]
+```
+
+再一起加入动画
+
+```js
+// Animations
+const clock = new THREE.Clock()
+const tick = () => {
+  stats.begin()
+
+  const elapsedTime = clock.getElapsedTime()
+  // Animate meshes
+  sectionMeshes.forEach((mesh) => {
+    mesh.rotation.set(elapsedTime * 0.1, elapsedTime * 0.12, 0)
+  })
+
+  // Render
+  renderer.render(scene, camera)
+  stats.end()
+  requestAnimationFrame(tick)
+}
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01AqBktg1wRHZ7wF1XP_!!6000000006304-1-tps-1129-629.gif)
+
+# 相机与滚动

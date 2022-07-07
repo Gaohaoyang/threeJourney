@@ -4,6 +4,13 @@ import * as dat from 'lil-gui'
 import stats from '../common/stats'
 import { listenResize, dbClkfullScreen } from '../common/utils'
 
+/**
+ * Debug
+ */
+const parameters = {
+  materialColor: '#ffffff',
+}
+
 // Canvas
 const canvas = document.querySelector('#mainCanvas') as HTMLCanvasElement
 
@@ -16,23 +23,48 @@ const sizes = {
   height: window.innerHeight,
 }
 
+const objectsDistance = 4
+
 // Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(0, 0, 6)
+camera.position.set(0, 0, 4)
 
 /**
  * Objects
  */
-const cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshStandardMaterial())
-scene.add(cube)
+// Texture
+const textureLoader = new THREE.TextureLoader()
+const gradientTexture = textureLoader.load('../assets/textures/gradients/5.jpg')
+gradientTexture.magFilter = THREE.NearestFilter
 
-const directionLight = new THREE.DirectionalLight()
-directionLight.position.set(1.5, 1, 1)
-const ambientLight = new THREE.AmbientLight(new THREE.Color('#ffffff'), 0.2)
-scene.add(ambientLight, directionLight)
+// Material
+const material = new THREE.MeshToonMaterial({
+  color: parameters.materialColor,
+  gradientMap: gradientTexture,
+})
 
-const directionLightHelper = new THREE.DirectionalLightHelper(directionLight, 2)
-scene.add(directionLightHelper)
+// Meshes
+const mesh1 = new THREE.Mesh(new THREE.TorusGeometry(1, 0.4, 16, 60), material)
+const mesh2 = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 32), material)
+const mesh3 = new THREE.Mesh(new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16), material)
+
+mesh1.position.y = -objectsDistance * 0
+mesh2.position.y = -objectsDistance * 1
+mesh3.position.y = -objectsDistance * 2
+
+scene.add(mesh1, mesh2, mesh3)
+const sectionMeshes: THREE.Mesh<THREE.BufferGeometry, THREE.MeshToonMaterial>[] = [
+  mesh1,
+  mesh2,
+  mesh3,
+]
+
+/**
+ * Lights
+ */
+const directionalLight = new THREE.DirectionalLight('#ffffff', 1)
+directionalLight.position.set(1, 1, 0)
+scene.add(directionalLight)
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
@@ -47,8 +79,16 @@ listenResize(sizes, camera, renderer)
 dbClkfullScreen(document.documentElement)
 
 // Animations
+const clock = new THREE.Clock()
 const tick = () => {
   stats.begin()
+
+  const elapsedTime = clock.getElapsedTime()
+  // Animate meshes
+  sectionMeshes.forEach((mesh) => {
+    mesh.rotation.set(elapsedTime * 0.1, elapsedTime * 0.12, 0)
+  })
+
   // Render
   renderer.render(scene, camera)
   stats.end()
@@ -57,8 +97,7 @@ const tick = () => {
 
 tick()
 
-/**
- * Debug
- */
 const gui = new dat.GUI()
-gui.add(directionLightHelper, 'visible').name('directionLightHelper visible')
+gui.addColor(parameters, 'materialColor').onChange(() => {
+  material.color.set(parameters.materialColor)
+})
