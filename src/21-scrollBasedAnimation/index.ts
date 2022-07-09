@@ -112,10 +112,18 @@ window.addEventListener('mousemove', (event) => {
 
 // Animations
 const clock = new THREE.Clock()
+let previousTime = 0
 const tick = () => {
   stats.begin()
 
   const elapsedTime = clock.getElapsedTime()
+  const deltaTime = elapsedTime - previousTime
+  previousTime = elapsedTime
+  // const deltaTime2 = clock.getDelta()
+  // console.log(deltaTime);
+  // console.log(deltaTime2);
+  // console.log('----');
+
   // Animate meshes
   sectionMeshes.forEach((mesh) => {
     mesh.rotation.set(elapsedTime * 0.1, elapsedTime * 0.12, 0)
@@ -125,8 +133,10 @@ const tick = () => {
   camera.position.setY((-scrollY / sizes.height) * objectsDistance)
 
   if (mouse.x && mouse.y) {
-    cameraGroup.position.setX(mouse.x)
-    cameraGroup.position.setY(mouse.y)
+    const parallaxX = mouse.x * 0.5
+    const parallaxY = mouse.y * 0.5
+    cameraGroup.position.x += (parallaxX - cameraGroup.position.x) * 5 * deltaTime
+    cameraGroup.position.y += (parallaxY - cameraGroup.position.y) * 5 * deltaTime
   }
 
   // Render

@@ -423,3 +423,50 @@ const tick = () => {
 效果如下
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01WJTCOu1DGbcigCPOS_!!6000000000189-1-tps-1129-629.gif)
+
+## 缓动效果
+
+视察效果看起来不过，但是我们想让它表现更好，可以增加一些缓动效果，更符合弹性阻尼物理效果。
+
+这里通过 deltaTime 来进行增量位移。需要特别注意的是不能在同一个 `requestAnimationFrame` 里同时使用 getElapsedTime 和 getDelta。因为 getElapsedTime 里也调用了 getDelta，这是一个危险的设计。详情见 issue [THREE.clock.getElapsedTime has a side effect invalidating .getDelta() #5696](https://github.com/mrdoob/three.js/issues/5696)
+
+所以我们要自己计算 deltaTime 代码如下
+
+```js
+// Animations
+const clock = new THREE.Clock()
+let previousTime = 0
+const tick = () => {
+  stats.begin()
+
+  const elapsedTime = clock.getElapsedTime()
+  const deltaTime = elapsedTime - previousTime
+  previousTime = elapsedTime
+  // const deltaTime2 = clock.getDelta()
+  // console.log(deltaTime);
+  // console.log(deltaTime2);
+  // console.log('----');
+
+  // Animate meshes
+  sectionMeshes.forEach((mesh) => {
+    mesh.rotation.set(elapsedTime * 0.1, elapsedTime * 0.12, 0)
+  })
+
+  // animate camera
+  camera.position.setY((-scrollY / sizes.height) * objectsDistance)
+
+  if (mouse.x && mouse.y) {
+    const parallaxX = mouse.x * 0.5
+    const parallaxY = mouse.y * 0.5
+    cameraGroup.position.x += (parallaxX - cameraGroup.position.x) * 5 * deltaTime
+    cameraGroup.position.y += (parallaxY - cameraGroup.position.y) * 5 * deltaTime
+  }
+
+  // Render
+  renderer.render(scene, camera)
+  stats.end()
+  requestAnimationFrame(tick)
+}
+```
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01HfsTp01UdpAUYkk3T_!!6000000002541-1-tps-1129-629.gif)
