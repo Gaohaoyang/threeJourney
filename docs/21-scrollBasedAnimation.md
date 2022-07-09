@@ -521,4 +521,58 @@ for (let i = 0; i < particlesCount; i += 1) {
 
 # 滚动到区域时触发的动画
 
-最后我们在做一些滚动到每个区域时触发的动画。我们在滚动到这个区域时，增加一些旋转动画
+最后我们在做一些滚动到每个区域时触发的动画。我们在滚动到这个区域时，增加一些旋转动画。
+
+```js
+/**
+ * Scroll
+ */
+let { scrollY } = window
+let currentSection = 0
+window.addEventListener('scroll', () => {
+  scrollY = window.scrollY
+  const newSection = Math.round(scrollY / sizes.height)
+  if (newSection !== currentSection) {
+    currentSection = newSection
+    console.log('changed', currentSection)
+  }
+})
+```
+
+借助 gsap 创建旋转动画
+
+```js
+/**
+ * Scroll
+ */
+let { scrollY } = window
+let currentSection = 0
+window.addEventListener('scroll', () => {
+  scrollY = window.scrollY
+  const newSection = Math.round(scrollY / sizes.height)
+  if (newSection !== currentSection) {
+    currentSection = newSection
+    // console.log('changed', currentSection)
+    gsap.to(sectionMeshes[currentSection].rotation, {
+      duration: 1.5,
+      ease: 'power2.inOut',
+      x: '+=6',
+      y: '+=3',
+    })
+  }
+})
+```
+
+这里要注意，需要把原有的几何体自转从依赖 elapsedTime 改为 deltaTime
+
+```js
+  // Animate meshes
+  sectionMeshes.forEach((mesh) => {
+    mesh.rotation.set(deltaTime * 0.1 + mesh.rotation.x, deltaTime * 0.1 + mesh.rotation.y, 0)
+  })
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN0144tW8Q1RXSp62fmG0_!!6000000002121-1-tps-1129-629.gif)
+

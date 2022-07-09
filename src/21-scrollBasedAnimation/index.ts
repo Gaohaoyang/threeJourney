@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import './style.css'
 import * as dat from 'lil-gui'
+import gsap from 'gsap'
 import stats from '../common/stats'
 import { listenResize, dbClkfullScreen } from '../common/utils'
 
@@ -39,7 +40,7 @@ cameraGroup.add(camera)
 // Texture
 const textureLoader = new THREE.TextureLoader()
 const gradientTexture = textureLoader.load(
-  'https://gw.alicdn.com/imgextra/i1/O1CN01Kv3xWT1kImpSDZI8n_!!6000000004661-0-tps-5-1.jpg',
+  'https://gw.alicdn.com/imgextra/i1/O1CN01Kv3xWT1kImpSDZI8n_!!6000000004661-0-tps-5-1.jpg'
 )
 gradientTexture.magFilter = THREE.NearestFilter
 
@@ -117,8 +118,20 @@ dbClkfullScreen(document.documentElement)
  * Scroll
  */
 let { scrollY } = window
+let currentSection = 0
 window.addEventListener('scroll', () => {
   scrollY = window.scrollY
+  const newSection = Math.round(scrollY / sizes.height)
+  if (newSection !== currentSection) {
+    currentSection = newSection
+    // console.log('changed', currentSection)
+    gsap.to(sectionMeshes[currentSection].rotation, {
+      duration: 1.5,
+      ease: 'power2.inOut',
+      x: '+=6',
+      y: '+=3',
+    })
+  }
 })
 
 /**
@@ -150,7 +163,7 @@ const tick = () => {
 
   // Animate meshes
   sectionMeshes.forEach((mesh) => {
-    mesh.rotation.set(elapsedTime * 0.1, elapsedTime * 0.12, 0)
+    mesh.rotation.set(deltaTime * 0.1 + mesh.rotation.x, deltaTime * 0.1 + mesh.rotation.y, 0)
   })
 
   // animate camera
