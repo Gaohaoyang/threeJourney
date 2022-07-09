@@ -23,7 +23,7 @@ const sizes = {
   height: window.innerHeight,
 }
 
-const objectsDistance = 4
+const objectsDistance = 5
 
 // Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
@@ -34,7 +34,9 @@ camera.position.set(0, 0, 4)
  */
 // Texture
 const textureLoader = new THREE.TextureLoader()
-const gradientTexture = textureLoader.load('https://gw.alicdn.com/imgextra/i1/O1CN01Kv3xWT1kImpSDZI8n_!!6000000004661-0-tps-5-1.jpg')
+const gradientTexture = textureLoader.load(
+  'https://gw.alicdn.com/imgextra/i1/O1CN01Kv3xWT1kImpSDZI8n_!!6000000004661-0-tps-5-1.jpg'
+)
 gradientTexture.magFilter = THREE.NearestFilter
 
 // Material
@@ -48,16 +50,18 @@ const mesh1 = new THREE.Mesh(new THREE.TorusGeometry(1, 0.4, 16, 60), material)
 const mesh2 = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 32), material)
 const mesh3 = new THREE.Mesh(new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16), material)
 
-mesh1.position.y = -objectsDistance * 0
-mesh2.position.y = -objectsDistance * 1
-mesh3.position.y = -objectsDistance * 2
-
 scene.add(mesh1, mesh2, mesh3)
+
 const sectionMeshes: THREE.Mesh<THREE.BufferGeometry, THREE.MeshToonMaterial>[] = [
   mesh1,
   mesh2,
   mesh3,
 ]
+
+sectionMeshes.forEach((item, index) => {
+  item.position.setY(-objectsDistance * index)
+  item.position.setX(index % 2 === 0 ? 2 : -2)
+})
 
 /**
  * Lights
@@ -65,6 +69,9 @@ const sectionMeshes: THREE.Mesh<THREE.BufferGeometry, THREE.MeshToonMaterial>[] 
 const directionalLight = new THREE.DirectionalLight('#ffffff', 1)
 directionalLight.position.set(1, 1, 0)
 scene.add(directionalLight)
+
+const ambientLight = new THREE.AmbientLight('#ffffff', 0.28)
+scene.add(ambientLight)
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
@@ -78,6 +85,14 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 listenResize(sizes, camera, renderer)
 dbClkfullScreen(document.documentElement)
 
+/**
+ * Scroll
+ */
+let { scrollY } = window
+window.addEventListener('scroll', () => {
+  scrollY = window.scrollY
+})
+
 // Animations
 const clock = new THREE.Clock()
 const tick = () => {
@@ -88,6 +103,9 @@ const tick = () => {
   sectionMeshes.forEach((mesh) => {
     mesh.rotation.set(elapsedTime * 0.1, elapsedTime * 0.12, 0)
   })
+
+  // animate camera
+  camera.position.setY((-scrollY / sizes.height) * objectsDistance)
 
   // Render
   renderer.render(scene, camera)

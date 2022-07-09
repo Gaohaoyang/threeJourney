@@ -323,6 +323,56 @@ const tick = () => {
 
 # 相机与滚动
 
-接下来我们要添加随着页面滚动相机也进行角度变化的效果
+接下来我们要添加随着页面滚动相机也进行位置变化的效果
 
 首先我们要监听页面的滚动
+
+```js
+/**
+ * Scroll
+ */
+let { scrollY } = window
+window.addEventListener('scroll', () => {
+  scrollY = window.scrollY
+  console.log(scrollY)
+})
+```
+
+可以看到 log 里已经有了滚动距离
+
+接下来在 requestAnimationFrame 中控制对相机的移动，这里需要注意的是相机的位置移动比例
+
+```js
+// Animations
+const tick = () => {
+  // ...
+
+  // animate camera
+  camera.position.setY((-scrollY / sizes.height) * objectsDistance)
+
+  // ...
+}
+```
+
+HTML 页面滚动距离与相机需要位移的距离相反，因此要添加负号。`-scrollY / sizes.height` 表示设置相机移动的每个区域为了 1 个单位。但几何体实际位置是 `objectsDistance` 单位距离，所以最终为 `-scrollY / sizes.height) * objectsDistance`。
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01yS3kMU1MJenryWWjj_!!6000000001414-1-tps-1129-629.gif)
+
+## 几何体水平位置修改
+
+我们将几何体水平位置稍做移动，以适配文字，并将之前对 y 值设置的代码也可以放在这个 for 循环里
+
+```js
+sectionMeshes.forEach((item, index) => {
+  item.position.setY(-objectsDistance * index)
+  item.position.setX(index % 2 === 0 ? 2 : -2)
+})
+```
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN018Wv7QZ1BsVA3wqxXj_!!6000000000001-1-tps-1129-629.gif)
+
+## 视差效果
+
+我们再增加一点视差效果，当鼠标移动时，几何体的位置稍微进行一点点偏移，更有沉浸感。
