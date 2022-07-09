@@ -34,7 +34,7 @@ camera.position.set(0, 0, 4)
  */
 // Texture
 const textureLoader = new THREE.TextureLoader()
-const gradientTexture = textureLoader.load('../assets/textures/gradients/5.jpg')
+const gradientTexture = textureLoader.load('https://gw.alicdn.com/imgextra/i1/O1CN01Kv3xWT1kImpSDZI8n_!!6000000004661-0-tps-5-1.jpg')
 gradientTexture.magFilter = THREE.NearestFilter
 
 // Material

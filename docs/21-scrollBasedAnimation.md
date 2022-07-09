@@ -225,7 +225,7 @@ gui.addColor(parameters, 'materialColor').onChange(() => {
 ```js
 // Texture
 const textureLoader = new THREE.TextureLoader()
-const gradientTexture = textureLoader.load('../assets/textures/gradients/5.jpg')
+const gradientTexture = textureLoader.load('https://gw.alicdn.com/imgextra/i1/O1CN01Kv3xWT1kImpSDZI8n_!!6000000004661-0-tps-5-1.jpg')
 gradientTexture.magFilter = THREE.NearestFilter
 
 // Material
@@ -234,6 +234,10 @@ const material = new THREE.MeshToonMaterial({
   gradientMap: gradientTexture,
 })
 ```
+
+这个 gradientMap 图片为5个像素点灰阶图片。如下图
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01Kv3xWT1kImpSDZI8n_!!6000000004661-0-tps-5-1.jpg)
 
 这里注意 `magFilter` 的使用，如果遗忘了复习 [Three.js 之 6 Texture 纹理](https://gaohaoyang.github.io/2022/05/23/three-textures/#minification-filter-%E7%BC%A9%E5%B0%8F%E6%BB%A4%E9%95%9C)。
 
@@ -318,3 +322,7 @@ const tick = () => {
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01AqBktg1wRHZ7wF1XP_!!6000000006304-1-tps-1129-629.gif)
 
 # 相机与滚动
+
+接下来我们要添加随着页面滚动相机也进行角度变化的效果
+
+首先我们要监听页面的滚动
