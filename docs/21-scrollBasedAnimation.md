@@ -576,3 +576,11 @@ window.addEventListener('scroll', () => {
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN0144tW8Q1RXSp62fmG0_!!6000000002121-1-tps-1129-629.gif)
 
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/21-scrollBasedAnimation/)
+
+可扫码访问
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01A0ngT81fL0ffWOPKk_!!6000000003989-2-tps-200-200.png)
+
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/21-scrollBasedAnimation)
