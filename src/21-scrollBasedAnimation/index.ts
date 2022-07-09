@@ -24,7 +24,9 @@ const sizes = {
   height: window.innerHeight,
 }
 
-const objectsDistance = 5
+const isVertical = sizes.width < sizes.height
+
+let objectsDistance = 5
 
 // Group
 const cameraGroup = new THREE.Group()
@@ -32,6 +34,10 @@ scene.add(cameraGroup)
 // Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.set(0, 0, 4)
+if (isVertical) {
+  camera.position.setZ(8)
+  objectsDistance = 11
+}
 cameraGroup.add(camera)
 
 /**
@@ -64,8 +70,12 @@ const sectionMeshes: THREE.Mesh<THREE.BufferGeometry, THREE.MeshToonMaterial>[] 
 ]
 
 sectionMeshes.forEach((item, index) => {
-  item.position.setY(-objectsDistance * index)
-  item.position.setX(index % 2 === 0 ? 2 : -2)
+  if (isVertical) {
+    item.position.setY(-objectsDistance * index)
+  } else {
+    item.position.setX(index % 2 === 0 ? 2 : -2)
+    item.position.setY(-objectsDistance * index)
+  }
 })
 
 /**

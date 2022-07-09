@@ -15,13 +15,45 @@ body {
   padding-left: 10%;
   padding-right: 10%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
   height: 100vh;
-  font-size: 7vmin;
   position: relative;
+}
+
+h1 {
+  font-size: 7vmin;
+  color: #fff;
+}
+h2{
+  font-size: 4vmin;
   color: #fff;
 }
 
+
 section:nth-child(odd) {
-  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+/* Portrait */
+@media screen and (orientation:portrait) {
+  section {
+    align-items: center;
+    justify-content: flex-start;
+  }
+  section:nth-child(odd) {
+    align-items: center;
+  }
+  h1 {
+    font-size: 7vmin;
+    color: #fff;
+    margin-bottom: 40vh;
+  }
+
+  h2{
+    font-size: 4vmin;
+    color: #fff;
+    margin-bottom: 6vh;
+  }
 }
