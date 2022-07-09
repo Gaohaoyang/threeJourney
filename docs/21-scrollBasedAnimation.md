@@ -376,3 +376,50 @@ sectionMeshes.forEach((item, index) => {
 ## 视差效果
 
 我们再增加一点视差效果，当鼠标移动时，几何体的位置稍微进行一点点偏移，更有沉浸感。
+
+我们沿用上一节学到的监听鼠标移动
+
+```js
+/**
+ * Mouse
+ */
+const mouse: {
+  x: number | null
+  y: number | null
+} = { x: null, y: null }
+
+window.addEventListener('mousemove', (event) => {
+  mouse.x = (event.clientX / sizes.width) * 2 - 1
+  mouse.y = -(event.clientY / sizes.height) * 2 + 1
+})
+```
+
+我们不能直接在 requestAnimationFrame 再修改 camera 的位置，因为之前已经设置过了滚动时相机的位移，我们不能覆盖这个位移，所以可以用一个取巧的方式，给相机增加一个 group，移动 group 达到再增加一个位移的效果
+
+```js
+// Group
+const cameraGroup = new THREE.Group()
+scene.add(cameraGroup)
+// Camera
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+camera.position.set(0, 0, 4)
+cameraGroup.add(camera)
+```
+
+```js
+// Animations
+const tick = () => {
+  // ...
+
+  if (mouse.x && mouse.y) {
+    cameraGroup.position.setX(mouse.x)
+    cameraGroup.position.setY(mouse.y)
+  }
+
+  // ...
+}
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01WJTCOu1DGbcigCPOS_!!6000000000189-1-tps-1129-629.gif)

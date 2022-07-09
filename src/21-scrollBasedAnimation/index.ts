@@ -25,9 +25,13 @@ const sizes = {
 
 const objectsDistance = 5
 
+// Group
+const cameraGroup = new THREE.Group()
+scene.add(cameraGroup)
 // Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.set(0, 0, 4)
+cameraGroup.add(camera)
 
 /**
  * Objects
@@ -93,6 +97,19 @@ window.addEventListener('scroll', () => {
   scrollY = window.scrollY
 })
 
+/**
+ * Mouse
+ */
+const mouse: {
+  x: number | null
+  y: number | null
+} = { x: null, y: null }
+
+window.addEventListener('mousemove', (event) => {
+  mouse.x = (event.clientX / sizes.width) * 2 - 1
+  mouse.y = -(event.clientY / sizes.height) * 2 + 1
+})
+
 // Animations
 const clock = new THREE.Clock()
 const tick = () => {
@@ -106,6 +123,11 @@ const tick = () => {
 
   // animate camera
   camera.position.setY((-scrollY / sizes.height) * objectsDistance)
+
+  if (mouse.x && mouse.y) {
+    cameraGroup.position.setX(mouse.x)
+    cameraGroup.position.setY(mouse.y)
+  }
 
   // Render
   renderer.render(scene, camera)
