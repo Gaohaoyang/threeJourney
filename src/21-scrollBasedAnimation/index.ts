@@ -39,7 +39,7 @@ cameraGroup.add(camera)
 // Texture
 const textureLoader = new THREE.TextureLoader()
 const gradientTexture = textureLoader.load(
-  'https://gw.alicdn.com/imgextra/i1/O1CN01Kv3xWT1kImpSDZI8n_!!6000000004661-0-tps-5-1.jpg'
+  'https://gw.alicdn.com/imgextra/i1/O1CN01Kv3xWT1kImpSDZI8n_!!6000000004661-0-tps-5-1.jpg',
 )
 gradientTexture.magFilter = THREE.NearestFilter
 
@@ -76,6 +76,30 @@ scene.add(directionalLight)
 
 const ambientLight = new THREE.AmbientLight('#ffffff', 0.28)
 scene.add(ambientLight)
+
+/**
+ * Particles
+ */
+// Geometry
+const particlesCount = 200
+const positions = new Float32Array(particlesCount * 3)
+for (let i = 0; i < particlesCount; i += 1) {
+  positions[i * 3 + 0] = (Math.random() - 0.5) * 10
+  positions[i * 3 + 1] =
+    objectsDistance * 0.5 - Math.random() * objectsDistance * sectionMeshes.length
+  positions[i * 3 + 2] = (Math.random() - 0.5) * 10
+}
+const particlesGeometry = new THREE.BufferGeometry()
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+// Material
+const particlesMaterial = new THREE.PointsMaterial({
+  color: parameters.materialColor,
+  sizeAttenuation: true,
+  size: 0.03,
+})
+// Points
+const particles = new THREE.Points(particlesGeometry, particlesMaterial)
+scene.add(particles)
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
@@ -150,4 +174,5 @@ tick()
 const gui = new dat.GUI()
 gui.addColor(parameters, 'materialColor').onChange(() => {
   material.color.set(parameters.materialColor)
+  particlesMaterial.color.set(parameters.materialColor)
 })

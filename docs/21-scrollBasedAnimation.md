@@ -470,3 +470,55 @@ const tick = () => {
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01HfsTp01UdpAUYkk3T_!!6000000002541-1-tps-1129-629.gif)
+
+# 粒子效果
+
+粒子效果可以带来更好的沉浸体验，所以我们增加一些粒子特效，感觉到这是一个有深度的空间。
+
+运用之前所学的知识，先将粒子效果创建出来，暂时不管位置问题
+
+```js
+/**
+ * Particles
+ */
+// Geometry
+const particlesCount = 200
+const positions = new Float32Array(particlesCount * 3)
+for (let i = 0; i < particlesCount; i += 1) {
+  positions[i * 3 + 0] = Math.random()
+  positions[i * 3 + 1] = Math.random()
+  positions[i * 3 + 2] = Math.random()
+}
+const particlesGeometry = new THREE.BufferGeometry()
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+// Material
+const particlesMaterial = new THREE.PointsMaterial({
+  color: parameters.materialColor,
+  sizeAttenuation: true,
+  size: 0.03
+})
+// Points
+const particles = new THREE.Points(particlesGeometry, particlesMaterial)
+scene.add(particles)
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01gm7ZhR1V0GZwWcHr6_!!6000000002590-2-tps-1134-646.png)
+
+我们需要将粒子在空间内散布，所以可以将 x 和 z 轴设置的更加扩散一些。y 轴方向我们要让粒子扩散到每个 section
+
+```js
+for (let i = 0; i < particlesCount; i += 1) {
+  positions[i * 3 + 0] = (Math.random() - 0.5) * 10
+  positions[i * 3 + 1] =
+    objectsDistance * 0.5 - Math.random() * objectsDistance * sectionMeshes.length
+  positions[i * 3 + 2] = (Math.random() - 0.5) * 10
+}
+```
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01VWzikP1jOuVe3RBUw_!!6000000004539-1-tps-1129-629.gif)
+
+# 滚动到区域时触发的动画
+
+最后我们在做一些滚动到每个区域时触发的动画。我们在滚动到这个区域时，增加一些旋转动画
