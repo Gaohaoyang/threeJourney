@@ -59766,7 +59766,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 var parameters = {
-  materialColor: '#DCEDC8'
+  materialColor: '#80CBC4'
 }; // Canvas
 
 var canvas = document.querySelector('#mainCanvas'); // Scene
