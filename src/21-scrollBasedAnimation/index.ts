@@ -191,12 +191,17 @@ const listenGyro = () => {
 }
 
 if (isPortrait) {
+  console.log('here');
+
   if (
     typeof DeviceOrientationEvent !== 'undefined'
     // @ts-ignore
     && typeof DeviceOrientationEvent.requestPermission === 'function'
   ) {
+    console.log('here2');
+    console.log(document.querySelector('#permission'));
     document.querySelector('#permission')?.addEventListener('click', () => {
+      // alert('click')
       // @ts-ignore
       DeviceOrientationEvent.requestPermission()
         .then((permissionState: string) => {
