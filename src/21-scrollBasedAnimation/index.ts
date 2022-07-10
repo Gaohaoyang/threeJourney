@@ -9,7 +9,7 @@ import { listenResize, dbClkfullScreen } from '../common/utils'
  * Debug
  */
 const parameters = {
-  materialColor: '#DCEDC8',
+  materialColor: '#80CBC4',
 }
 
 // Canvas
