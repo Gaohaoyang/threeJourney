@@ -59978,7 +59978,6 @@ var listenGyro = function listenGyro() {
 
       var y = (Math.min(beta || 0, 89) - 45) / 30; //  -90 :: 90
 
-      console.log(x, y);
       mouse.x = x;
       mouse.y = -y;
     }
