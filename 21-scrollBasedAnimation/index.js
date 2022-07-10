@@ -59978,11 +59978,16 @@ var listenGyro = function listenGyro() {
 };
 
 if (isPortrait) {
+  console.log('here');
+
   if (typeof DeviceOrientationEvent !== 'undefined' // @ts-ignore
   && typeof DeviceOrientationEvent.requestPermission === 'function') {
     var _document$querySelect;
 
+    console.log('here2');
+    console.log(document.querySelector('#permission'));
     (_document$querySelect = document.querySelector('#permission')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.addEventListener('click', function () {
+      // alert('click')
       // @ts-ignore
       DeviceOrientationEvent.requestPermission().then(function (permissionState) {
         console.log('permissionState', permissionState);
