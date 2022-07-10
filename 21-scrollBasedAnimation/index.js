@@ -59890,12 +59890,37 @@ window.addEventListener('scroll', function () {
  */
 
 var mouse = {
-  x: null,
-  y: null
-};
-window.addEventListener('mousemove', function (event) {
-  mouse.x = event.clientX / sizes.width * 2 - 1;
-  mouse.y = -(event.clientY / sizes.height) * 2 + 1;
+  x: 0,
+  y: 0
+}; // -1 :: 1
+
+if (!isVertical) {
+  window.addEventListener('mousemove', function (event) {
+    mouse.x = event.clientX / sizes.width * 2 - 1;
+    mouse.y = -(event.clientY / sizes.height) * 2 + 1;
+  });
+}
+/**
+ * device orientation
+ */
+
+
+window.addEventListener('deviceorientation', function (event) {
+  // const { alpha } = event
+  var beta = event.beta;
+  var gamma = event.gamma; // console.log(alpha, beta, gamma)
+
+  if (beta !== null && gamma !== null) {
+    // this.orientationStatus = 1
+    // this.rotate(beta, gamma)
+    var x = (beta || 0) / 90; //  -90 :: 90
+
+    var y = (gamma || 0) / 180; // -180 :: 180
+
+    console.log(x, y);
+    mouse.x = x;
+    mouse.y = y;
+  }
 }); // Animations
 
 var clock = new three__WEBPACK_IMPORTED_MODULE_4__.Clock();
