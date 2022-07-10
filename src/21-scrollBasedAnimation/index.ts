@@ -9,7 +9,7 @@ import { listenResize, dbClkfullScreen } from '../common/utils'
  * Debug
  */
 const parameters = {
-  materialColor: '#ffffff',
+  materialColor: '#DCEDC8',
 }
 
 // Canvas
@@ -149,32 +149,32 @@ window.addEventListener('scroll', () => {
  */
 const mouse = { x: 0, y: 0 } // -1 :: 1
 
-if (!isVertical) {
+if (isVertical) {
+  /**
+   * device orientation
+   */
+  window.addEventListener('deviceorientation', (event) => {
+    // const { alpha } = event
+    const { beta } = event
+    const { gamma } = event
+    // console.log(alpha, beta, gamma)
+    if (beta !== null && gamma !== null) {
+      // this.orientationStatus = 1
+      // this.rotate(beta, gamma)
+      const x = (gamma || 0) / 20 // -180 :: 180
+      const y = ((beta || 0) + 60) / 60 //  -90 :: 90
+      console.log(x, y)
+
+      mouse.x = x
+      mouse.y = -y
+    }
+  })
+} else {
   window.addEventListener('mousemove', (event) => {
     mouse.x = (event.clientX / sizes.width) * 2 - 1
     mouse.y = -(event.clientY / sizes.height) * 2 + 1
   })
 }
-
-/**
- * device orientation
- */
-window.addEventListener('deviceorientation', (event) => {
-  // const { alpha } = event
-  const { beta } = event
-  const { gamma } = event
-  // console.log(alpha, beta, gamma)
-  if (beta !== null && gamma !== null) {
-    // this.orientationStatus = 1
-    // this.rotate(beta, gamma)
-    const x = (gamma || 0) / 20 // -180 :: 180
-    const y = ((beta || 0) + 45) / 40 //  -90 :: 90
-    console.log(x, y)
-
-    mouse.x = x
-    mouse.y = y
-  }
-})
 
 // Animations
 const clock = new THREE.Clock()
