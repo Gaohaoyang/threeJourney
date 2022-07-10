@@ -59766,7 +59766,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 var parameters = {
-  materialColor: '#ffffff'
+  materialColor: '#DCEDC8'
 }; // Canvas
 
 var canvas = document.querySelector('#mainCanvas'); // Scene
@@ -59894,34 +59894,34 @@ var mouse = {
   y: 0
 }; // -1 :: 1
 
-if (!isVertical) {
+if (isVertical) {
+  /**
+   * device orientation
+   */
+  window.addEventListener('deviceorientation', function (event) {
+    // const { alpha } = event
+    var beta = event.beta;
+    var gamma = event.gamma; // console.log(alpha, beta, gamma)
+
+    if (beta !== null && gamma !== null) {
+      // this.orientationStatus = 1
+      // this.rotate(beta, gamma)
+      var x = (gamma || 0) / 20; // -180 :: 180
+
+      var y = ((beta || 0) + 60) / 60; //  -90 :: 90
+
+      console.log(x, y);
+      mouse.x = x;
+      mouse.y = -y;
+    }
+  });
+} else {
   window.addEventListener('mousemove', function (event) {
     mouse.x = event.clientX / sizes.width * 2 - 1;
     mouse.y = -(event.clientY / sizes.height) * 2 + 1;
   });
-}
-/**
- * device orientation
- */
+} // Animations
 
-
-window.addEventListener('deviceorientation', function (event) {
-  // const { alpha } = event
-  var beta = event.beta;
-  var gamma = event.gamma; // console.log(alpha, beta, gamma)
-
-  if (beta !== null && gamma !== null) {
-    // this.orientationStatus = 1
-    // this.rotate(beta, gamma)
-    var x = (gamma || 0) / 20; // -180 :: 180
-
-    var y = ((beta || 0) + 45) / 40; //  -90 :: 90
-
-    console.log(x, y);
-    mouse.x = x;
-    mouse.y = y;
-  }
-}); // Animations
 
 var clock = new three__WEBPACK_IMPORTED_MODULE_4__.Clock();
 var previousTime = 0;
