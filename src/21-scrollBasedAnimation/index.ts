@@ -149,6 +149,18 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 listenResize(sizes, camera, renderer)
 dbClkfullScreen(document.documentElement)
 
+const meshSpinAnimation = (currentSection: number) => {
+  gsap.to(sectionMeshes[currentSection].rotation, {
+    duration: 1.5,
+    ease: 'power2.inOut',
+    x: '+=6',
+    y: '+=3',
+  })
+}
+setTimeout(() => {
+  meshSpinAnimation(0)
+}, 50)
+
 /**
  * Scroll
  */
@@ -159,13 +171,8 @@ window.addEventListener('scroll', () => {
   const newSection = Math.round(scrollY / sizes.height)
   if (newSection !== currentSection) {
     currentSection = newSection
-    // console.log('changed', currentSection)
-    gsap.to(sectionMeshes[currentSection].rotation, {
-      duration: 1.5,
-      ease: 'power2.inOut',
-      x: '+=6',
-      y: '+=3',
-    })
+    console.log('changed', currentSection)
+    meshSpinAnimation(currentSection)
   }
 })
 
@@ -191,31 +198,39 @@ const listenGyro = () => {
 }
 
 if (isPortrait) {
-  console.log('here');
+  console.log('here')
 
   if (
     typeof DeviceOrientationEvent !== 'undefined'
     // @ts-ignore
     && typeof DeviceOrientationEvent.requestPermission === 'function'
   ) {
-    console.log('here2');
-    console.log(document.querySelector('#permission'));
-    document.querySelector('#permission')?.addEventListener('click', () => {
-      // alert('click')
+    const permissionDialog = document.querySelector('#permissionDialog') as HTMLDivElement
+    permissionDialog.style.visibility = 'visible'
+
+    const allowBtn = document.querySelector('#allow') as HTMLButtonElement
+    const cancelBtn = document.querySelector('#cancel') as HTMLButtonElement
+
+    allowBtn.addEventListener('click', () => {
       // @ts-ignore
       DeviceOrientationEvent.requestPermission()
         .then((permissionState: string) => {
           console.log('permissionState', permissionState)
           if (permissionState === 'granted') {
-            // handle data
             listenGyro()
           } else {
             // handle denied
           }
+          permissionDialog.style.visibility = 'hidden'
         })
         .catch((err: any) => {
           console.log('permissionState catch', err)
+          permissionDialog.style.visibility = 'hidden'
         })
+    })
+
+    cancelBtn.addEventListener('click', () => {
+      permissionDialog.style.visibility = 'hidden'
     })
   } else {
     listenGyro()

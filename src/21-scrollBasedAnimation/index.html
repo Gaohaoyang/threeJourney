@@ -9,8 +9,16 @@
 
   <body style="background-color: #263238;color: #fff; font-family: sans-serif;">
     <canvas id="mainCanvas" class="webgl"></canvas>
-    <button id="permission" class="permission">request motion permission</button>
     <div id="loading" style="width: 100vw;height: 100vh;display:flex;justify-content:center;align-items:center; position: fixed; top: 0;left: 0;background-color: #263238;transition: opacity 280ms ease;">loading...</div>
+    <div class="permissionDialog" id="permissionDialog" style="visibility: hidden">
+      <div class="title">
+        Request permission of motion for better animation effect
+      </div>
+      <div class="buttonArea">
+        <button id="cancel">Cancel</button>
+        <button id="allow">Allow</button>
+      </div>
+    </div>
     <script src="<%= path %>" charset="utf-8"></script>
 
     <section class="section">
