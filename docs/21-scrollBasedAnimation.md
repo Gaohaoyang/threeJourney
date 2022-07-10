@@ -584,7 +584,6 @@ window.addEventListener('scroll', () => {
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01A0ngT81fL0ffWOPKk_!!6000000003989-2-tps-200-200.png)
 
-
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/21-scrollBasedAnimation)
 
 # 移动端适配
@@ -717,8 +716,6 @@ if (isPortrait) {
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01Pe4WGk1vWwqkJCKik_!!6000000006181-1-tps-430-621.gif)
 
-
-
 # 增加 loading
 
 我们需要修改 HTML 顺序，需要故意阻塞一下后续的 HTML 渲染，并增加一个占满全屏的 loading 的状态
@@ -786,7 +783,13 @@ const textureLoader = new THREE.TextureLoader(loadingManager)
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01RstdO31yGrn0yICzZ_!!6000000006552-1-tps-1129-629.gif)
 
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/21-scrollBasedAnimation/)
 
+可扫码访问
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01A0ngT81fL0ffWOPKk_!!6000000003989-2-tps-200-200.png)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/21-scrollBasedAnimation)
 
 # 小结
 
