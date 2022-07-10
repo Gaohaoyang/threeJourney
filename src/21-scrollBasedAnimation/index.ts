@@ -2,12 +2,12 @@ import * as THREE from 'three'
 import './style.css'
 import * as dat from 'lil-gui'
 import gsap from 'gsap'
-import VConsole from 'vconsole'
+// import VConsole from 'vconsole'
 import stats from '../common/stats'
 import { listenResize, dbClkfullScreen } from '../common/utils'
 
 // eslint-disable-next-line no-unused-vars
-const vConsole = new VConsole({ theme: 'dark' })
+// const vConsole = new VConsole({ theme: 'dark' })
 
 /**
  * Debug
