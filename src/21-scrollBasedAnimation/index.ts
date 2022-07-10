@@ -162,7 +162,7 @@ if (isVertical) {
       // this.orientationStatus = 1
       // this.rotate(beta, gamma)
       const x = (gamma || 0) / 20 // -180 :: 180
-      const y = ((beta || 0) + 60) / 60 //  -90 :: 90
+      const y = ((beta || 0) + 20) / 30 //  -90 :: 90
       console.log(x, y)
 
       mouse.x = x
