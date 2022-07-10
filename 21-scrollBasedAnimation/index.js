@@ -115,7 +115,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_6_7_1_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_6_7_1_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body {\n  margin: 0;\n  padding: 0;\n  background-color: #263238;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n\n.section {\n  padding-left: 10%;\n  padding-right: 10%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  /* align-items: center; */\n  height: 100vh;\n  position: relative;\n}\n\nh1 {\n  font-size: 7vmin;\n  color: #fff;\n}\nh2{\n  font-size: 4vmin;\n  color: #fff;\n}\n\n\nsection:nth-child(odd) {\n  align-items: flex-end;\n}\n\n/* Portrait */\n@media screen and (orientation:portrait) {\n  section {\n    align-items: center;\n    justify-content: flex-start;\n  }\n  section:nth-child(odd) {\n    align-items: center;\n  }\n  h1 {\n    font-size: 7vmin;\n    color: #fff;\n    margin-bottom: 40vh;\n  }\n\n  h2{\n    font-size: 4vmin;\n    color: #fff;\n    margin-bottom: 6vh;\n  }\n}\n", "",{"version":3,"sources":["webpack://./src/21-scrollBasedAnimation/style.css"],"names":[],"mappings":"AAAA;EACE,SAAS;EACT,UAAU;EACV,yBAAyB;AAC3B;;AAEA;EACE,eAAe;EACf,MAAM;EACN,OAAO;EACP,aAAa;AACf;;AAEA;EACE,iBAAiB;EACjB,kBAAkB;EAClB,aAAa;EACb,sBAAsB;EACtB,uBAAuB;EACvB,yBAAyB;EACzB,aAAa;EACb,kBAAkB;AACpB;;AAEA;EACE,gBAAgB;EAChB,WAAW;AACb;AACA;EACE,gBAAgB;EAChB,WAAW;AACb;;;AAGA;EACE,qBAAqB;AACvB;;AAEA,aAAa;AACb;EACE;IACE,mBAAmB;IACnB,2BAA2B;EAC7B;EACA;IACE,mBAAmB;EACrB;EACA;IACE,gBAAgB;IAChB,WAAW;IACX,mBAAmB;EACrB;;EAEA;IACE,gBAAgB;IAChB,WAAW;IACX,kBAAkB;EACpB;AACF","sourcesContent":["body {\n  margin: 0;\n  padding: 0;\n  background-color: #263238;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n\n.section {\n  padding-left: 10%;\n  padding-right: 10%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  /* align-items: center; */\n  height: 100vh;\n  position: relative;\n}\n\nh1 {\n  font-size: 7vmin;\n  color: #fff;\n}\nh2{\n  font-size: 4vmin;\n  color: #fff;\n}\n\n\nsection:nth-child(odd) {\n  align-items: flex-end;\n}\n\n/* Portrait */\n@media screen and (orientation:portrait) {\n  section {\n    align-items: center;\n    justify-content: flex-start;\n  }\n  section:nth-child(odd) {\n    align-items: center;\n  }\n  h1 {\n    font-size: 7vmin;\n    color: #fff;\n    margin-bottom: 40vh;\n  }\n\n  h2{\n    font-size: 4vmin;\n    color: #fff;\n    margin-bottom: 6vh;\n  }\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "body {\n  margin: 0;\n  padding: 0;\n  background-color: #263238;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n\n.section {\n  padding-left: 10%;\n  padding-right: 10%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  /* align-items: center; */\n  height: 100vh;\n  position: relative;\n}\n\nh1 {\n  font-size: 7vmin;\n  color: #fff;\n}\n\nh2 {\n  font-size: 4vmin;\n  color: #fff;\n}\n\n.permission {\n  display: none;\n}\n\nsection:nth-child(odd) {\n  align-items: flex-end;\n}\n\n/* Portrait */\n@media screen and (orientation:portrait) {\n  section {\n    align-items: center;\n    justify-content: flex-start;\n  }\n\n  section:nth-child(odd) {\n    align-items: center;\n  }\n\n  h1 {\n    font-size: 7vmin;\n    color: #fff;\n    margin-bottom: 40vh;\n  }\n\n  h2 {\n    font-size: 4vmin;\n    color: #fff;\n    margin-bottom: 6vh;\n  }\n\n  .permission {\n    position: fixed;\n    bottom: 0;\n    left: 0;\n    z-index: 100;\n    display: block;\n  }\n}\n", "",{"version":3,"sources":["webpack://./src/21-scrollBasedAnimation/style.css"],"names":[],"mappings":"AAAA;EACE,SAAS;EACT,UAAU;EACV,yBAAyB;AAC3B;;AAEA;EACE,eAAe;EACf,MAAM;EACN,OAAO;EACP,aAAa;AACf;;AAEA;EACE,iBAAiB;EACjB,kBAAkB;EAClB,aAAa;EACb,sBAAsB;EACtB,uBAAuB;EACvB,yBAAyB;EACzB,aAAa;EACb,kBAAkB;AACpB;;AAEA;EACE,gBAAgB;EAChB,WAAW;AACb;;AAEA;EACE,gBAAgB;EAChB,WAAW;AACb;;AAEA;EACE,aAAa;AACf;;AAEA;EACE,qBAAqB;AACvB;;AAEA,aAAa;AACb;EACE;IACE,mBAAmB;IACnB,2BAA2B;EAC7B;;EAEA;IACE,mBAAmB;EACrB;;EAEA;IACE,gBAAgB;IAChB,WAAW;IACX,mBAAmB;EACrB;;EAEA;IACE,gBAAgB;IAChB,WAAW;IACX,kBAAkB;EACpB;;EAEA;IACE,eAAe;IACf,SAAS;IACT,OAAO;IACP,YAAY;IACZ,cAAc;EAChB;AACF","sourcesContent":["body {\n  margin: 0;\n  padding: 0;\n  background-color: #263238;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n\n.section {\n  padding-left: 10%;\n  padding-right: 10%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  /* align-items: center; */\n  height: 100vh;\n  position: relative;\n}\n\nh1 {\n  font-size: 7vmin;\n  color: #fff;\n}\n\nh2 {\n  font-size: 4vmin;\n  color: #fff;\n}\n\n.permission {\n  display: none;\n}\n\nsection:nth-child(odd) {\n  align-items: flex-end;\n}\n\n/* Portrait */\n@media screen and (orientation:portrait) {\n  section {\n    align-items: center;\n    justify-content: flex-start;\n  }\n\n  section:nth-child(odd) {\n    align-items: center;\n  }\n\n  h1 {\n    font-size: 7vmin;\n    color: #fff;\n    margin-bottom: 40vh;\n  }\n\n  h2 {\n    font-size: 4vmin;\n    color: #fff;\n    margin-bottom: 6vh;\n  }\n\n  .permission {\n    position: fixed;\n    bottom: 0;\n    left: 0;\n    z-index: 100;\n    display: block;\n  }\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -59980,17 +59980,21 @@ var listenGyro = function listenGyro() {
 if (isPortrait) {
   if (typeof DeviceOrientationEvent !== 'undefined' // @ts-ignore
   && typeof DeviceOrientationEvent.requestPermission === 'function') {
-    // @ts-ignore
-    DeviceOrientationEvent.requestPermission().then(function (permissionState) {
-      console.log('permissionState', permissionState);
+    var _document$querySelect;
 
-      if (permissionState === 'granted') {
-        // handle data
-        listenGyro();
-      } else {// handle denied
-      }
-    })["catch"](function (err) {
-      console.log('permissionState catch', err);
+    (_document$querySelect = document.querySelector('#permission')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.addEventListener('click', function () {
+      // @ts-ignore
+      DeviceOrientationEvent.requestPermission().then(function (permissionState) {
+        console.log('permissionState', permissionState);
+
+        if (permissionState === 'granted') {
+          // handle data
+          listenGyro();
+        } else {// handle denied
+        }
+      })["catch"](function (err) {
+        console.log('permissionState catch', err);
+      });
     });
   } else {
     listenGyro();
