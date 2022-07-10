@@ -47,7 +47,7 @@ section:nth-child(even) {
     justify-content: flex-start;
   }
 
-  section:nth-child(odd) {
+  section:nth-child(even) {
     align-items: center;
   }
 
