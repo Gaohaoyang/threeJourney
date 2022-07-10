@@ -115,7 +115,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_6_7_1_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_6_7_1_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body {\n  margin: 0;\n  padding: 0;\n  background-color: #263238;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n\n.section {\n  padding-left: 10%;\n  padding-right: 10%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  /* align-items: center; */\n  height: 100vh;\n  position: relative;\n}\n\nh1 {\n  font-size: 7vmin;\n  color: #fff;\n}\n\nh2 {\n  font-size: 4vmin;\n  color: #fff;\n}\n\n.permission {\n  display: none;\n}\n\nsection:nth-child(odd) {\n  align-items: flex-end;\n}\n\n/* Portrait */\n@media screen and (orientation:portrait) {\n  section {\n    align-items: center;\n    justify-content: flex-start;\n  }\n\n  section:nth-child(odd) {\n    align-items: center;\n  }\n\n  h1 {\n    font-size: 7vmin;\n    color: #fff;\n    margin-bottom: 40vh;\n  }\n\n  h2 {\n    font-size: 4vmin;\n    color: #fff;\n    margin-bottom: 6vh;\n  }\n\n  .permission {\n    position: fixed;\n    bottom: 0;\n    left: 0;\n    z-index: 100;\n    display: block;\n  }\n}\n", "",{"version":3,"sources":["webpack://./src/21-scrollBasedAnimation/style.css"],"names":[],"mappings":"AAAA;EACE,SAAS;EACT,UAAU;EACV,yBAAyB;AAC3B;;AAEA;EACE,eAAe;EACf,MAAM;EACN,OAAO;EACP,aAAa;AACf;;AAEA;EACE,iBAAiB;EACjB,kBAAkB;EAClB,aAAa;EACb,sBAAsB;EACtB,uBAAuB;EACvB,yBAAyB;EACzB,aAAa;EACb,kBAAkB;AACpB;;AAEA;EACE,gBAAgB;EAChB,WAAW;AACb;;AAEA;EACE,gBAAgB;EAChB,WAAW;AACb;;AAEA;EACE,aAAa;AACf;;AAEA;EACE,qBAAqB;AACvB;;AAEA,aAAa;AACb;EACE;IACE,mBAAmB;IACnB,2BAA2B;EAC7B;;EAEA;IACE,mBAAmB;EACrB;;EAEA;IACE,gBAAgB;IAChB,WAAW;IACX,mBAAmB;EACrB;;EAEA;IACE,gBAAgB;IAChB,WAAW;IACX,kBAAkB;EACpB;;EAEA;IACE,eAAe;IACf,SAAS;IACT,OAAO;IACP,YAAY;IACZ,cAAc;EAChB;AACF","sourcesContent":["body {\n  margin: 0;\n  padding: 0;\n  background-color: #263238;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n\n.section {\n  padding-left: 10%;\n  padding-right: 10%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  /* align-items: center; */\n  height: 100vh;\n  position: relative;\n}\n\nh1 {\n  font-size: 7vmin;\n  color: #fff;\n}\n\nh2 {\n  font-size: 4vmin;\n  color: #fff;\n}\n\n.permission {\n  display: none;\n}\n\nsection:nth-child(odd) {\n  align-items: flex-end;\n}\n\n/* Portrait */\n@media screen and (orientation:portrait) {\n  section {\n    align-items: center;\n    justify-content: flex-start;\n  }\n\n  section:nth-child(odd) {\n    align-items: center;\n  }\n\n  h1 {\n    font-size: 7vmin;\n    color: #fff;\n    margin-bottom: 40vh;\n  }\n\n  h2 {\n    font-size: 4vmin;\n    color: #fff;\n    margin-bottom: 6vh;\n  }\n\n  .permission {\n    position: fixed;\n    bottom: 0;\n    left: 0;\n    z-index: 100;\n    display: block;\n  }\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "body {\n  margin: 0;\n  padding: 0;\n  background-color: #263238;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n\n.section {\n  padding-left: 10%;\n  padding-right: 10%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  /* align-items: center; */\n  height: 100vh;\n  position: relative;\n}\n\nh1 {\n  font-size: 7vmin;\n  color: #fff;\n}\n\nh2 {\n  font-size: 4vmin;\n  color: #fff;\n}\n\n.permission {\n  display: none;\n}\n\nsection:nth-child(odd) {\n  align-items: flex-end;\n}\n\n/* Portrait */\n@media screen and (orientation:portrait) {\n  section {\n    align-items: center;\n    justify-content: flex-start;\n  }\n\n  section:nth-child(odd) {\n    align-items: center;\n  }\n\n  h1 {\n    font-size: 7vmin;\n    color: #fff;\n    margin-bottom: 40vh;\n  }\n\n  h2 {\n    font-size: 4vmin;\n    color: #fff;\n    margin-bottom: 6vh;\n  }\n\n  .permission {\n    position: fixed;\n    bottom: 0;\n    left: 0;\n    z-index: 100;\n    display: block;\n  }\n\n  .permissionDialog {\n    position: fixed;\n    z-index: 999;\n    left: 50%;\n    top: 50%;\n    margin-left: -100px;\n    margin-top: -75px;\n    width: 200px;\n    height: 150px;\n    background-color: rgba(255, 255, 255, 0.7);\n    backdrop-filter: blur(4px);\n    color: #111;\n    border-radius: 16px;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.5);\n  }\n\n  .permissionDialog>.title {\n    width: 90%;\n    text-align: center;\n    margin-top: 20px;\n  }\n\n  .permissionDialog>.buttonArea {\n    margin-top: 16px;\n    width: 90%;\n    display: flex;\n    justify-content: space-around;\n  }\n\n  .buttonArea>button {\n    border: none;\n    outline: none;\n    box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.3);\n    background-color: #4375cc;\n    border-radius: 12px;\n    display: inline-block;\n    cursor: pointer;\n    color: #ffffff;\n    font-family: Arial;\n    font-size: 14px;\n    padding: 8px 18px;\n    text-decoration: none;\n    text-shadow: 1px 0px 3px #283966;\n\n    -webkit-tap-highlight-color: transparent;\n  }\n\n  .buttonArea>button:active {\n    position: relative;\n    top: 1px;\n  }\n\n  #cancel {\n    background-color: #cdcdcd;\n    text-shadow: 1px 0px 3px rgba(0, 0, 0, 0.4);\n    box-shadow: 0px 0px 10px -4px rgba(0, 0, 0, 0.5);\n  }\n}\n", "",{"version":3,"sources":["webpack://./src/21-scrollBasedAnimation/style.css"],"names":[],"mappings":"AAAA;EACE,SAAS;EACT,UAAU;EACV,yBAAyB;AAC3B;;AAEA;EACE,eAAe;EACf,MAAM;EACN,OAAO;EACP,aAAa;AACf;;AAEA;EACE,iBAAiB;EACjB,kBAAkB;EAClB,aAAa;EACb,sBAAsB;EACtB,uBAAuB;EACvB,yBAAyB;EACzB,aAAa;EACb,kBAAkB;AACpB;;AAEA;EACE,gBAAgB;EAChB,WAAW;AACb;;AAEA;EACE,gBAAgB;EAChB,WAAW;AACb;;AAEA;EACE,aAAa;AACf;;AAEA;EACE,qBAAqB;AACvB;;AAEA,aAAa;AACb;EACE;IACE,mBAAmB;IACnB,2BAA2B;EAC7B;;EAEA;IACE,mBAAmB;EACrB;;EAEA;IACE,gBAAgB;IAChB,WAAW;IACX,mBAAmB;EACrB;;EAEA;IACE,gBAAgB;IAChB,WAAW;IACX,kBAAkB;EACpB;;EAEA;IACE,eAAe;IACf,SAAS;IACT,OAAO;IACP,YAAY;IACZ,cAAc;EAChB;;EAEA;IACE,eAAe;IACf,YAAY;IACZ,SAAS;IACT,QAAQ;IACR,mBAAmB;IACnB,iBAAiB;IACjB,YAAY;IACZ,aAAa;IACb,0CAA0C;IAC1C,0BAA0B;IAC1B,WAAW;IACX,mBAAmB;IACnB,aAAa;IACb,sBAAsB;IACtB,mBAAmB;IACnB,2CAA2C;EAC7C;;EAEA;IACE,UAAU;IACV,kBAAkB;IAClB,gBAAgB;EAClB;;EAEA;IACE,gBAAgB;IAChB,UAAU;IACV,aAAa;IACb,6BAA6B;EAC/B;;EAEA;IACE,YAAY;IACZ,aAAa;IACb,+CAA+C;IAC/C,yBAAyB;IACzB,mBAAmB;IACnB,qBAAqB;IACrB,eAAe;IACf,cAAc;IACd,kBAAkB;IAClB,eAAe;IACf,iBAAiB;IACjB,qBAAqB;IACrB,gCAAgC;;IAEhC,wCAAwC;EAC1C;;EAEA;IACE,kBAAkB;IAClB,QAAQ;EACV;;EAEA;IACE,yBAAyB;IACzB,2CAA2C;IAC3C,gDAAgD;EAClD;AACF","sourcesContent":["body {\n  margin: 0;\n  padding: 0;\n  background-color: #263238;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n\n.section {\n  padding-left: 10%;\n  padding-right: 10%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  /* align-items: center; */\n  height: 100vh;\n  position: relative;\n}\n\nh1 {\n  font-size: 7vmin;\n  color: #fff;\n}\n\nh2 {\n  font-size: 4vmin;\n  color: #fff;\n}\n\n.permission {\n  display: none;\n}\n\nsection:nth-child(odd) {\n  align-items: flex-end;\n}\n\n/* Portrait */\n@media screen and (orientation:portrait) {\n  section {\n    align-items: center;\n    justify-content: flex-start;\n  }\n\n  section:nth-child(odd) {\n    align-items: center;\n  }\n\n  h1 {\n    font-size: 7vmin;\n    color: #fff;\n    margin-bottom: 40vh;\n  }\n\n  h2 {\n    font-size: 4vmin;\n    color: #fff;\n    margin-bottom: 6vh;\n  }\n\n  .permission {\n    position: fixed;\n    bottom: 0;\n    left: 0;\n    z-index: 100;\n    display: block;\n  }\n\n  .permissionDialog {\n    position: fixed;\n    z-index: 999;\n    left: 50%;\n    top: 50%;\n    margin-left: -100px;\n    margin-top: -75px;\n    width: 200px;\n    height: 150px;\n    background-color: rgba(255, 255, 255, 0.7);\n    backdrop-filter: blur(4px);\n    color: #111;\n    border-radius: 16px;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.5);\n  }\n\n  .permissionDialog>.title {\n    width: 90%;\n    text-align: center;\n    margin-top: 20px;\n  }\n\n  .permissionDialog>.buttonArea {\n    margin-top: 16px;\n    width: 90%;\n    display: flex;\n    justify-content: space-around;\n  }\n\n  .buttonArea>button {\n    border: none;\n    outline: none;\n    box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.3);\n    background-color: #4375cc;\n    border-radius: 12px;\n    display: inline-block;\n    cursor: pointer;\n    color: #ffffff;\n    font-family: Arial;\n    font-size: 14px;\n    padding: 8px 18px;\n    text-decoration: none;\n    text-shadow: 1px 0px 3px #283966;\n\n    -webkit-tap-highlight-color: transparent;\n  }\n\n  .buttonArea>button:active {\n    position: relative;\n    top: 1px;\n  }\n\n  #cancel {\n    background-color: #cdcdcd;\n    text-shadow: 1px 0px 3px rgba(0, 0, 0, 0.4);\n    box-shadow: 0px 0px 10px -4px rgba(0, 0, 0, 0.5);\n  }\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -59925,6 +59925,19 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_3__.listenResize)(sizes, camera, renderer);
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_3__.dbClkfullScreen)(document.documentElement);
+
+var meshSpinAnimation = function meshSpinAnimation(currentSection) {
+  gsap__WEBPACK_IMPORTED_MODULE_6__["default"].to(sectionMeshes[currentSection].rotation, {
+    duration: 1.5,
+    ease: 'power2.inOut',
+    x: '+=6',
+    y: '+=3'
+  });
+};
+
+setTimeout(function () {
+  meshSpinAnimation(0);
+}, 50);
 /**
  * Scroll
  */
@@ -59937,14 +59950,9 @@ window.addEventListener('scroll', function () {
   var newSection = Math.round(scrollY / sizes.height);
 
   if (newSection !== currentSection) {
-    currentSection = newSection; // console.log('changed', currentSection)
-
-    gsap__WEBPACK_IMPORTED_MODULE_6__["default"].to(sectionMeshes[currentSection].rotation, {
-      duration: 1.5,
-      ease: 'power2.inOut',
-      x: '+=6',
-      y: '+=3'
-    });
+    currentSection = newSection;
+    console.log('changed', currentSection);
+    meshSpinAnimation(currentSection);
   }
 });
 /**
@@ -59982,24 +59990,28 @@ if (isPortrait) {
 
   if (typeof DeviceOrientationEvent !== 'undefined' // @ts-ignore
   && typeof DeviceOrientationEvent.requestPermission === 'function') {
-    var _document$querySelect;
-
-    console.log('here2');
-    console.log(document.querySelector('#permission'));
-    (_document$querySelect = document.querySelector('#permission')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.addEventListener('click', function () {
-      // alert('click')
+    var permissionDialog = document.querySelector('#permissionDialog');
+    permissionDialog.style.visibility = 'visible';
+    var allowBtn = document.querySelector('#allow');
+    var cancelBtn = document.querySelector('#cancel');
+    allowBtn.addEventListener('click', function () {
       // @ts-ignore
       DeviceOrientationEvent.requestPermission().then(function (permissionState) {
         console.log('permissionState', permissionState);
 
         if (permissionState === 'granted') {
-          // handle data
           listenGyro();
         } else {// handle denied
         }
+
+        permissionDialog.style.visibility = 'hidden';
       })["catch"](function (err) {
         console.log('permissionState catch', err);
+        permissionDialog.style.visibility = 'hidden';
       });
+    });
+    cancelBtn.addEventListener('click', function () {
+      permissionDialog.style.visibility = 'hidden';
     });
   } else {
     listenGyro();
