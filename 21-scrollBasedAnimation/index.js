@@ -59913,9 +59913,9 @@ window.addEventListener('deviceorientation', function (event) {
   if (beta !== null && gamma !== null) {
     // this.orientationStatus = 1
     // this.rotate(beta, gamma)
-    var x = (gamma || 0) / 30; // -180 :: 180
+    var x = (gamma || 0) / 20; // -180 :: 180
 
-    var y = (beta || 0) / 30; //  -90 :: 90
+    var y = ((beta || 0) + 45) / 40; //  -90 :: 90
 
     console.log(x, y);
     mouse.x = x;
