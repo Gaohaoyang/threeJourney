@@ -40,13 +40,33 @@ if (isVertical) {
 }
 cameraGroup.add(camera)
 
+const loadingManager = new THREE.LoadingManager()
+
+loadingManager.onStart = () => {
+  console.log('onStart')
+}
+loadingManager.onProgress = () => {
+  console.log('onProgress')
+}
+loadingManager.onLoad = () => {
+  console.log('onLoad')
+  const loadingEle = document.querySelector('#loading') as HTMLDivElement
+  loadingEle.style.opacity = '0'
+  setTimeout(() => {
+    loadingEle.style.display = 'none'
+  }, 300)
+}
+loadingManager.onError = () => {
+  console.log('onError')
+}
+
 /**
  * Objects
  */
 // Texture
-const textureLoader = new THREE.TextureLoader()
+const textureLoader = new THREE.TextureLoader(loadingManager)
 const gradientTexture = textureLoader.load(
-  'https://gw.alicdn.com/imgextra/i1/O1CN01Kv3xWT1kImpSDZI8n_!!6000000004661-0-tps-5-1.jpg'
+  'https://gw.alicdn.com/imgextra/i1/O1CN01Kv3xWT1kImpSDZI8n_!!6000000004661-0-tps-5-1.jpg',
 )
 gradientTexture.magFilter = THREE.NearestFilter
 
@@ -96,6 +116,7 @@ const particlesCount = 200
 const positions = new Float32Array(particlesCount * 3)
 for (let i = 0; i < particlesCount; i += 1) {
   positions[i * 3 + 0] = (Math.random() - 0.5) * 10
+  // eslint-disable-next-line operator-linebreak
   positions[i * 3 + 1] =
     objectsDistance * 0.5 - Math.random() * objectsDistance * sectionMeshes.length
   positions[i * 3 + 2] = (Math.random() - 0.5) * 10
