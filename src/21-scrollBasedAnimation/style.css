@@ -36,7 +36,7 @@ h2 {
   display: none;
 }
 
-section:nth-child(odd) {
+section:nth-child(even) {
   align-items: flex-end;
 }
 
