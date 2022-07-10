@@ -198,8 +198,6 @@ const listenGyro = () => {
 }
 
 if (isPortrait) {
-  console.log('here')
-
   if (
     typeof DeviceOrientationEvent !== 'undefined'
     // @ts-ignore

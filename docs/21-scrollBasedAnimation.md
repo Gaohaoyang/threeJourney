@@ -665,6 +665,10 @@ if (isPortrait) {
 }
 ```
 
+![](https://gw.alicdn.com/imgextra/i1/O1CN01Pe4WGk1vWwqkJCKik_!!6000000006181-1-tps-430-621.gif)
+
+## iOS 监听陀螺仪无效问题
+
 剩下的保持不变。执行上述代码后，你会发现在 iOS 设备上无效，这是因为 iOS 需要独立申请权限，需要使用 `DeviceOrientationEvent.requestPermission()`。我们修改代码
 
 ```js
@@ -714,7 +718,133 @@ if (isPortrait) {
 }
 ```
 
-![](https://gw.alicdn.com/imgextra/i1/O1CN01Pe4WGk1vWwqkJCKik_!!6000000006181-1-tps-430-621.gif)
+可以看到 iOS 依然无效，这是因为，iOS 设备必须通过用户点击的方式获取授权，不能载入页面自动申请权限。于是我们需要增加一个弹窗。代码如下
+
+```html
+<div class="permissionDialog" id="permissionDialog" style="visibility: hidden">
+  <div class="title">
+    Request permission of motion for better animation effect
+  </div>
+  <div class="buttonArea">
+    <button id="cancel">Cancel</button>
+    <button id="allow">Allow</button>
+  </div>
+</div>
+```
+
+```css
+.permissionDialog {
+  position: fixed;
+  z-index: 999;
+  left: 50%;
+  top: 50%;
+  margin-left: -100px;
+  margin-top: -75px;
+  width: 200px;
+  height: 150px;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(4px);
+  color: #111;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.5);
+}
+
+.permissionDialog>.title {
+  width: 90%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.permissionDialog>.buttonArea {
+  margin-top: 16px;
+  width: 90%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.buttonArea>button {
+  border: none;
+  outline: none;
+  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.3);
+  background-color: #4375cc;
+  border-radius: 12px;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 14px;
+  padding: 8px 18px;
+  text-decoration: none;
+  text-shadow: 1px 0px 3px #283966;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.buttonArea>button:active {
+  position: relative;
+  top: 1px;
+}
+
+#cancel {
+  background-color: #cdcdcd;
+  text-shadow: 1px 0px 3px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 10px -4px rgba(0, 0, 0, 0.5);
+}
+```
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01LVCVY91PSJ892xxZ9_!!6000000001839-2-tps-433-721.png)
+
+用户点击按钮时再进行申请权限
+
+```js
+if (isPortrait) {
+  if (
+    typeof DeviceOrientationEvent !== 'undefined'
+    // @ts-ignore
+    && typeof DeviceOrientationEvent.requestPermission === 'function'
+  ) {
+    const permissionDialog = document.querySelector('#permissionDialog') as HTMLDivElement
+    permissionDialog.style.visibility = 'visible'
+
+    const allowBtn = document.querySelector('#allow') as HTMLButtonElement
+    const cancelBtn = document.querySelector('#cancel') as HTMLButtonElement
+
+    allowBtn.addEventListener('click', () => {
+      // @ts-ignore
+      DeviceOrientationEvent.requestPermission()
+        .then((permissionState: string) => {
+          console.log('permissionState', permissionState)
+          if (permissionState === 'granted') {
+            listenGyro()
+          } else {
+            // handle denied
+          }
+          permissionDialog.style.visibility = 'hidden'
+        })
+        .catch((err: any) => {
+          console.log('permissionState catch', err)
+          permissionDialog.style.visibility = 'hidden'
+        })
+    })
+
+    cancelBtn.addEventListener('click', () => {
+      permissionDialog.style.visibility = 'hidden'
+    })
+  } else {
+    listenGyro()
+  }
+} else {
+  window.addEventListener('mousemove', (event) => {
+    mouse.x = (event.clientX / sizes.width) * 2 - 1
+    mouse.y = -(event.clientY / sizes.height) * 2 + 1
+  })
+}
+```
+
+这样就解决了 iOS 无法调用陀螺仪的问题，只是每次需要用户手动点击授权。
 
 # 增加 loading
 
