@@ -59777,7 +59777,7 @@ var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
 };
-var isVertical = sizes.width < sizes.height;
+var isPortrait = sizes.width < sizes.height;
 var objectsDistance = 5; // Group
 
 var cameraGroup = new three__WEBPACK_IMPORTED_MODULE_4__.Group();
@@ -59786,7 +59786,7 @@ scene.add(cameraGroup); // Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_4__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
 camera.position.set(0, 0, 4);
 
-if (isVertical) {
+if (isPortrait) {
   camera.position.setZ(8);
   objectsDistance = 11;
 }
@@ -59835,7 +59835,7 @@ var mesh3 = new three__WEBPACK_IMPORTED_MODULE_4__.Mesh(new three__WEBPACK_IMPOR
 scene.add(mesh1, mesh2, mesh3);
 var sectionMeshes = [mesh1, mesh2, mesh3];
 sectionMeshes.forEach(function (item, index) {
-  if (isVertical) {
+  if (isPortrait) {
     item.position.setY(-objectsDistance * index);
   } else {
     item.position.setX(index % 2 === 0 ? 2 : -2);
@@ -59918,17 +59918,14 @@ var mouse = {
   y: 0
 }; // -1 :: 1
 
-if (isVertical) {
-  /**
-   * device orientation
-   */
+/**
+ * device orientation
+ */
+
+var listenGyro = function listenGyro() {
   window.addEventListener('deviceorientation', function (event) {
-    // const { alpha } = event
-    var beta = event.beta;
-    var gamma = event.gamma; // console.log(alpha, beta, gamma)
-    // if (beta !== null && gamma !== null) {
-    // this.orientationStatus = 1
-    // this.rotate(beta, gamma)
+    var beta = event.beta,
+        gamma = event.gamma;
 
     if (beta !== null && gamma !== null) {
       var x = (gamma || 0) / 20; // -180 :: 180
@@ -59940,6 +59937,24 @@ if (isVertical) {
       mouse.y = -y;
     }
   });
+};
+
+if (isPortrait) {
+  if (typeof DeviceOrientationEvent !== 'undefined' // @ts-ignore
+  && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    // @ts-ignore
+    DeviceOrientationEvent.requestPermission().then(function (permissionState) {
+      if (permissionState === 'granted') {
+        // handle data
+        listenGyro();
+      } else {// handle denied
+      }
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  } else {
+    listenGyro();
+  }
 } else {
   window.addEventListener('mousemove', function (event) {
     mouse.x = event.clientX / sizes.width * 2 - 1;
@@ -59955,11 +59970,7 @@ var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].begin();
   var elapsedTime = clock.getElapsedTime();
   var deltaTime = elapsedTime - previousTime;
-  previousTime = elapsedTime; // const deltaTime2 = clock.getDelta()
-  // console.log(deltaTime);
-  // console.log(deltaTime2);
-  // console.log('----');
-  // Animate meshes
+  previousTime = elapsedTime; // Animate meshes
 
   sectionMeshes.forEach(function (mesh) {
     mesh.rotation.set(deltaTime * 0.1 + mesh.rotation.x, deltaTime * 0.1 + mesh.rotation.y, 0);
