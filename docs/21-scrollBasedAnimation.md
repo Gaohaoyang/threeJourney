@@ -715,6 +715,10 @@ if (isPortrait) {
 }
 ```
 
+![](https://gw.alicdn.com/imgextra/i1/O1CN01Pe4WGk1vWwqkJCKik_!!6000000006181-1-tps-430-621.gif)
+
+
+
 # 增加 loading
 
 我们需要修改 HTML 顺序，需要故意阻塞一下后续的 HTML 渲染，并增加一个占满全屏的 loading 的状态
@@ -779,6 +783,8 @@ const textureLoader = new THREE.TextureLoader(loadingManager)
 ```
 
 这样就可以得到一个很好的 loading 效果了
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01RstdO31yGrn0yICzZ_!!6000000006552-1-tps-1129-629.gif)
 
 
 

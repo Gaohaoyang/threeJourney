@@ -2,8 +2,12 @@ import * as THREE from 'three'
 import './style.css'
 import * as dat from 'lil-gui'
 import gsap from 'gsap'
+import VConsole from 'vconsole'
 import stats from '../common/stats'
 import { listenResize, dbClkfullScreen } from '../common/utils'
+
+// eslint-disable-next-line no-unused-vars
+const vConsole = new VConsole({ theme: 'dark' })
 
 /**
  * Debug
@@ -195,6 +199,7 @@ if (isPortrait) {
     // @ts-ignore
     DeviceOrientationEvent.requestPermission()
       .then((permissionState: string) => {
+        console.log('permissionState', permissionState)
         if (permissionState === 'granted') {
           // handle data
           listenGyro()
@@ -203,7 +208,7 @@ if (isPortrait) {
         }
       })
       .catch((err: any) => {
-        console.log(err)
+        console.log('permissionState catch', err)
       })
   } else {
     listenGyro()
