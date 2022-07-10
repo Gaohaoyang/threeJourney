@@ -59766,7 +59766,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 var parameters = {
-  materialColor: '#80CBC4'
+  materialColor: '#FFF59D'
 }; // Canvas
 
 var canvas = document.querySelector('#mainCanvas'); // Scene
@@ -59902,13 +59902,14 @@ if (isVertical) {
     // const { alpha } = event
     var beta = event.beta;
     var gamma = event.gamma; // console.log(alpha, beta, gamma)
+    // if (beta !== null && gamma !== null) {
+    // this.orientationStatus = 1
+    // this.rotate(beta, gamma)
 
     if (beta !== null && gamma !== null) {
-      // this.orientationStatus = 1
-      // this.rotate(beta, gamma)
       var x = (gamma || 0) / 20; // -180 :: 180
 
-      var y = ((beta || 0) + 20) / 30; //  -90 :: 90
+      var y = (Math.min(beta || 0, 89) - 45) / 30; //  -90 :: 90
 
       console.log(x, y);
       mouse.x = x;
