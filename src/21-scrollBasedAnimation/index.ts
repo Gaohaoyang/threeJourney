@@ -190,7 +190,6 @@ const listenGyro = () => {
     if (beta !== null && gamma !== null) {
       const x = (gamma || 0) / 20 // -180 :: 180
       const y = (Math.min(beta || 0, 89) - 45) / 30 //  -90 :: 90
-      console.log(x, y)
       mouse.x = x
       mouse.y = -y
     }
