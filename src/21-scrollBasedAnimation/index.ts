@@ -196,20 +196,22 @@ if (isPortrait) {
     // @ts-ignore
     && typeof DeviceOrientationEvent.requestPermission === 'function'
   ) {
-    // @ts-ignore
-    DeviceOrientationEvent.requestPermission()
-      .then((permissionState: string) => {
-        console.log('permissionState', permissionState)
-        if (permissionState === 'granted') {
-          // handle data
-          listenGyro()
-        } else {
-          // handle denied
-        }
-      })
-      .catch((err: any) => {
-        console.log('permissionState catch', err)
-      })
+    document.querySelector('#permission')?.addEventListener('click', () => {
+      // @ts-ignore
+      DeviceOrientationEvent.requestPermission()
+        .then((permissionState: string) => {
+          console.log('permissionState', permissionState)
+          if (permissionState === 'granted') {
+            // handle data
+            listenGyro()
+          } else {
+            // handle denied
+          }
+        })
+        .catch((err: any) => {
+          console.log('permissionState catch', err)
+        })
+    })
   } else {
     listenGyro()
   }

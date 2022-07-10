@@ -26,11 +26,15 @@ h1 {
   font-size: 7vmin;
   color: #fff;
 }
-h2{
+
+h2 {
   font-size: 4vmin;
   color: #fff;
 }
 
+.permission {
+  display: none;
+}
 
 section:nth-child(odd) {
   align-items: flex-end;
@@ -42,18 +46,28 @@ section:nth-child(odd) {
     align-items: center;
     justify-content: flex-start;
   }
+
   section:nth-child(odd) {
     align-items: center;
   }
+
   h1 {
     font-size: 7vmin;
     color: #fff;
     margin-bottom: 40vh;
   }
 
-  h2{
+  h2 {
     font-size: 4vmin;
     color: #fff;
     margin-bottom: 6vh;
+  }
+
+  .permission {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    display: block;
   }
 }
