@@ -24,7 +24,7 @@ const sizes = {
   height: window.innerHeight,
 }
 
-const isVertical = sizes.width < sizes.height
+const isPortrait = sizes.width < sizes.height
 
 let objectsDistance = 5
 
@@ -34,7 +34,7 @@ scene.add(cameraGroup)
 // Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.set(0, 0, 4)
-if (isVertical) {
+if (isPortrait) {
   camera.position.setZ(8)
   objectsDistance = 11
 }
@@ -90,7 +90,7 @@ const sectionMeshes: THREE.Mesh<THREE.BufferGeometry, THREE.MeshToonMaterial>[] 
 ]
 
 sectionMeshes.forEach((item, index) => {
-  if (isVertical) {
+  if (isPortrait) {
     item.position.setY(-objectsDistance * index)
   } else {
     item.position.setX(index % 2 === 0 ? 2 : -2)
@@ -170,18 +170,12 @@ window.addEventListener('scroll', () => {
  */
 const mouse = { x: 0, y: 0 } // -1 :: 1
 
-if (isVertical) {
-  /**
-   * device orientation
-   */
+/**
+ * device orientation
+ */
+const listenGyro = () => {
   window.addEventListener('deviceorientation', (event) => {
-    // const { alpha } = event
-    const { beta } = event
-    const { gamma } = event
-    // console.log(alpha, beta, gamma)
-    // if (beta !== null && gamma !== null) {
-    // this.orientationStatus = 1
-    // this.rotate(beta, gamma)
+    const { beta, gamma } = event
     if (beta !== null && gamma !== null) {
       const x = (gamma || 0) / 20 // -180 :: 180
       const y = (Math.min(beta || 0, 89) - 45) / 30 //  -90 :: 90
@@ -190,6 +184,30 @@ if (isVertical) {
       mouse.y = -y
     }
   })
+}
+
+if (isPortrait) {
+  if (
+    typeof DeviceOrientationEvent !== 'undefined'
+    // @ts-ignore
+    && typeof DeviceOrientationEvent.requestPermission === 'function'
+  ) {
+    // @ts-ignore
+    DeviceOrientationEvent.requestPermission()
+      .then((permissionState: string) => {
+        if (permissionState === 'granted') {
+          // handle data
+          listenGyro()
+        } else {
+          // handle denied
+        }
+      })
+      .catch((err: any) => {
+        console.log(err)
+      })
+  } else {
+    listenGyro()
+  }
 } else {
   window.addEventListener('mousemove', (event) => {
     mouse.x = (event.clientX / sizes.width) * 2 - 1
@@ -206,10 +224,6 @@ const tick = () => {
   const elapsedTime = clock.getElapsedTime()
   const deltaTime = elapsedTime - previousTime
   previousTime = elapsedTime
-  // const deltaTime2 = clock.getDelta()
-  // console.log(deltaTime);
-  // console.log(deltaTime2);
-  // console.log('----');
 
   // Animate meshes
   sectionMeshes.forEach((mesh) => {

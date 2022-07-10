@@ -205,6 +205,8 @@ scene.add(mesh1, mesh2, mesh3)
 const directionalLight = new THREE.DirectionalLight('#ffffff', 1)
 directionalLight.position.set(1, 1, 0)
 scene.add(directionalLight)
+const ambientLight = new THREE.AmbientLight('#ffffff', 0.28)
+scene.add(ambientLight)
 ```
 
 现在效果好多了
@@ -585,4 +587,201 @@ window.addEventListener('scroll', () => {
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/21-scrollBasedAnimation)
 
+# 移动端适配
+
+我们使用 CSS media query，针对纵向的手机屏幕进行适配。代码如下
+
+```js
+/* Portrait */
+@media screen and (orientation:portrait) {
+  section {
+    align-items: center;
+    justify-content: flex-start;
+  }
+  section:nth-child(odd) {
+    align-items: center;
+  }
+  h1 {
+    font-size: 7vmin;
+    color: #fff;
+    margin-bottom: 40vh;
+  }
+
+  h2{
+    font-size: 4vmin;
+    color: #fff;
+    margin-bottom: 6vh;
+  }
+}
+```
+
+在 js 中我们也可以简单的判断宽高，来确实是手机
+
+```js
+const isPortrait = sizes.width < sizes.height
+```
+
+针对手机的视角进行微调
+
+```js
+if (isPortrait) {
+  camera.position.setZ(8)
+  objectsDistance = 11
+}
+
+// ...
+
+sectionMeshes.forEach((item, index) => {
+  if (isPortrait) {
+    item.position.setY(-objectsDistance * index)
+  } else {
+    item.position.setX(index % 2 === 0 ? 2 : -2)
+    item.position.setY(-objectsDistance * index)
+  }
+})
+```
+
+在手机端我们使用设备陀螺仪检测，代替 mousemove 检测
+
+```js
+if (isPortrait) {
+  /**
+   * device orientation
+   */
+  window.addEventListener('deviceorientation', (event) => {
+    const { beta, gamma } = event
+    if (beta !== null && gamma !== null) {
+      const x = (gamma || 0) / 20 // -180 :: 180
+      const y = (Math.min(beta || 0, 89) - 45) / 30 //  -90 :: 90
+      console.log(x, y)
+      mouse.x = x
+      mouse.y = -y
+    }
+  })
+} else {
+  window.addEventListener('mousemove', (event) => {
+    mouse.x = (event.clientX / sizes.width) * 2 - 1
+    mouse.y = -(event.clientY / sizes.height) * 2 + 1
+  })
+}
+```
+
+剩下的保持不变。执行上述代码后，你会发现在 iOS 设备上无效，这是因为 iOS 需要独立申请权限，需要使用 `DeviceOrientationEvent.requestPermission()`。我们修改代码
+
+```js
+/**
+ * device orientation
+ */
+const listenGyro = () => {
+  window.addEventListener('deviceorientation', (event) => {
+    const { beta, gamma } = event
+    if (beta !== null && gamma !== null) {
+      const x = (gamma || 0) / 20 // -180 :: 180
+      const y = (Math.min(beta || 0, 89) - 45) / 30 //  -90 :: 90
+      console.log(x, y)
+      mouse.x = x
+      mouse.y = -y
+    }
+  })
+}
+
+if (isPortrait) {
+  if (
+    typeof DeviceOrientationEvent !== 'undefined'
+    // @ts-ignore
+    && typeof DeviceOrientationEvent.requestPermission === 'function'
+  ) {
+    // @ts-ignore
+    DeviceOrientationEvent.requestPermission()
+      .then((permissionState: string) => {
+        if (permissionState === 'granted') {
+          // handle data
+          listenGyro()
+        } else {
+          // handle denied
+        }
+      })
+      .catch((err: any) => {
+        console.log(err)
+      })
+  } else {
+    listenGyro()
+  }
+} else {
+  window.addEventListener('mousemove', (event) => {
+    mouse.x = (event.clientX / sizes.width) * 2 - 1
+    mouse.y = -(event.clientY / sizes.height) * 2 + 1
+  })
+}
+```
+
+# 增加 loading
+
+我们需要修改 HTML 顺序，需要故意阻塞一下后续的 HTML 渲染，并增加一个占满全屏的 loading 的状态
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>scroll based animation</title>
+  </head>
+
+  <body style="background-color: #263238;color: #fff; font-family: sans-serif;">
+    <canvas id="mainCanvas" class="webgl"></canvas>
+    <div id="loading" style="width: 100vw;height: 100vh;display:flex;justify-content:center;align-items:center; position: fixed; top: 0;left: 0;background-color: #263238;transition: opacity 280ms ease;">loading...</div>
+    <script src="<%= path %>" charset="utf-8"></script>
+
+    <section class="section">
+      <h1>Hello</h1>
+      <h2>Three.js scroll based animation</h2>
+    </section>
+    <section class="section">
+      <h1>My projects</h2>
+      <h2>Sint sunt dolore architecto minima</h2>
+    </section>
+    <section class="section">
+      <h1>Contact me</h2>
+      <h2>Lorem ipsum dolor</h2>
+    </section>
+  </body>
+</html>
+```
+
+使用 Three.js 中的 `LoadingManager` 处理移除 loading 的时机
+
+```js
+const loadingManager = new THREE.LoadingManager()
+
+loadingManager.onStart = () => {
+  console.log('onStart')
+}
+loadingManager.onProgress = () => {
+  console.log('onProgress')
+}
+loadingManager.onLoad = () => {
+  console.log('onLoad')
+  const loadingEle = document.querySelector('#loading') as HTMLDivElement
+  loadingEle.style.opacity = '0'
+  setTimeout(() => {
+    loadingEle.style.display = 'none'
+  }, 300)
+}
+loadingManager.onError = () => {
+  console.log('onError')
+}
+
+// ...
+
+const textureLoader = new THREE.TextureLoader(loadingManager)
+```
+
+这样就可以得到一个很好的 loading 效果了
+
+
+
 # 小结
+
+我们学习了如何将 WebGL 的视角与 HTML 页面的滚动相结合，复习了前面所学的知识。并增加了视差效果。又增加了移动端适配，以及最后又增加了 loading 效果，整体看起来非常棒！继续加油！
