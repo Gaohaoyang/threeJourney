@@ -9,7 +9,7 @@ import { listenResize, dbClkfullScreen } from '../common/utils'
  * Debug
  */
 const parameters = {
-  materialColor: '#80CBC4',
+  materialColor: '#FFF59D',
 }
 
 // Canvas
@@ -158,13 +158,13 @@ if (isVertical) {
     const { beta } = event
     const { gamma } = event
     // console.log(alpha, beta, gamma)
+    // if (beta !== null && gamma !== null) {
+    // this.orientationStatus = 1
+    // this.rotate(beta, gamma)
     if (beta !== null && gamma !== null) {
-      // this.orientationStatus = 1
-      // this.rotate(beta, gamma)
       const x = (gamma || 0) / 20 // -180 :: 180
-      const y = ((beta || 0) + 20) / 30 //  -90 :: 90
+      const y = (Math.min(beta || 0, 89) - 45) / 30 //  -90 :: 90
       console.log(x, y)
-
       mouse.x = x
       mouse.y = -y
     }
