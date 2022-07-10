@@ -147,14 +147,33 @@ window.addEventListener('scroll', () => {
 /**
  * Mouse
  */
-const mouse: {
-  x: number | null
-  y: number | null
-} = { x: null, y: null }
+const mouse = { x: 0, y: 0 } // -1 :: 1
 
-window.addEventListener('mousemove', (event) => {
-  mouse.x = (event.clientX / sizes.width) * 2 - 1
-  mouse.y = -(event.clientY / sizes.height) * 2 + 1
+if (!isVertical) {
+  window.addEventListener('mousemove', (event) => {
+    mouse.x = (event.clientX / sizes.width) * 2 - 1
+    mouse.y = -(event.clientY / sizes.height) * 2 + 1
+  })
+}
+
+/**
+ * device orientation
+ */
+window.addEventListener('deviceorientation', (event) => {
+  // const { alpha } = event
+  const { beta } = event
+  const { gamma } = event
+  // console.log(alpha, beta, gamma)
+  if (beta !== null && gamma !== null) {
+    // this.orientationStatus = 1
+    // this.rotate(beta, gamma)
+    const x = (gamma || 0) / 30 // -180 :: 180
+    const y = (beta || 0) / 30 //  -90 :: 90
+    console.log(x, y)
+
+    mouse.x = x
+    mouse.y = y
+  }
 })
 
 // Animations
