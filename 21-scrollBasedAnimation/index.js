@@ -59792,12 +59792,35 @@ if (isVertical) {
 }
 
 cameraGroup.add(camera);
+var loadingManager = new three__WEBPACK_IMPORTED_MODULE_4__.LoadingManager();
+
+loadingManager.onStart = function () {
+  console.log('onStart');
+};
+
+loadingManager.onProgress = function () {
+  console.log('onProgress');
+};
+
+loadingManager.onLoad = function () {
+  console.log('onLoad');
+  var loadingEle = document.querySelector('#loading');
+  loadingEle.style.opacity = '0';
+  setTimeout(function () {
+    loadingEle.style.display = 'none';
+  }, 300);
+};
+
+loadingManager.onError = function () {
+  console.log('onError');
+};
 /**
  * Objects
  */
 // Texture
 
-var textureLoader = new three__WEBPACK_IMPORTED_MODULE_4__.TextureLoader();
+
+var textureLoader = new three__WEBPACK_IMPORTED_MODULE_4__.TextureLoader(loadingManager);
 var gradientTexture = textureLoader.load('https://gw.alicdn.com/imgextra/i1/O1CN01Kv3xWT1kImpSDZI8n_!!6000000004661-0-tps-5-1.jpg');
 gradientTexture.magFilter = three__WEBPACK_IMPORTED_MODULE_4__.NearestFilter; // Material
 
@@ -59837,7 +59860,8 @@ var particlesCount = 200;
 var positions = new Float32Array(particlesCount * 3);
 
 for (var i = 0; i < particlesCount; i += 1) {
-  positions[i * 3 + 0] = (Math.random() - 0.5) * 10;
+  positions[i * 3 + 0] = (Math.random() - 0.5) * 10; // eslint-disable-next-line operator-linebreak
+
   positions[i * 3 + 1] = objectsDistance * 0.5 - Math.random() * objectsDistance * sectionMeshes.length;
   positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
 }
