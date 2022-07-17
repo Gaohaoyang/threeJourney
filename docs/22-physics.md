@@ -1,0 +1,299 @@
+physics 物理引擎
+
+在 WebGL 里使用物理引擎是非常棒的一种体验，人们会非常享受与这些物体产生物理效果，例如重力、弹性、加速度、摩擦力、碰撞等。有很多方式实现物理效果，并且取决于项目中想怎么使用。如果只是简单物理效果，可以使用数学（三角函数）和 Raycaster 来实现，但复杂效果，还是非常建议送一个物理引擎相关的库。
+
+# 物理引擎与 Three.js 之间的结合原理
+
+Three.js 创建了一个 3d 世界，我们再通过物理引擎创建一个**物理世界**，在物理世界中存在着纯物理体系（牛顿力学、万有引力、胡克弹性定律等），然后将物理世界中的几何体运动每帧坐标映射到 Three.js 3d 世界中，就可以进行实现物理效果的运动了。
+
+其复杂点在于如何组织代码。接下来我们就从最简单的开始学起。
+
+# 物理引擎库
+
+关于物理引擎有非常多的库。首先要选择是需要一个 3d 还是 2d 的物理引擎库。你可能会认为既然使用了 Three.js 那一定是 3d 库了，那你就错了，如果你要表现的物理场景只需要在二维平面上展示（例如3d场景中有个电视在播放一些物理效果，或者你需要开发台球游戏），那么当然是选择 2d 的物理引擎，其性能会远好于 3d 引擎。
+
+接下来就介绍几个物理引擎。
+
+## 3d 物理引擎
+
+| | Ammo.js | Cannon.js | Oimo.js
+--- | --- | --- | ---
+web site | [Ammo.js](https://github.com/kripken/ammo.js/) | [Cannon.js](https://schteppe.github.io/cannon.js/) | [Oimo.js](https://lo-th.github.io/Oimo.js/#basic)
+docs | none | [link](https://github.com/schteppe/cannon.js) | [link](http://lo-th.github.io/Oimo.js/docs.html)
+light or heavy | A little heavy | Lighter than Ammo.js | Lighter than Ammo.js
+maintain | Still updated by a community | Mostly maintained by one developer | Mostly maintained by one developer
+others | Bullet 物理引擎转换而来 | There is a maintained fork | Hasn't been updated for 2 years
+
+## 2d 物理引擎
+
+| | Matter.js | P2.js | Planck.js | Box2d.js
+--- | --- | --- | --- | ---
+web site | [link](https://brm.io/matter-js/) | [link](https://schteppe.github.io/p2.js/) | [link](https://piqnt.com/planck.js/) | [link](http://kripken.github.io/box2d.js/demo/webgl/box2d.html)
+docs | [link](https://brm.io/matter-js/docs/) | [link](http://schteppe.github.io/p2.js/docs/) | [link](https://github.com/shakiba/planck.js/tree/master/docs) | none
+maintain | Mostly maintained by one developer | Mostly maintained by one developer | Mostly maintained by one developer | Mostly maintained by one developer
+update | Still kind of updated | Hasn't been update for 2 years | Still updated nowadays | Still updated nowadays
+
+本节课我们暂时不会使用 2d 物理引擎，但是用2d引擎的代码与3d会非常相似，主要的区别是少了一个坐标轴。
+
+接下来我们就以 Cannon.js 为例进行学习。
+
+# Import Cannon.js
+
+```bash
+npm i -S cannon
+npm i -D @types/cannon
+```
+
+因为我使用 ts 开发，所以也安装了它的类型
+
+```js
+import CANNON from 'cannon'
+```
+
+## 准备工作
+
+我们创建一个平面和一个小球，并增加光影，后续将结合物理引擎将小球抛落。
+
+```js
+import * as THREE from 'three'
+import './style.css'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import * as dat from 'lil-gui'
+import stats from '../common/stats'
+import { listenResize, dbClkfullScreen } from '../common/utils'
+
+// Canvas
+const canvas = document.querySelector('#mainCanvas') as HTMLCanvasElement
+
+// Scene
+const scene = new THREE.Scene()
+
+// Size
+const sizes = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+}
+
+// Camera
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+camera.position.set(4, 4, 15)
+
+// Controls
+const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
+controls.zoomSpeed = 0.3
+
+/**
+ * Objects
+ */
+// material
+const material = new THREE.MeshStandardMaterial()
+
+// sphere
+const sphere = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 16), material)
+sphere.position.setY(1)
+sphere.castShadow = true
+scene.add(sphere)
+
+// plane
+const plane = new THREE.Mesh(new THREE.PlaneGeometry(15, 15), material)
+plane.rotateX(-Math.PI / 2)
+plane.receiveShadow = true
+scene.add(plane)
+
+/**
+ * Light
+ */
+const directionLight = new THREE.DirectionalLight()
+directionLight.castShadow = true
+directionLight.position.set(5, 5, 6)
+const ambientLight = new THREE.AmbientLight(new THREE.Color('#ffffff'), 0.3)
+scene.add(ambientLight, directionLight)
+
+const directionLightHelper = new THREE.DirectionalLightHelper(directionLight, 2)
+directionLightHelper.visible = false
+scene.add(directionLightHelper)
+
+// Renderer
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+  // antialias: true,
+})
+renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+renderer.shadowMap.enabled = true
+
+// Animations
+const tick = () => {
+  stats.begin()
+  controls.update()
+
+  // Render
+  renderer.render(scene, camera)
+  stats.end()
+  requestAnimationFrame(tick)
+}
+
+tick()
+
+listenResize(sizes, camera, renderer)
+dbClkfullScreen(document.documentElement)
+
+/**
+ * Debug
+ */
+const gui = new dat.GUI()
+gui.add(controls, 'autoRotate')
+gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
+gui.add(material, 'wireframe')
+gui.add(directionLightHelper, 'visible').name('directionLightHelper visible')
+
+```
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN019gu0Pt1dAMENm85xm_!!6000000003695-2-tps-1131-612.png)
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01hObfxn1wAnJ6Vp0MN_!!6000000006268-1-tps-1129-595.gif)
+
+## 接入物理引擎
+
+创建物理引擎世界，并将设置地球的重力加速度
+
+```js
+/**
+ * Physics
+ */
+const world = new CANNON.World()
+world.gravity.set(0, -9.82, 0)
+```
+
+创建物体
+
+因为在场景中已经有了一个球体，现在我们需要在 Cannon.js 的 world 中也创建一个球体。
+
+我们需要使用其 [Body](http://schteppe.github.io/cannon.js/docs/classes/Body.html) 类，它可以自由落体并和其他 body 进行碰撞。
+
+在创建 body 之前，我们要先定义一个 shape。
+
+```js
+const sphereShape = new CANNON.Sphere(1)
+const sphereBody = new CANNON.Body({
+  mass: 1,
+  position: new CANNON.Vec3(0, 3, 0),
+  shape: sphereShape,
+})
+world.addBody(sphereBody)
+```
+
+什么都没有发生。接下来我们需要将 Cannon.js 的世界与 Three.js 的场景相结合
+
+## 与 Three.js 的场景相结合
+
+首先我们为了获取 deltaTime，在 requestAnimationFrame 增加如下逻辑。
+
+```js
+// Animations
+const clock = new THREE.Clock()
+let oldElapsedTime = 0
+const tick = () => {
+  stats.begin()
+  controls.update()
+
+  const elapsedTime = clock.getElapsedTime()
+  const deltaTime = elapsedTime - oldElapsedTime
+  oldElapsedTime = elapsedTime
+  console.log(deltaTime)
+
+  // Render
+  renderer.render(scene, camera)
+  stats.end()
+  requestAnimationFrame(tick)
+}
+
+tick()
+```
+
+为了更新物体位置，我们要使用 step() 函数。其背后的逻辑稍有复杂，本文不详细深究，详情可以查看[这篇文章 Fix Your Timestep!](https://gafferongames.com/post/fix_your_timestep/)。
+
+我们设置 cannon world 的 step 函数，并将 Three.js 的小球与 Cannon.js 中的小球位置关联
+
+```js
+const tick = () => {
+  // ...
+
+  world.step(1 / 60, deltaTime, 3)
+
+  // @ts-ignore
+  sphere.position.copy(sphereBody.position)
+
+  // ...
+}
+```
+
+注意这里2个库的 vector3 类型不完全相同，我们暂时使用 @ts-ignore 忽视掉 ts 报错。效果如下
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01pFSQ861KExVlfeo3c_!!6000000001133-1-tps-1129-595.gif)
+
+可以看到小球已经进行自由落体了！
+
+## 增加地板碰撞
+
+首先增加地板的 Body
+
+```js
+// floor
+const floorShape = new CANNON.Plane()
+const floorBody = new CANNON.Body()
+floorBody.mass = 0
+floorBody.addShape(floorShape)
+world.addBody(floorBody)
+```
+
+mass 为 0 表示固定在这里。
+
+然后还要将地板的位置进行旋转。在 Cannon 中没有旋转的 api，必须使用四元数进行操作。
+
+```js
+floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2)
+```
+
+对 floorBody 的四元数 quaternion 设置角度，第一个入参为所延的轴向，第二个参数为旋转的角度。效果如下
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01qZHezB1wiEDt8kbat_!!6000000006341-1-tps-1129-595.gif)
+
+# 碰撞材质
+
+看到上述的 demo 小球碰撞到平面后就几乎静止了，接下来我们深入研究一下碰撞材质的问题，可以让小球进行弹跳。
+
+我们需要创建2个物体个字的材质，以及这2个物体材质之间的弹性摩擦关系。其实核心在于材质之间的关系。所以我们甚至可以只创建一种默认材质，并定义好其关系即可。
+
+`ContactMaterial` 的第三个参数中 friction 表示摩擦力，restitution 为弹性，1 为回弹到原始位置。
+
+```js
+const defaultMaterial = new CANNON.Material('default')
+const defaultContactMaterial = new CANNON.ContactMaterial(defaultMaterial, defaultMaterial, {
+  friction: 0.1,
+  restitution: 0.7,
+})
+world.addContactMaterial(defaultContactMaterial)
+```
+
+别忘了将其加入到 world 中。然后给2个物体赋予默认材质
+
+```js
+const sphereBody = new CANNON.Body({
+  mass: 1,
+  position: new CANNON.Vec3(0, 3, 0),
+  shape: sphereShape,
+  material: defaultMaterial,
+})
+```
+
+```js
+floorBody.material = defaultMaterial
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01cUFA5x1U8gEpCxQww_!!6000000002473-1-tps-1129-595.gif)
+
+
