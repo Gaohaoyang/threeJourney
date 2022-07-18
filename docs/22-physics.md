@@ -505,6 +505,6 @@ guiObj.createBox = () => {
 
 可扫码访问
 
-![](https://gw.alicdn.com/imgextra/i1/O1CN01vbsfp11L4Fs1UYhIy_!!6000000001245-2-tps-200-200.png)
+![](https://gw.alicdn.com/imgextra/i4/O1CN01qK8IGV1Xq8fZ7wU10_!!6000000002974-2-tps-200-200.png)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/22-physics-multi)
