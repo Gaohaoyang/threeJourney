@@ -586,3 +586,32 @@ body.addEventListener('collide', playHitSound)
 如果你打开电脑或手机的的声音，效果很好。
 
 # 移除物体
+
+增加 reset 方法
+
+```js
+guiObj.reset = () => {
+  objectsToUpdate.forEach((object) => {
+    // Remove body
+    object.body.removeEventListener('collide', playHitSound)
+    world.removeBody(object.body)
+    // Remove mesh
+    scene.remove(object.mesh)
+  })
+  objectsToUpdate.splice(0, objectsToUpdate.length)
+}
+
+// ...
+
+gui.add(guiObj, 'reset')
+```
+
+可以方便的移除物体
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01NBPNLH1U2Gh8giXsc_!!6000000002459-1-tps-1129-456.gif)
+
+# 小结
+
+本节学习了物理引擎。了解了常见的3d和2d物理引擎，并对 Cannon 做了深入学习。学习了如何将物理世界与 Three.js 场景相结合。学习了物理引擎中的材质，以及2种材质发生关系时的配置。又学习了物理引擎中施加外力，碰撞检测。以及相应的性能优化。并监听了碰撞事件，并增加了声音效果。最后增加了移除物体的 reset 按钮。学习了非常多的内容。但针对物理引擎还仅仅是皮毛。后续小伙伴们可以深入研究学习物理引擎的其他能力，并可以看看 [Cannon 官网的各种 demo](https://pmndrs.github.io/cannon-es/)。加油！
+
+下一节将学习如何导入一个3d模型。

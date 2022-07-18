@@ -20,6 +20,7 @@ const guiObj = {
   CannonDebugger: false,
   createSphere() {},
   createBox() {},
+  reset() {},
 }
 let cannonDebuggerVisible = false
 
@@ -192,6 +193,17 @@ guiObj.createBox = () => {
   )
 }
 
+guiObj.reset = () => {
+  objectsToUpdate.forEach((object) => {
+    // Remove body
+    object.body.removeEventListener('collide', playHitSound)
+    world.removeBody(object.body)
+    // Remove mesh
+    scene.remove(object.mesh)
+  })
+  objectsToUpdate.splice(0, objectsToUpdate.length)
+}
+
 // floor
 const floorShape = new CANNON.Plane()
 const floorBody = new CANNON.Body({
@@ -237,6 +249,7 @@ listenResize(sizes, camera, renderer)
 /**
  * Debug
  */
+gui.add(guiObj, 'reset')
 gui.add(controls, 'autoRotate')
 // gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
 gui.add(material, 'wireframe')
