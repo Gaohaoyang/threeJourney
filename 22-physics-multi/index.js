@@ -68793,6 +68793,7 @@ camera.position.set(4, 4, 12); // Controls
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.zoomSpeed = 0.3;
+controls.autoRotate = true;
 controls.target = new three__WEBPACK_IMPORTED_MODULE_5__.Vector3(0, 3, 0);
 /**
  * Objects
@@ -68830,8 +68831,8 @@ var ambientLight = new three__WEBPACK_IMPORTED_MODULE_5__.AmbientLight(new three
 scene.add(ambientLight, directionLight); // Renderer
 
 var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
-  canvas: canvas // antialias: true,
-
+  canvas: canvas,
+  antialias: true
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
