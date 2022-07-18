@@ -13490,10 +13490,10 @@ const endShapeContactEvent = {
 
 /***/ }),
 
-/***/ "./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/22-physics-cannon-es/style.css":
-/*!****************************************************************************************************!*\
-  !*** ./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/22-physics-cannon-es/style.css ***!
-  \****************************************************************************************************/
+/***/ "./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/22-physics-multi/style.css":
+/*!************************************************************************************************!*\
+  !*** ./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/22-physics-multi/style.css ***!
+  \************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -13510,7 +13510,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_6_7_1_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_6_7_1_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "html,\nbody {\n  overflow: hidden;\n  /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n", "",{"version":3,"sources":["webpack://./src/22-physics-cannon-es/style.css"],"names":[],"mappings":"AAAA;;EAEE,gBAAgB;EAChB,cAAc;AAChB;;AAEA;EACE,SAAS;EACT,UAAU;AACZ;;AAEA;EACE,eAAe;EACf,MAAM;EACN,OAAO;EACP,aAAa;AACf","sourcesContent":["html,\nbody {\n  overflow: hidden;\n  /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "html,\nbody {\n  overflow: hidden;\n  /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n", "",{"version":3,"sources":["webpack://./src/22-physics-multi/style.css"],"names":[],"mappings":"AAAA;;EAEE,gBAAgB;EAChB,cAAc;AAChB;;AAEA;EACE,SAAS;EACT,UAAU;AACZ;;AAEA;EACE,eAAe;EACf,MAAM;EACN,OAAO;EACP,aAAa;AACf","sourcesContent":["html,\nbody {\n  overflow: hidden;\n  /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15970,10 +15970,10 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
 
 /***/ }),
 
-/***/ "./src/22-physics-cannon-es/style.css":
-/*!********************************************!*\
-  !*** ./src/22-physics-cannon-es/style.css ***!
-  \********************************************/
+/***/ "./src/22-physics-multi/style.css":
+/*!****************************************!*\
+  !*** ./src/22-physics-multi/style.css ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -15993,7 +15993,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_3_3_1_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_3_3_1_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _node_modules_style_loader_3_3_1_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../node_modules/_style-loader@3.3.1@style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/_style-loader@3.3.1@style-loader/dist/runtime/styleTagTransform.js");
 /* harmony import */ var _node_modules_style_loader_3_3_1_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_3_3_1_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_6_7_1_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./style.css */ "./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/22-physics-cannon-es/style.css");
+/* harmony import */ var _node_modules_css_loader_6_7_1_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./style.css */ "./node_modules/_css-loader@6.7.1@css-loader/dist/cjs.js!./src/22-physics-multi/style.css");
 
       
       
@@ -68748,12 +68748,12 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/*!*******************************************!*\
-  !*** ./src/22-physics-cannon-es/index.ts ***!
-  \*******************************************/
+/*!***************************************!*\
+  !*** ./src/22-physics-multi/index.ts ***!
+  \***************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! three */ "./node_modules/_three@0.139.2@three/build/three.module.js");
-/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ "./src/22-physics-cannon-es/style.css");
+/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ "./src/22-physics-multi/style.css");
 /* harmony import */ var three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls */ "./node_modules/_three@0.139.2@three/examples/jsm/controls/OrbitControls.js");
 /* harmony import */ var lil_gui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lil-gui */ "./node_modules/_lil-gui@0.16.1@lil-gui/dist/lil-gui.esm.js");
 /* harmony import */ var cannon_es__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! cannon-es */ "./node_modules/_cannon-es@0.19.0@cannon-es/dist/cannon-es.js");
@@ -68774,7 +68774,13 @@ var canvas = document.querySelector('#mainCanvas'); // Scene
 
 var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene(); // Gui
 
-var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI(); // Size
+var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
+var guiObj = {
+  CannonDebugger: false,
+  createSphere: function createSphere() {},
+  createBox: function createBox() {}
+};
+var cannonDebuggerVisible = false; // Size
 
 var sizes = {
   width: window.innerWidth,
@@ -68782,24 +68788,22 @@ var sizes = {
 }; // Camera
 
 var camera = new three__WEBPACK_IMPORTED_MODULE_5__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(4, 4, 15); // Controls
+camera.position.set(4, 4, 12); // Controls
 
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.zoomSpeed = 0.3;
+controls.target = new three__WEBPACK_IMPORTED_MODULE_5__.Vector3(0, 3, 0);
 /**
  * Objects
  */
 // material
 
-var material = new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial(); // sphere
+var material = new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial(); // plane
 
-var sphere = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(1, 16, 16), material);
-sphere.position.setY(1);
-sphere.castShadow = true;
-scene.add(sphere); // plane
-
-var plane = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.PlaneGeometry(15, 15), material);
+var plane = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.PlaneGeometry(15, 15), new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial({
+  color: '#607D8B'
+}));
 plane.rotateX(-Math.PI / 2);
 plane.receiveShadow = true;
 scene.add(plane);
@@ -68810,11 +68814,20 @@ scene.add(plane);
 var directionLight = new three__WEBPACK_IMPORTED_MODULE_5__.DirectionalLight();
 directionLight.castShadow = true;
 directionLight.position.set(5, 5, 6);
-var ambientLight = new three__WEBPACK_IMPORTED_MODULE_5__.AmbientLight(new three__WEBPACK_IMPORTED_MODULE_5__.Color('#ffffff'), 0.3);
-scene.add(ambientLight, directionLight);
+directionLight.shadow.camera.near = 1;
+directionLight.shadow.camera.far = 20;
+directionLight.shadow.camera.top = 10;
+directionLight.shadow.camera.right = 10;
+directionLight.shadow.camera.bottom = -10;
+directionLight.shadow.camera.left = -10;
 var directionLightHelper = new three__WEBPACK_IMPORTED_MODULE_5__.DirectionalLightHelper(directionLight, 2);
 directionLightHelper.visible = false;
-scene.add(directionLightHelper); // Renderer
+scene.add(directionLightHelper);
+var directionalLightCameraHelper = new three__WEBPACK_IMPORTED_MODULE_5__.CameraHelper(directionLight.shadow.camera);
+directionalLightCameraHelper.visible = false;
+scene.add(directionalLightCameraHelper);
+var ambientLight = new three__WEBPACK_IMPORTED_MODULE_5__.AmbientLight(new three__WEBPACK_IMPORTED_MODULE_5__.Color('#ffffff'), 0.3);
+scene.add(ambientLight, directionLight); // Renderer
 
 var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
   canvas: canvas // antialias: true,
@@ -68831,25 +68844,74 @@ var world = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.World();
 world.gravity.set(0, -9.82, 0);
 var defaultMaterial = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Material('default');
 var defaultContactMaterial = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.ContactMaterial(defaultMaterial, defaultMaterial, {
-  friction: 0.8,
-  restitution: 0.7
+  friction: 0.3,
+  restitution: 0.6
 });
 world.addContactMaterial(defaultContactMaterial);
-var sphereShape = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Sphere(1);
-var sphereBody = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Body({
-  mass: 1,
-  position: new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Vec3(0, 4, 0),
-  shape: sphereShape,
-  material: defaultMaterial
-});
-world.addBody(sphereBody); // sphereBody.applyForce(new CANNON.Vec3(100, 0, 0), new CANNON.Vec3(0, 0, 0))
+/**
+ * Utils
+ */
 
-var guiObj = {
-  drop: function drop() {
-    sphereBody.position = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Vec3(0, 4, 0);
-  },
-  CannonDebugger: false
+var objectsToUpdate = [];
+var sphereGeometry = new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(1, 32, 32);
+
+var createSphere = function createSphere(radius, position) {
+  // Three.js mesh
+  var mesh = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(sphereGeometry, material);
+  mesh.castShadow = true;
+  mesh.scale.set(radius, radius, radius);
+  mesh.position.copy(position);
+  scene.add(mesh); // Cannon body
+
+  var shape = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Sphere(radius);
+  var body = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Body({
+    mass: 1,
+    shape: shape,
+    material: defaultMaterial
+  }); // @ts-ignore
+
+  body.position.copy(position);
+  world.addBody(body);
+  objectsToUpdate.push({
+    mesh: mesh,
+    body: body
+  });
+};
+
+guiObj.createSphere = function () {
+  createSphere(Math.random(), new three__WEBPACK_IMPORTED_MODULE_5__.Vector3((Math.random() - 0.5) * 8, 5, (Math.random() - 0.5) * 8));
+}; // Boxes
+
+
+var boxGeometry = new three__WEBPACK_IMPORTED_MODULE_5__.BoxGeometry();
+
+var createBoxes = function createBoxes(width, height, depth, position) {
+  // Three.js mesh
+  var mesh = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(boxGeometry, material);
+  mesh.castShadow = true;
+  mesh.scale.set(width, height, depth);
+  mesh.position.copy(position);
+  scene.add(mesh); // Cannon body
+
+  var shape = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Box(new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Vec3(width * 0.5, height * 0.5, depth * 0.5));
+  var body = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Body({
+    mass: 1,
+    shape: shape,
+    material: defaultMaterial
+  }); // @ts-ignore
+
+  body.position.copy(position);
+  world.addBody(body);
+  objectsToUpdate.push({
+    mesh: mesh,
+    body: body
+  });
+};
+
+guiObj.createBox = function () {
+  createBoxes(Math.random(), Math.random(), Math.random(), new three__WEBPACK_IMPORTED_MODULE_5__.Vector3((Math.random() - 0.5) * 8, 5, (Math.random() - 0.5) * 8));
 }; // floor
+
 
 var floorShape = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Plane();
 var floorBody = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Body({
@@ -68859,23 +68921,11 @@ var floorBody = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Body({
 });
 floorBody.quaternion.setFromAxisAngle(new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Vec3(1, 0, 0), -Math.PI / 2);
 world.addBody(floorBody); // cannonDebugger
+// const cannonMeshes: THREE.Mesh[] = []
 
-var cannonMeshes = [];
 var cannonDebugger = (0,cannon_es_debugger__WEBPACK_IMPORTED_MODULE_7__["default"])(scene, world, {
   onInit: function onInit(body, mesh) {
-    mesh.visible = false;
-    cannonMeshes.push(mesh);
-  }
-});
-gui.add(guiObj, 'CannonDebugger').name('CannonDebugger mesh visible').onChange(function (value) {
-  if (value) {
-    cannonMeshes.forEach(function (item) {
-      item.visible = true;
-    });
-  } else {
-    cannonMeshes.forEach(function (item) {
-      item.visible = false;
-    });
+    mesh.visible = cannonDebuggerVisible; // cannonMeshes.push(mesh)
   }
 }); // Animations
 
@@ -68884,11 +68934,13 @@ var tick = function tick() {
   controls.update();
   world.fixedStep();
   cannonDebugger.update(); // Update the CannonDebugger meshes
-  // @ts-ignore
 
-  sphere.position.copy(sphereBody.position); // @ts-ignore
+  objectsToUpdate.forEach(function (object) {
+    // @ts-ignore
+    object.mesh.position.copy(object.body.position); // @ts-ignore
 
-  sphere.quaternion.copy(sphereBody.quaternion); // Render
+    object.mesh.quaternion.copy(object.body.quaternion);
+  }); // Render
 
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].end();
@@ -68896,17 +68948,23 @@ var tick = function tick() {
 };
 
 tick();
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer);
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.dbClkfullScreen)(document.documentElement);
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer); // dbClkfullScreen(document.documentElement)
+
 /**
  * Debug
  */
 
-gui.add(controls, 'autoRotate');
-gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01);
+gui.add(controls, 'autoRotate'); // gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
+
 gui.add(material, 'wireframe');
-gui.add(directionLightHelper, 'visible').name('directionLightHelper visible');
-gui.add(guiObj, 'drop');
+gui.add(directionLightHelper, 'visible').name('directionLightHelper visible').onChange(function (v) {
+  directionalLightCameraHelper.visible = v;
+});
+gui.add(guiObj, 'CannonDebugger').name('CannonDebugger mesh visible').onChange(function (value) {
+  cannonDebuggerVisible = value;
+});
+gui.add(guiObj, 'createSphere');
+gui.add(guiObj, 'createBox');
 })();
 
 /******/ })()
