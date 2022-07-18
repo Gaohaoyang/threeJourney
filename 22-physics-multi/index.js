@@ -68778,7 +68778,8 @@ var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
 var guiObj = {
   CannonDebugger: false,
   createSphere: function createSphere() {},
-  createBox: function createBox() {}
+  createBox: function createBox() {},
+  reset: function reset() {}
 };
 var cannonDebuggerVisible = false; // Size
 
@@ -68838,11 +68839,29 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
 /**
+ * Sounds
+ */
+
+var hitSound = new Audio('../assets/sounds/hit.mp3');
+
+var playHitSound = function playHitSound(collision) {
+  var impactStrength = collision.contact.getImpactVelocityAlongNormal();
+
+  if (impactStrength > 1.5) {
+    hitSound.volume = Math.random();
+    hitSound.currentTime = 0;
+    hitSound.play();
+  }
+};
+/**
  * Physics
  */
 
+
 var world = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.World();
 world.gravity.set(0, -9.82, 0);
+world.broadphase = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.SAPBroadphase(world);
+world.allowSleep = true;
 var defaultMaterial = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Material('default');
 var defaultContactMaterial = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.ContactMaterial(defaultMaterial, defaultMaterial, {
   friction: 0.3,
@@ -68877,6 +68896,7 @@ var createSphere = function createSphere(radius, position) {
     mesh: mesh,
     body: body
   });
+  body.addEventListener('collide', playHitSound);
 };
 
 guiObj.createSphere = function () {
@@ -68907,10 +68927,22 @@ var createBoxes = function createBoxes(width, height, depth, position) {
     mesh: mesh,
     body: body
   });
+  body.addEventListener('collide', playHitSound);
 };
 
 guiObj.createBox = function () {
   createBoxes(Math.random(), Math.random(), Math.random(), new three__WEBPACK_IMPORTED_MODULE_5__.Vector3((Math.random() - 0.5) * 8, 5, (Math.random() - 0.5) * 8));
+};
+
+guiObj.reset = function () {
+  objectsToUpdate.forEach(function (object) {
+    // Remove body
+    object.body.removeEventListener('collide', playHitSound);
+    world.removeBody(object.body); // Remove mesh
+
+    scene.remove(object.mesh);
+  });
+  objectsToUpdate.splice(0, objectsToUpdate.length);
 }; // floor
 
 
@@ -68922,11 +68954,10 @@ var floorBody = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Body({
 });
 floorBody.quaternion.setFromAxisAngle(new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Vec3(1, 0, 0), -Math.PI / 2);
 world.addBody(floorBody); // cannonDebugger
-// const cannonMeshes: THREE.Mesh[] = []
 
 var cannonDebugger = (0,cannon_es_debugger__WEBPACK_IMPORTED_MODULE_7__["default"])(scene, world, {
   onInit: function onInit(body, mesh) {
-    mesh.visible = cannonDebuggerVisible; // cannonMeshes.push(mesh)
+    mesh.visible = cannonDebuggerVisible;
   }
 }); // Animations
 
@@ -68955,6 +68986,7 @@ tick();
  * Debug
  */
 
+gui.add(guiObj, 'reset');
 gui.add(controls, 'autoRotate'); // gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
 
 gui.add(material, 'wireframe');
