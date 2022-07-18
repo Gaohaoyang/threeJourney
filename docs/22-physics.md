@@ -260,7 +260,7 @@ floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2)
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01qZHezB1wiEDt8kbat_!!6000000006341-1-tps-1129-595.gif)
 
-# 碰撞材质
+## 碰撞材质
 
 看到上述的 demo 小球碰撞到平面后就几乎静止了，接下来我们深入研究一下碰撞材质的问题，可以让小球进行弹跳。
 
@@ -296,4 +296,62 @@ floorBody.material = defaultMaterial
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01cUFA5x1U8gEpCxQww_!!6000000002473-1-tps-1129-595.gif)
 
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/22-physics/)
 
+可扫码访问
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01e7WHXK1ExUKE6Tcaw_!!6000000000418-2-tps-200-200.png)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/22-physics)
+
+# Cannon-es
+
+cannon.js 开发的时间比较早，使用的是 JavaScript 实现，且几乎没有更新，而 cannon-es 是 fork 了原有的 cannon 并且使用 ts 实现，另外文档也看着比较清晰。接下来我们就用 cannon-es.js 修改上述的 demo。
+
+文档 [https://pmndrs.github.io/cannon-es/docs/](https://pmndrs.github.io/cannon-es/docs/)
+
+```bash
+npm i -S cannon-es
+```
+
+比较方便的是我们可以使用这个方法
+
+```js
+world.fixedStep()
+```
+
+来替换 `world.step()` 其内部处理了每帧 step 的逻辑。
+
+并且可以加入 `cannon-es-debugger` 来展示模型的物理世界的轮廓
+
+```js
+// cannonDebugger
+const cannonMeshes: THREE.Mesh[] = []
+const cannonDebugger = CannonDebugger(scene, world, {
+  onInit(body, mesh) {
+    mesh.visible = false
+    cannonMeshes.push(mesh)
+  },
+})
+gui.add(guiObj, 'CannonDebugger').name('CannonDebugger mesh visible').onChange((value: boolean) => {
+  if (value) {
+    cannonMeshes.forEach((item) => {
+      item.visible = true
+    })
+  } else {
+    cannonMeshes.forEach((item) => {
+      item.visible = false
+    })
+  }
+})
+```
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01ZElB441biabW85Nme_!!6000000003499-1-tps-1129-595.gif)
+
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/22-physics-cannon-es/)
+
+可扫码访问
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01vbsfp11L4Fs1UYhIy_!!6000000001245-2-tps-200-200.png)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/22-physics-cannon-es)
