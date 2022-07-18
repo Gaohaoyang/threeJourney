@@ -83,7 +83,7 @@ world.addContactMaterial(defaultContactMaterial)
 const sphereShape = new CANNON.Sphere(1)
 const sphereBody = new CANNON.Body({
   mass: 1,
-  position: new CANNON.Vec3(0, 3, 0),
+  position: new CANNON.Vec3(0, 4, 0),
   shape: sphereShape,
   material: defaultMaterial,
 })
@@ -133,3 +133,9 @@ gui.add(controls, 'autoRotate')
 gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
 gui.add(material, 'wireframe')
 gui.add(directionLightHelper, 'visible').name('directionLightHelper visible')
+const guiObj = {
+  drop() {
+    sphereBody.position = new CANNON.Vec3(0, 4, 0)
+  },
+}
+gui.add(guiObj, 'drop')
