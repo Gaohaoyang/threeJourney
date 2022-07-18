@@ -22,7 +22,7 @@ web site | [Ammo.js](https://github.com/kripken/ammo.js/) | [Cannon.js](https://
 docs | none | [link](https://github.com/schteppe/cannon.js) | [link](http://lo-th.github.io/Oimo.js/docs.html)
 light or heavy | A little heavy | Lighter than Ammo.js | Lighter than Ammo.js
 maintain | Still updated by a community | Mostly maintained by one developer | Mostly maintained by one developer
-others | Bullet 物理引擎转换而来 | There is a maintained fork | Hasn't been updated for 2 years
+others | Bullet 物理引擎转换而来 | There is a maintained fork, cannon-es 由开源社区维护 | Hasn't been updated for 2 years
 
 ## 2d 物理引擎
 
@@ -314,6 +314,10 @@ cannon.js 开发的时间比较早，使用的是 JavaScript 实现，且几乎�
 npm i -S cannon-es
 ```
 
+```js
+import * as CANNON from 'cannon-es'
+```
+
 比较方便的是我们可以使用这个方法
 
 ```js
@@ -355,3 +359,108 @@ gui.add(guiObj, 'CannonDebugger').name('CannonDebugger mesh visible').onChange((
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01vbsfp11L4Fs1UYhIy_!!6000000001245-2-tps-200-200.png)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/22-physics-cannon-es)
+
+# 施加外力 Apply Forces
+
+- applyForce 施加作用力。可以用作风吹动树叶，或推倒多米诺骨牌或愤怒的小鸟的受力
+- applyImpulse 施加冲量。这个冲量是瞬间的，例如射出去的子弹。
+- applyLocalForce 同 applyForce，不过是在物体的内部施力，对刚体的局部点施力。
+- applyLocalImpulse 同 applyImpulse，不过是在物体的内部施加冲量，对刚体的局部点施加冲量。
+
+例如我们增加如下代码
+
+```js
+sphereBody.applyForce(new CANNON.Vec3(100, 0, 0), new CANNON.Vec3(0, 0, 0))
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN013X111s1pWaqmWq5Ph_!!6000000005368-1-tps-1129-595.gif)
+
+# 处理多个物体
+
+处理1个或2个物体相对简单，但如果处理非常多的物体是可能就会比较麻烦了。我们创建一个物体生成的函数进行处理。
+
+首先我们将之前的球体先移除掉。并创建一个函数 createSphere 用于同时创建 Three.js 中的小球和 Cannon 中的小球
+
+```js
+const createSphere = (radius: number, position: THREE.Vector3) => {
+  // Three.js mesh
+  const mesh = new THREE.Mesh(
+    new THREE.SphereGeometry(radius, 32, 32),
+    new THREE.MeshStandardMaterial(),
+  )
+  mesh.castShadow = true
+  mesh.position.copy(position)
+  scene.add(mesh)
+
+  // Cannon body
+  const shape = new CANNON.Sphere(radius)
+  const body = new CANNON.Body({
+    mass: 1,
+    shape,
+    material: defaultMaterial,
+  })
+  // @ts-ignore
+  body.position.copy(position)
+  world.addBody(body)
+}
+
+createSphere(1, new THREE.Vector3(0, 5, 0))
+```
+
+可以看到小球静止在空中，这是因为我们还没有在 requestAnimationFrame 添加更新位置的逻辑
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01aBhKgf1CQOTOOn0ug_!!6000000000075-2-tps-1137-617.png)
+
+先不着急，我们将一组需要更新的对象放入一个数组中
+
+```js
+const objectsToUpdate: Array<{
+  mesh: THREE.Mesh
+  body: CANNON.Body
+}> = []
+
+const createSphere = (radius: number, position: THREE.Vector3) => {
+  // ...
+  objectsToUpdate.push({
+    mesh,
+    body,
+  })
+  // ...
+}
+
+guiObj.createSphere = () => {
+  createSphere(
+    Math.random(),
+    new THREE.Vector3((Math.random() - 1) * 3, 5, (Math.random() - 1) * 3),
+  )
+}
+```
+
+可以通过 debug gui 控制增加小球了，效果如下
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN018rXccc1i3YQVn09rv_!!6000000004357-1-tps-1129-595.gif)
+
+还可以通过 debugger 观察物体的轮廓
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01k65v7S1o5k0oINl5i_!!6000000005174-1-tps-1129-595.gif)
+
+为了提升性能，可以考虑将几何体只创建一个，如果传入不同半径，则使用 scale 方法进行修改
+
+```js
+const sphereGeometry = new THREE.SphereGeometry(1, 32, 32)
+const createSphere = (radius: number, position: THREE.Vector3) => {
+  // Three.js mesh
+  const mesh = new THREE.Mesh(sphereGeometry, material)
+  mesh.castShadow = true
+  mesh.scale.set(radius, radius, radius)
+  mesh.position.copy(position)
+  scene.add(mesh)
+  // ...
+}
+```
+
+# 增加立方体
+
+

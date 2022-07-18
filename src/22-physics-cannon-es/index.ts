@@ -80,7 +80,7 @@ world.gravity.set(0, -9.82, 0)
 
 const defaultMaterial = new CANNON.Material('default')
 const defaultContactMaterial = new CANNON.ContactMaterial(defaultMaterial, defaultMaterial, {
-  friction: 0.1,
+  friction: 0.8,
   restitution: 0.7,
 })
 world.addContactMaterial(defaultContactMaterial)
@@ -93,6 +93,7 @@ const sphereBody = new CANNON.Body({
   material: defaultMaterial,
 })
 world.addBody(sphereBody)
+// sphereBody.applyForce(new CANNON.Vec3(100, 0, 0), new CANNON.Vec3(0, 0, 0))
 
 const guiObj = {
   drop() {
