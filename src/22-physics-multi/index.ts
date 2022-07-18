@@ -51,7 +51,7 @@ const plane = new THREE.Mesh(
   new THREE.PlaneGeometry(15, 15),
   new THREE.MeshStandardMaterial({
     color: '#607D8B',
-  }),
+  })
 )
 plane.rotateX(-Math.PI / 2)
 plane.receiveShadow = true
@@ -91,10 +91,25 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.shadowMap.enabled = true
 
 /**
+ * Sounds
+ */
+const hitSound = new Audio('../assets/sounds/hit.mp3')
+const playHitSound = (collision: { contact: CANNON.ContactEquation }) => {
+  const impactStrength = collision.contact.getImpactVelocityAlongNormal()
+  if (impactStrength > 1.5) {
+    hitSound.volume = Math.random()
+    hitSound.currentTime = 0
+    hitSound.play()
+  }
+}
+
+/**
  * Physics
  */
 const world = new CANNON.World()
 world.gravity.set(0, -9.82, 0)
+world.broadphase = new CANNON.SAPBroadphase(world)
+world.allowSleep = true
 
 const defaultMaterial = new CANNON.Material('default')
 const defaultContactMaterial = new CANNON.ContactMaterial(defaultMaterial, defaultMaterial, {
@@ -133,11 +148,12 @@ const createSphere = (radius: number, position: THREE.Vector3) => {
     mesh,
     body,
   })
+  body.addEventListener('collide', playHitSound)
 }
 guiObj.createSphere = () => {
   createSphere(
     Math.random(),
-    new THREE.Vector3((Math.random() - 0.5) * 8, 5, (Math.random() - 0.5) * 8),
+    new THREE.Vector3((Math.random() - 0.5) * 8, 5, (Math.random() - 0.5) * 8)
   )
 }
 
@@ -165,13 +181,14 @@ const createBoxes = (width: number, height: number, depth: number, position: THR
     mesh,
     body,
   })
+  body.addEventListener('collide', playHitSound)
 }
 guiObj.createBox = () => {
   createBoxes(
     Math.random(),
     Math.random(),
     Math.random(),
-    new THREE.Vector3((Math.random() - 0.5) * 8, 5, (Math.random() - 0.5) * 8),
+    new THREE.Vector3((Math.random() - 0.5) * 8, 5, (Math.random() - 0.5) * 8)
   )
 }
 
@@ -186,11 +203,9 @@ floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2)
 world.addBody(floorBody)
 
 // cannonDebugger
-// const cannonMeshes: THREE.Mesh[] = []
 const cannonDebugger = CannonDebugger(scene, world, {
   onInit(body, mesh) {
     mesh.visible = cannonDebuggerVisible
-    // cannonMeshes.push(mesh)
   },
 })
 

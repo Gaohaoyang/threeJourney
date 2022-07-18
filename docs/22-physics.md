@@ -501,6 +501,27 @@ guiObj.createBox = () => {
 }
 ```
 
+另外别忘了需要在 requestAnimationFrame 中增加四元数（quaternion）的同步，主要是为了立方体的旋转。
+
+```js
+// Animations
+const tick = () => {
+  // ...
+  objectsToUpdate.forEach((object) => {
+    // @ts-ignore
+    object.mesh.position.copy(object.body.position)
+    // @ts-ignore
+    object.mesh.quaternion.copy(object.body.quaternion)
+  })
+
+  // ...
+}
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01OosA481x3IRHsU9XS_!!6000000006387-1-tps-1129-518.gif)
+
 在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/22-physics-multi/)
 
 可扫码访问
@@ -508,3 +529,60 @@ guiObj.createBox = () => {
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01qK8IGV1Xq8fZ7wU10_!!6000000002974-2-tps-200-200.png)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/22-physics-multi)
+
+# 性能优化
+
+## 碰撞检测 collision detection 中的宽相 Broadphase
+
+检测物体之间碰撞，每次每个物体互相检查是一个非常消耗性能的场景。这就需要宽相（Broadphase）了，它通过负责的算法在检测碰撞之前，将物体分类，如果2个物体相距太远，根本不会发生碰撞，它们可能就不在同一个分类里，计算机也不需要进行碰撞计算检测。
+
+- [NaiveBroadphase](https://pmndrs.github.io/cannon-es/docs/classes/NaiveBroadphase.html) Cannon 默认的算法。检测物体碰撞时，一个基础的方式是检测每个物体是否与其他每个物体发生了碰撞
+- [GridBroadphase](https://pmndrs.github.io/cannon-es/docs/classes/GridBroadphase.html) 网格检测。轴对齐的均匀网格 Broadphase。将空间划分为网格，网格内进行检测。
+- [SAPBroadphase(Sweep-and-Prune)](https://pmndrs.github.io/cannon-es/docs/classes/SAPBroadphase.html) 扫描-剪枝算法，性能最好。背后算法太过复杂，后续如果我有时间和精力，会单独写一篇关于碰撞检测的专题文章。
+
+默认为 NaiveBroadphase，建议替换为 SAPBroadphase
+
+```js
+world.broadphase = new CANNON.SAPBroadphase(world)
+```
+
+## Sleep
+
+虽然我们使用了 Broadphase 算法来优化了物体的碰撞检测，但是仍然是对所有物体进行了检测。我们可以使用一个特性叫 sleep。当物体的速度非常非常满的时候，肉眼已经无法察觉其在运动，那么就可以让这个物体 sleep，不参与碰撞检测，直到它被外力击中或其他物体碰撞到它。
+
+```js
+world.allowSleep = true
+```
+
+# Events 事件
+
+我们可以监听 Body 上的事件。如果需要在碰撞时发出声音这将非常有用。可以监听的事件有 'collide', 'sleep' or 'wakeup' 等
+
+我们首先增加音频
+
+```js
+/**
+ * Sounds
+ */
+const hitSound = new Audio('../assets/sounds/hit.mp3')
+const playHitSound = (collision: { contact: CANNON.ContactEquation }) => {
+  const impactStrength = collision.contact.getImpactVelocityAlongNormal()
+  if (impactStrength > 1.5) {
+    hitSound.volume = Math.random()
+    hitSound.currentTime = 0
+    hitSound.play()
+  }
+}
+```
+
+注意这里 impactStrength 碰撞力度我们设置了个阈值，太低时不发出声音。并将每次发声时间都归零。
+
+再在创建球和立方体的地方增加监听
+
+```js
+body.addEventListener('collide', playHitSound)
+```
+
+如果你打开电脑或手机的的声音，效果很好。
+
+# 移除物体
