@@ -463,4 +463,48 @@ const createSphere = (radius: number, position: THREE.Vector3) => {
 
 # 增加立方体
 
+与增加球体类似
 
+```js
+// Boxes
+const boxGeometry = new THREE.BoxGeometry()
+const createBoxes = (width: number, height: number, depth: number, position: THREE.Vector3) => {
+  // Three.js mesh
+  const mesh = new THREE.Mesh(boxGeometry, material)
+  mesh.castShadow = true
+  mesh.scale.set(width, height, depth)
+  mesh.position.copy(position)
+  scene.add(mesh)
+
+  // Cannon body
+  const shape = new CANNON.Box(new CANNON.Vec3(width * 0.5, height * 0.5, depth * 0.5))
+  const body = new CANNON.Body({
+    mass: 1,
+    shape,
+    material: defaultMaterial,
+  })
+  // @ts-ignore
+  body.position.copy(position)
+  world.addBody(body)
+  objectsToUpdate.push({
+    mesh,
+    body,
+  })
+}
+guiObj.createBox = () => {
+  createBoxes(
+    Math.random(),
+    Math.random(),
+    Math.random(),
+    new THREE.Vector3((Math.random() - 0.5) * 8, 5, (Math.random() - 0.5) * 8),
+  )
+}
+```
+
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/22-physics-multi/)
+
+可扫码访问
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01vbsfp11L4Fs1UYhIy_!!6000000001245-2-tps-200-200.png)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/22-physics-multi)

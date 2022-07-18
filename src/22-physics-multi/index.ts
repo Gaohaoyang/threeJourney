@@ -6,7 +6,7 @@ import * as dat from 'lil-gui'
 import * as CANNON from 'cannon-es'
 import CannonDebugger from 'cannon-es-debugger'
 import stats from '../common/stats'
-import { listenResize, dbClkfullScreen } from '../common/utils'
+import { listenResize } from '../common/utils'
 
 // Canvas
 const canvas = document.querySelector('#mainCanvas') as HTMLCanvasElement
@@ -37,6 +37,7 @@ camera.position.set(4, 4, 12)
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
 controls.zoomSpeed = 0.3
+controls.autoRotate = true
 controls.target = new THREE.Vector3(0, 3, 0)
 
 /**
@@ -50,7 +51,7 @@ const plane = new THREE.Mesh(
   new THREE.PlaneGeometry(15, 15),
   new THREE.MeshStandardMaterial({
     color: '#607D8B',
-  })
+  }),
 )
 plane.rotateX(-Math.PI / 2)
 plane.receiveShadow = true
@@ -83,7 +84,7 @@ scene.add(ambientLight, directionLight)
 // Renderer
 const renderer = new THREE.WebGLRenderer({
   canvas,
-  // antialias: true,
+  antialias: true,
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -136,7 +137,7 @@ const createSphere = (radius: number, position: THREE.Vector3) => {
 guiObj.createSphere = () => {
   createSphere(
     Math.random(),
-    new THREE.Vector3((Math.random() - 0.5) * 8, 5, (Math.random() - 0.5) * 8)
+    new THREE.Vector3((Math.random() - 0.5) * 8, 5, (Math.random() - 0.5) * 8),
   )
 }
 
@@ -170,7 +171,7 @@ guiObj.createBox = () => {
     Math.random(),
     Math.random(),
     Math.random(),
-    new THREE.Vector3((Math.random() - 0.5) * 8, 5, (Math.random() - 0.5) * 8)
+    new THREE.Vector3((Math.random() - 0.5) * 8, 5, (Math.random() - 0.5) * 8),
   )
 }
 
