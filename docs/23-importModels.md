@@ -634,4 +634,57 @@ const tick = () => {
 }
 ```
 
+![](https://gw.alicdn.com/imgextra/i1/O1CN01xwNK5p26wYmDiDAKw_!!6000000007726-2-tps-1139-472.png)
+
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01GdP6QR1g2yhbflAfX_!!6000000004085-1-tps-816-397.gif)
+
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/23-importModelsAnimation/)
+
+可扫码访问
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01J1lx7p1NERv65tDjx_!!6000000001538-2-tps-200-200.png)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/23-importModelsAnimation)
+
+# Three.js Editor
+
+最后在说一下 Three.js 在线编辑器。我们在日常想载入一个新的模型时，有时为了方便预览，可以使用这个在线编辑器。
+
+我们必须使用单个文件的模型，例如二进制或 embed 文件，我们直接将文件拖入编辑器，就可以看到了，再添加环境光和平行光，如下图
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN011wbkGn1UNKv0GmeRW_!!6000000002505-2-tps-1137-545.png)
+
+如果我们要测试动画，可以在节点上添加脚本，例如我们在 Scene 上添加脚本，先选中右上角
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01oQpdRU1SvZHv6GJLM_!!6000000002309-2-tps-396-187.png)
+
+下面的 script 里可以编写代码
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN013ycOE11WG7uhMY9qJ_!!6000000002760-2-tps-326-132.png)
+
+编写如下代码
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01pvYaOV2399COdD4uT_!!6000000007212-2-tps-1142-598.png)
+
+```js
+console.log(scene)
+const fox = scene.children[0]
+
+const mixer = new THREE.AnimationMixer(fox)
+actionRun = mixer.clipAction(fox.animations[2])
+actionRun.play()
+
+function update( event ) {
+	if (mixer) {
+    	mixer.update(event.delta/1000)
+	}
+}
+```
+
+点击菜单栏的 play 就可以预览了，同时此时的 chrome devTools 也是有效的，可以便于调试。效果如下
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01a1OBnD20TLpD2cHcM_!!6000000006850-1-tps-1131-542.gif)
+
+# 小结
+
+本节我们学习了 3D 模型相关内容，学习了 3D 模型的各种格式，学会了如何导入一个模型，以及 Draco 压缩模型的特点。学习了如何使用模型内置的动画。最后学习了 Three.js 在线编辑器的使用。接下来我们将学习了解 Blender 是使用。
