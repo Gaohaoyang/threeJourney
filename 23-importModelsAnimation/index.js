@@ -60418,7 +60418,8 @@ var renderer = new three__WEBPACK_IMPORTED_MODULE_7__.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.shadowMap.enabled = true; // Animations
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_7__.PCFSoftShadowMap; // Animations
 
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_5__["default"].begin();

@@ -60371,9 +60371,9 @@ dracoLoader.setDecoderPath('../assets/draco/'); // Optional: Pre-fetch Draco WAS
 
 dracoLoader.preload();
 gltfLoader.setDRACOLoader(dracoLoader);
-gltfLoader.load('../assets/models/Duck/glTF/Duck.gltf', // '../assets/models/Duck/glTF-Binary/Duck.glb',
-// '../assets/models/Duck/glTF-Draco/Duck.gltf',
-// '../assets/models/FlightHelmet/glTF/FlightHelmet.gltf',
+gltfLoader.load( // '../assets/models/Duck/glTF/Duck.gltf',
+// '../assets/models/Duck/glTF-Binary/Duck.glb',
+'../assets/models/Duck/glTF-Draco/Duck.gltf', // '../assets/models/FlightHelmet/glTF/FlightHelmet.gltf',
 function (gltf) {
   console.log('success');
   console.log(gltf); // gltf.scene.scale.set(10, 10, 10)
