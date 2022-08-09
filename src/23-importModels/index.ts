@@ -60,9 +60,9 @@ dracoLoader.setDecoderPath('../assets/draco/')
 dracoLoader.preload()
 gltfLoader.setDRACOLoader(dracoLoader)
 gltfLoader.load(
-  '../assets/models/Duck/glTF/Duck.gltf',
+  // '../assets/models/Duck/glTF/Duck.gltf',
   // '../assets/models/Duck/glTF-Binary/Duck.glb',
-  // '../assets/models/Duck/glTF-Draco/Duck.gltf',
+  '../assets/models/Duck/glTF-Draco/Duck.gltf',
   // '../assets/models/FlightHelmet/glTF/FlightHelmet.gltf',
   (gltf) => {
     console.log('success')
