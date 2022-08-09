@@ -422,3 +422,216 @@ gltfLoader.load(
 如开头我们所述，glTF 模型是支持动画的，并且 Three.js 也可以处理这些动画。
 
 ## 载入一个有动画的 demo
+
+我们使用 Fox 狐狸模型，这个模型包含了一些动画能力
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01qoRVgZ1IneHTHI0UU_!!6000000000938-0-tps-130-130.jpg)
+
+先将模型载入，并控制一下缩放比例
+
+```js
+/**
+ * Models
+ */
+const gltfLoader = new GLTFLoader()
+gltfLoader.load(
+  '../assets/models/Fox/glTF/Fox.gltf',
+  (gltf) => {
+    console.log('success')
+    gltf.scene.scale.set(0.03, 0.03, 0.03)
+    scene.add(gltf.scene)
+  },
+  (progress) => {
+    console.log('progress')
+    console.log(progress)
+  },
+  (error) => {
+    console.log('error')
+    console.log(error)
+  },
+)
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01UhE9ds1UPctbOlniA_!!6000000002510-2-tps-1129-552.png)
+
+### 动画控制
+
+我们可以看到模型里返回了3个 AnimationClip 类型的对象
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN014D2NQP27kwLNT705m_!!6000000007836-2-tps-989-259.png)
+
+想要使用这些动画片段，我们需要使用 [AnimationMixer](https://threejs.org/docs/#api/zh/animation/AnimationMixer)，一个 AnimationMixer 可以包含一个或多个动画片段。
+
+通过 AnimationMixer 载入动画片段，并在 tick 中每帧进行 update。代码如下
+
+```js
+/**
+ * Models
+ */
+let mixer: THREE.AnimationMixer | null = null
+const gltfLoader = new GLTFLoader()
+gltfLoader.load(
+  '../assets/models/Fox/glTF/Fox.gltf',
+  (gltf) => {
+    console.log('success')
+    console.log(gltf)
+    gltf.scene.scale.set(0.03, 0.03, 0.03)
+    scene.add(gltf.scene)
+
+    mixer = new THREE.AnimationMixer(gltf.scene)
+    const action = mixer.clipAction(gltf.animations[0])
+    action.play()
+  },
+  (progress) => {
+    console.log('progress')
+    console.log(progress)
+  },
+  (error) => {
+    console.log('error')
+    console.log(error)
+  },
+)
+
+// ...
+
+// Animations
+const clock = new THREE.Clock()
+let previousTime = 0
+const tick = () => {
+  stats.begin()
+  controls.update()
+
+  const elapsedTime = clock.getElapsedTime()
+  const deltaTime = elapsedTime - previousTime
+  previousTime = elapsedTime
+
+  // update mixer
+  if (mixer) {
+    mixer.update(deltaTime)
+  }
+
+  // Render
+  renderer.render(scene, camera)
+  stats.end()
+  requestAnimationFrame(tick)
+}
+
+tick()
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN018RRzd51bnAZKuh6Ce_!!6000000003509-1-tps-716-261.gif)
+
+我们尝试再复杂一点，让狐狸从巡视状态转变为走路状态，再从走路状态转变为奔跑。
+
+在模型载入时将所有的动画全部开启，并将不需要的动画的权重 weight 先降为 0，在点击 GUI 按钮后，再进行权重过渡。代码如下
+
+```js
+gltfLoader.load(
+  '../assets/models/Fox/glTF/Fox.gltf',
+  (gltf) => {
+    // ...
+    // Animations
+    mixer = new THREE.AnimationMixer(gltf.scene)
+    actionSurvey = mixer.clipAction(gltf.animations[0])
+    actionWalk = mixer.clipAction(gltf.animations[1])
+    actionRun = mixer.clipAction(gltf.animations[2])
+    actionWalk.setEffectiveWeight(0)
+    actionRun.setEffectiveWeight(0)
+    actionSurvey.play()
+    actionWalk.play()
+    actionRun.play()
+
+    createGUIPanel() // 创建 GUI 面板
+    //...
+  },
+)
+```
+
+在创建GUI面板函数 createGUIPanel 中，实现点击按钮过渡效果。
+
+我们实现4个按钮，`surveyToWalk`, `walkToRun`, `runToWalk`, `walkToSurvey` 过渡这3个动画。过渡的过程核心就是修改动画的权重 weight，代码如下：
+
+```js
+const createGUIPanel = () => {
+  // ...
+
+  const executeCrossFade = (
+    startAction: THREE.AnimationAction | null,
+    endAction: THREE.AnimationAction | null,
+    duration = 3,
+  ) => {
+    if (!startAction || !endAction) return
+    endAction.enabled = true
+    endAction.time = 0
+    endAction.setEffectiveTimeScale(1)
+    endAction.setEffectiveWeight(1)
+    startAction.crossFadeTo(endAction, duration, true)
+  }
+
+  const guiObj = {
+    surveyToWalk: () => {
+      executeCrossFade(actionSurvey, actionWalk)
+    },
+    walkToRun: () => {
+      executeCrossFade(actionWalk, actionRun)
+    },
+    runToWalk: () => {
+      executeCrossFade(actionRun, actionWalk)
+    },
+    walkToSurvey: () => {
+      executeCrossFade(actionWalk, actionSurvey)
+    },
+  }
+
+  const animationFolder = gui.addFolder('Animation')
+  animationFolder.add(guiObj, 'surveyToWalk')
+  animationFolder.add(guiObj, 'walkToRun')
+  animationFolder.add(guiObj, 'runToWalk')
+  animationFolder.add(guiObj, 'walkToSurvey')
+
+  // ...
+}
+```
+
+同时在 tick 函数中，我们将动画过渡过程中，按钮置灰，避免动画错乱。同时将不可能的过渡状态也置灰处理。代码如下
+
+```js
+const tick = () => {
+  stats.begin()
+  controls.update()
+
+  const elapsedTime = clock.getElapsedTime()
+  const deltaTime = elapsedTime - previousTime
+  previousTime = elapsedTime
+
+  // update mixer
+  if (mixer) {
+    mixer.update(deltaTime)
+    if (actionSurvey) {
+      surveyWeight = actionSurvey.getEffectiveWeight()
+    }
+    if (actionWalk) {
+      walkWeight = actionWalk.getEffectiveWeight()
+    }
+    if (actionRun) {
+      runWeight = actionRun.getEffectiveWeight()
+    }
+    const animationFolder = gui.children[5] as dat.GUI
+    (animationFolder.children[0] as dat.Controller).disable(surveyWeight !== 1);
+    (animationFolder.children[1] as dat.Controller).disable(walkWeight !== 1);
+    (animationFolder.children[2] as dat.Controller).disable(runWeight !== 1);
+    (animationFolder.children[3] as dat.Controller).disable(walkWeight !== 1)
+  }
+
+  // Render
+  renderer.render(scene, camera)
+  stats.end()
+  requestAnimationFrame(tick)
+}
+```
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01GdP6QR1g2yhbflAfX_!!6000000004085-1-tps-816-397.gif)

@@ -1,9 +1,11 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-param-reassign */
 import * as THREE from 'three'
 import './style.css'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import * as dat from 'lil-gui'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
+// import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 import stats from '../common/stats'
 import { listenResize } from '../common/utils'
 
@@ -15,6 +17,9 @@ const scene = new THREE.Scene()
 
 // Gui
 const gui = new dat.GUI()
+let surveyWeight = 0
+let walkWeight = 0
+let runWeight = 0
 
 // Size
 const sizes = {
@@ -24,14 +29,14 @@ const sizes = {
 
 // Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(4, 4, 6)
+camera.position.set(4, 2, 6)
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
 controls.zoomSpeed = 0.3
 controls.target = new THREE.Vector3(0, 3, 0)
-controls.autoRotate = true
+// controls.autoRotate = true
 
 /**
  * Objects
@@ -50,29 +55,46 @@ scene.add(plane)
 /**
  * Models
  */
+let model: THREE.Group | null = null
+let mixer: THREE.AnimationMixer | null = null
+let skeleton: THREE.SkeletonHelper | null = null
+let actionSurvey: THREE.AnimationAction | null = null
+let actionWalk: THREE.AnimationAction | null = null
+let actionRun: THREE.AnimationAction | null = null
+
 const gltfLoader = new GLTFLoader()
-// draco
-// Optional: Provide a DRACOLoader instance to decode compressed mesh data
-const dracoLoader = new DRACOLoader()
-// Specify path to a folder containing WASM/JS decoding libraries.
-dracoLoader.setDecoderPath('../assets/draco/')
-// Optional: Pre-fetch Draco WASM/JS module.
-dracoLoader.preload()
-gltfLoader.setDRACOLoader(dracoLoader)
 gltfLoader.load(
-  '../assets/models/Duck/glTF/Duck.gltf',
-  // '../assets/models/Duck/glTF-Binary/Duck.glb',
-  // '../assets/models/Duck/glTF-Draco/Duck.gltf',
-  // '../assets/models/FlightHelmet/glTF/FlightHelmet.gltf',
+  '../assets/models/Fox/glTF/Fox.gltf',
   (gltf) => {
     console.log('success')
     console.log(gltf)
-    // gltf.scene.scale.set(10, 10, 10)
-    // scene.add(gltf.scene)
-    const duck = gltf.scene.children[0]
-    duck.children[1].castShadow = true
-    duck.position.set(0, -0.09, 0)
-    scene.add(duck)
+    model = gltf.scene
+    model.scale.set(0.03, 0.03, 0.03)
+    scene.add(model)
+
+    // 遍历添加光影
+    model.traverse((object: THREE.Mesh) => {
+      if (object.isMesh) {
+        object.castShadow = true
+      }
+    })
+
+    skeleton = new THREE.SkeletonHelper(model)
+    skeleton.visible = false
+    scene.add(skeleton)
+
+    // Animations
+    mixer = new THREE.AnimationMixer(gltf.scene)
+    actionSurvey = mixer.clipAction(gltf.animations[0])
+    actionWalk = mixer.clipAction(gltf.animations[1])
+    actionRun = mixer.clipAction(gltf.animations[2])
+    actionWalk.setEffectiveWeight(0)
+    actionRun.setEffectiveWeight(0)
+    actionSurvey.play()
+    actionWalk.play()
+    actionRun.play()
+
+    createGUIPanel()
   },
   (progress) => {
     console.log('progress')
@@ -119,9 +141,34 @@ renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
 // Animations
+const clock = new THREE.Clock()
+let previousTime = 0
 const tick = () => {
   stats.begin()
   controls.update()
+
+  const elapsedTime = clock.getElapsedTime()
+  const deltaTime = elapsedTime - previousTime
+  previousTime = elapsedTime
+
+  // update mixer
+  if (mixer) {
+    mixer.update(deltaTime)
+    if (actionSurvey) {
+      surveyWeight = actionSurvey.getEffectiveWeight()
+    }
+    if (actionWalk) {
+      walkWeight = actionWalk.getEffectiveWeight()
+    }
+    if (actionRun) {
+      runWeight = actionRun.getEffectiveWeight()
+    }
+    const animationFolder = gui.children[5] as dat.GUI
+    (animationFolder.children[0] as dat.Controller).disable(surveyWeight !== 1);
+    (animationFolder.children[1] as dat.Controller).disable(walkWeight !== 1);
+    (animationFolder.children[2] as dat.Controller).disable(runWeight !== 1);
+    (animationFolder.children[3] as dat.Controller).disable(walkWeight !== 1)
+  }
 
   // Render
   renderer.render(scene, camera)
@@ -133,6 +180,44 @@ tick()
 
 listenResize(sizes, camera, renderer)
 
-gui.add(directionLightHelper, 'visible').name('lightHelper visible')
-gui.add(directionalLightCameraHelper, 'visible').name('lightCameraHelper visible')
-gui.add(controls, 'autoRotate')
+const createGUIPanel = () => {
+  gui.add(directionLightHelper, 'visible').name('lightHelper visible')
+  gui.add(directionalLightCameraHelper, 'visible').name('lightCameraHelper visible')
+  gui.add(controls, 'autoRotate')
+  gui.add(model!, 'visible').name('model visible')
+  gui.add(skeleton!, 'visible').name('skeleton visible')
+
+  const executeCrossFade = (
+    startAction: THREE.AnimationAction | null,
+    endAction: THREE.AnimationAction | null,
+    duration = 1,
+  ) => {
+    if (!startAction || !endAction) return
+    endAction.enabled = true
+    endAction.time = 0
+    endAction.setEffectiveTimeScale(1)
+    endAction.setEffectiveWeight(1)
+    startAction.crossFadeTo(endAction, duration, true)
+  }
+
+  const guiObj = {
+    surveyToWalk: () => {
+      executeCrossFade(actionSurvey, actionWalk)
+    },
+    walkToRun: () => {
+      executeCrossFade(actionWalk, actionRun)
+    },
+    runToWalk: () => {
+      executeCrossFade(actionRun, actionWalk)
+    },
+    walkToSurvey: () => {
+      executeCrossFade(actionWalk, actionSurvey)
+    },
+  }
+
+  const animationFolder = gui.addFolder('Animation')
+  animationFolder.add(guiObj, 'surveyToWalk')
+  animationFolder.add(guiObj, 'walkToRun')
+  animationFolder.add(guiObj, 'runToWalk')
+  animationFolder.add(guiObj, 'walkToSurvey')
+}
