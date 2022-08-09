@@ -55281,604 +55281,6 @@ class MapControls extends OrbitControls {
 
 /***/ }),
 
-/***/ "./node_modules/_three@0.139.2@three/examples/jsm/loaders/DRACOLoader.js":
-/*!*******************************************************************************!*\
-  !*** ./node_modules/_three@0.139.2@three/examples/jsm/loaders/DRACOLoader.js ***!
-  \*******************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DRACOLoader": () => (/* binding */ DRACOLoader)
-/* harmony export */ });
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/_three@0.139.2@three/build/three.module.js");
-
-
-const _taskCache = new WeakMap();
-
-class DRACOLoader extends three__WEBPACK_IMPORTED_MODULE_0__.Loader {
-
-	constructor( manager ) {
-
-		super( manager );
-
-		this.decoderPath = '';
-		this.decoderConfig = {};
-		this.decoderBinary = null;
-		this.decoderPending = null;
-
-		this.workerLimit = 4;
-		this.workerPool = [];
-		this.workerNextTaskID = 1;
-		this.workerSourceURL = '';
-
-		this.defaultAttributeIDs = {
-			position: 'POSITION',
-			normal: 'NORMAL',
-			color: 'COLOR',
-			uv: 'TEX_COORD'
-		};
-		this.defaultAttributeTypes = {
-			position: 'Float32Array',
-			normal: 'Float32Array',
-			color: 'Float32Array',
-			uv: 'Float32Array'
-		};
-
-	}
-
-	setDecoderPath( path ) {
-
-		this.decoderPath = path;
-
-		return this;
-
-	}
-
-	setDecoderConfig( config ) {
-
-		this.decoderConfig = config;
-
-		return this;
-
-	}
-
-	setWorkerLimit( workerLimit ) {
-
-		this.workerLimit = workerLimit;
-
-		return this;
-
-	}
-
-	load( url, onLoad, onProgress, onError ) {
-
-		const loader = new three__WEBPACK_IMPORTED_MODULE_0__.FileLoader( this.manager );
-
-		loader.setPath( this.path );
-		loader.setResponseType( 'arraybuffer' );
-		loader.setRequestHeader( this.requestHeader );
-		loader.setWithCredentials( this.withCredentials );
-
-		loader.load( url, ( buffer ) => {
-
-			const taskConfig = {
-				attributeIDs: this.defaultAttributeIDs,
-				attributeTypes: this.defaultAttributeTypes,
-				useUniqueIDs: false
-			};
-
-			this.decodeGeometry( buffer, taskConfig )
-				.then( onLoad )
-				.catch( onError );
-
-		}, onProgress, onError );
-
-	}
-
-	/** @deprecated Kept for backward-compatibility with previous DRACOLoader versions. */
-	decodeDracoFile( buffer, callback, attributeIDs, attributeTypes ) {
-
-		const taskConfig = {
-			attributeIDs: attributeIDs || this.defaultAttributeIDs,
-			attributeTypes: attributeTypes || this.defaultAttributeTypes,
-			useUniqueIDs: !! attributeIDs
-		};
-
-		this.decodeGeometry( buffer, taskConfig ).then( callback );
-
-	}
-
-	decodeGeometry( buffer, taskConfig ) {
-
-		// TODO: For backward-compatibility, support 'attributeTypes' objects containing
-		// references (rather than names) to typed array constructors. These must be
-		// serialized before sending them to the worker.
-		for ( const attribute in taskConfig.attributeTypes ) {
-
-			const type = taskConfig.attributeTypes[ attribute ];
-
-			if ( type.BYTES_PER_ELEMENT !== undefined ) {
-
-				taskConfig.attributeTypes[ attribute ] = type.name;
-
-			}
-
-		}
-
-		//
-
-		const taskKey = JSON.stringify( taskConfig );
-
-		// Check for an existing task using this buffer. A transferred buffer cannot be transferred
-		// again from this thread.
-		if ( _taskCache.has( buffer ) ) {
-
-			const cachedTask = _taskCache.get( buffer );
-
-			if ( cachedTask.key === taskKey ) {
-
-				return cachedTask.promise;
-
-			} else if ( buffer.byteLength === 0 ) {
-
-				// Technically, it would be possible to wait for the previous task to complete,
-				// transfer the buffer back, and decode again with the second configuration. That
-				// is complex, and I don't know of any reason to decode a Draco buffer twice in
-				// different ways, so this is left unimplemented.
-				throw new Error(
-
-					'THREE.DRACOLoader: Unable to re-decode a buffer with different ' +
-					'settings. Buffer has already been transferred.'
-
-				);
-
-			}
-
-		}
-
-		//
-
-		let worker;
-		const taskID = this.workerNextTaskID ++;
-		const taskCost = buffer.byteLength;
-
-		// Obtain a worker and assign a task, and construct a geometry instance
-		// when the task completes.
-		const geometryPending = this._getWorker( taskID, taskCost )
-			.then( ( _worker ) => {
-
-				worker = _worker;
-
-				return new Promise( ( resolve, reject ) => {
-
-					worker._callbacks[ taskID ] = { resolve, reject };
-
-					worker.postMessage( { type: 'decode', id: taskID, taskConfig, buffer }, [ buffer ] );
-
-					// this.debug();
-
-				} );
-
-			} )
-			.then( ( message ) => this._createGeometry( message.geometry ) );
-
-		// Remove task from the task list.
-		// Note: replaced '.finally()' with '.catch().then()' block - iOS 11 support (#19416)
-		geometryPending
-			.catch( () => true )
-			.then( () => {
-
-				if ( worker && taskID ) {
-
-					this._releaseTask( worker, taskID );
-
-					// this.debug();
-
-				}
-
-			} );
-
-		// Cache the task result.
-		_taskCache.set( buffer, {
-
-			key: taskKey,
-			promise: geometryPending
-
-		} );
-
-		return geometryPending;
-
-	}
-
-	_createGeometry( geometryData ) {
-
-		const geometry = new three__WEBPACK_IMPORTED_MODULE_0__.BufferGeometry();
-
-		if ( geometryData.index ) {
-
-			geometry.setIndex( new three__WEBPACK_IMPORTED_MODULE_0__.BufferAttribute( geometryData.index.array, 1 ) );
-
-		}
-
-		for ( let i = 0; i < geometryData.attributes.length; i ++ ) {
-
-			const attribute = geometryData.attributes[ i ];
-			const name = attribute.name;
-			const array = attribute.array;
-			const itemSize = attribute.itemSize;
-
-			geometry.setAttribute( name, new three__WEBPACK_IMPORTED_MODULE_0__.BufferAttribute( array, itemSize ) );
-
-		}
-
-		return geometry;
-
-	}
-
-	_loadLibrary( url, responseType ) {
-
-		const loader = new three__WEBPACK_IMPORTED_MODULE_0__.FileLoader( this.manager );
-		loader.setPath( this.decoderPath );
-		loader.setResponseType( responseType );
-		loader.setWithCredentials( this.withCredentials );
-
-		return new Promise( ( resolve, reject ) => {
-
-			loader.load( url, resolve, undefined, reject );
-
-		} );
-
-	}
-
-	preload() {
-
-		this._initDecoder();
-
-		return this;
-
-	}
-
-	_initDecoder() {
-
-		if ( this.decoderPending ) return this.decoderPending;
-
-		const useJS = typeof WebAssembly !== 'object' || this.decoderConfig.type === 'js';
-		const librariesPending = [];
-
-		if ( useJS ) {
-
-			librariesPending.push( this._loadLibrary( 'draco_decoder.js', 'text' ) );
-
-		} else {
-
-			librariesPending.push( this._loadLibrary( 'draco_wasm_wrapper.js', 'text' ) );
-			librariesPending.push( this._loadLibrary( 'draco_decoder.wasm', 'arraybuffer' ) );
-
-		}
-
-		this.decoderPending = Promise.all( librariesPending )
-			.then( ( libraries ) => {
-
-				const jsContent = libraries[ 0 ];
-
-				if ( ! useJS ) {
-
-					this.decoderConfig.wasmBinary = libraries[ 1 ];
-
-				}
-
-				const fn = DRACOWorker.toString();
-
-				const body = [
-					'/* draco decoder */',
-					jsContent,
-					'',
-					'/* worker */',
-					fn.substring( fn.indexOf( '{' ) + 1, fn.lastIndexOf( '}' ) )
-				].join( '\n' );
-
-				this.workerSourceURL = URL.createObjectURL( new Blob( [ body ] ) );
-
-			} );
-
-		return this.decoderPending;
-
-	}
-
-	_getWorker( taskID, taskCost ) {
-
-		return this._initDecoder().then( () => {
-
-			if ( this.workerPool.length < this.workerLimit ) {
-
-				const worker = new Worker( this.workerSourceURL );
-
-				worker._callbacks = {};
-				worker._taskCosts = {};
-				worker._taskLoad = 0;
-
-				worker.postMessage( { type: 'init', decoderConfig: this.decoderConfig } );
-
-				worker.onmessage = function ( e ) {
-
-					const message = e.data;
-
-					switch ( message.type ) {
-
-						case 'decode':
-							worker._callbacks[ message.id ].resolve( message );
-							break;
-
-						case 'error':
-							worker._callbacks[ message.id ].reject( message );
-							break;
-
-						default:
-							console.error( 'THREE.DRACOLoader: Unexpected message, "' + message.type + '"' );
-
-					}
-
-				};
-
-				this.workerPool.push( worker );
-
-			} else {
-
-				this.workerPool.sort( function ( a, b ) {
-
-					return a._taskLoad > b._taskLoad ? - 1 : 1;
-
-				} );
-
-			}
-
-			const worker = this.workerPool[ this.workerPool.length - 1 ];
-			worker._taskCosts[ taskID ] = taskCost;
-			worker._taskLoad += taskCost;
-			return worker;
-
-		} );
-
-	}
-
-	_releaseTask( worker, taskID ) {
-
-		worker._taskLoad -= worker._taskCosts[ taskID ];
-		delete worker._callbacks[ taskID ];
-		delete worker._taskCosts[ taskID ];
-
-	}
-
-	debug() {
-
-		console.log( 'Task load: ', this.workerPool.map( ( worker ) => worker._taskLoad ) );
-
-	}
-
-	dispose() {
-
-		for ( let i = 0; i < this.workerPool.length; ++ i ) {
-
-			this.workerPool[ i ].terminate();
-
-		}
-
-		this.workerPool.length = 0;
-
-		return this;
-
-	}
-
-}
-
-/* WEB WORKER */
-
-function DRACOWorker() {
-
-	let decoderConfig;
-	let decoderPending;
-
-	onmessage = function ( e ) {
-
-		const message = e.data;
-
-		switch ( message.type ) {
-
-			case 'init':
-				decoderConfig = message.decoderConfig;
-				decoderPending = new Promise( function ( resolve/*, reject*/ ) {
-
-					decoderConfig.onModuleLoaded = function ( draco ) {
-
-						// Module is Promise-like. Wrap before resolving to avoid loop.
-						resolve( { draco: draco } );
-
-					};
-
-					DracoDecoderModule( decoderConfig ); // eslint-disable-line no-undef
-
-				} );
-				break;
-
-			case 'decode':
-				const buffer = message.buffer;
-				const taskConfig = message.taskConfig;
-				decoderPending.then( ( module ) => {
-
-					const draco = module.draco;
-					const decoder = new draco.Decoder();
-					const decoderBuffer = new draco.DecoderBuffer();
-					decoderBuffer.Init( new Int8Array( buffer ), buffer.byteLength );
-
-					try {
-
-						const geometry = decodeGeometry( draco, decoder, decoderBuffer, taskConfig );
-
-						const buffers = geometry.attributes.map( ( attr ) => attr.array.buffer );
-
-						if ( geometry.index ) buffers.push( geometry.index.array.buffer );
-
-						self.postMessage( { type: 'decode', id: message.id, geometry }, buffers );
-
-					} catch ( error ) {
-
-						console.error( error );
-
-						self.postMessage( { type: 'error', id: message.id, error: error.message } );
-
-					} finally {
-
-						draco.destroy( decoderBuffer );
-						draco.destroy( decoder );
-
-					}
-
-				} );
-				break;
-
-		}
-
-	};
-
-	function decodeGeometry( draco, decoder, decoderBuffer, taskConfig ) {
-
-		const attributeIDs = taskConfig.attributeIDs;
-		const attributeTypes = taskConfig.attributeTypes;
-
-		let dracoGeometry;
-		let decodingStatus;
-
-		const geometryType = decoder.GetEncodedGeometryType( decoderBuffer );
-
-		if ( geometryType === draco.TRIANGULAR_MESH ) {
-
-			dracoGeometry = new draco.Mesh();
-			decodingStatus = decoder.DecodeBufferToMesh( decoderBuffer, dracoGeometry );
-
-		} else if ( geometryType === draco.POINT_CLOUD ) {
-
-			dracoGeometry = new draco.PointCloud();
-			decodingStatus = decoder.DecodeBufferToPointCloud( decoderBuffer, dracoGeometry );
-
-		} else {
-
-			throw new Error( 'THREE.DRACOLoader: Unexpected geometry type.' );
-
-		}
-
-		if ( ! decodingStatus.ok() || dracoGeometry.ptr === 0 ) {
-
-			throw new Error( 'THREE.DRACOLoader: Decoding failed: ' + decodingStatus.error_msg() );
-
-		}
-
-		const geometry = { index: null, attributes: [] };
-
-		// Gather all vertex attributes.
-		for ( const attributeName in attributeIDs ) {
-
-			const attributeType = self[ attributeTypes[ attributeName ] ];
-
-			let attribute;
-			let attributeID;
-
-			// A Draco file may be created with default vertex attributes, whose attribute IDs
-			// are mapped 1:1 from their semantic name (POSITION, NORMAL, ...). Alternatively,
-			// a Draco file may contain a custom set of attributes, identified by known unique
-			// IDs. glTF files always do the latter, and `.drc` files typically do the former.
-			if ( taskConfig.useUniqueIDs ) {
-
-				attributeID = attributeIDs[ attributeName ];
-				attribute = decoder.GetAttributeByUniqueId( dracoGeometry, attributeID );
-
-			} else {
-
-				attributeID = decoder.GetAttributeId( dracoGeometry, draco[ attributeIDs[ attributeName ] ] );
-
-				if ( attributeID === - 1 ) continue;
-
-				attribute = decoder.GetAttribute( dracoGeometry, attributeID );
-
-			}
-
-			geometry.attributes.push( decodeAttribute( draco, decoder, dracoGeometry, attributeName, attributeType, attribute ) );
-
-		}
-
-		// Add index.
-		if ( geometryType === draco.TRIANGULAR_MESH ) {
-
-			geometry.index = decodeIndex( draco, decoder, dracoGeometry );
-
-		}
-
-		draco.destroy( dracoGeometry );
-
-		return geometry;
-
-	}
-
-	function decodeIndex( draco, decoder, dracoGeometry ) {
-
-		const numFaces = dracoGeometry.num_faces();
-		const numIndices = numFaces * 3;
-		const byteLength = numIndices * 4;
-
-		const ptr = draco._malloc( byteLength );
-		decoder.GetTrianglesUInt32Array( dracoGeometry, byteLength, ptr );
-		const index = new Uint32Array( draco.HEAPF32.buffer, ptr, numIndices ).slice();
-		draco._free( ptr );
-
-		return { array: index, itemSize: 1 };
-
-	}
-
-	function decodeAttribute( draco, decoder, dracoGeometry, attributeName, attributeType, attribute ) {
-
-		const numComponents = attribute.num_components();
-		const numPoints = dracoGeometry.num_points();
-		const numValues = numPoints * numComponents;
-		const byteLength = numValues * attributeType.BYTES_PER_ELEMENT;
-		const dataType = getDracoDataType( draco, attributeType );
-
-		const ptr = draco._malloc( byteLength );
-		decoder.GetAttributeDataArrayForAllPoints( dracoGeometry, attribute, dataType, byteLength, ptr );
-		const array = new attributeType( draco.HEAPF32.buffer, ptr, numValues ).slice();
-		draco._free( ptr );
-
-		return {
-			name: attributeName,
-			array: array,
-			itemSize: numComponents
-		};
-
-	}
-
-	function getDracoDataType( draco, attributeType ) {
-
-		switch ( attributeType ) {
-
-			case Float32Array: return draco.DT_FLOAT32;
-			case Int8Array: return draco.DT_INT8;
-			case Int16Array: return draco.DT_INT16;
-			case Int32Array: return draco.DT_INT32;
-			case Uint8Array: return draco.DT_UINT8;
-			case Uint16Array: return draco.DT_UINT16;
-			case Uint32Array: return draco.DT_UINT32;
-
-		}
-
-	}
-
-}
-
-
-
-
-/***/ }),
-
 /***/ "./node_modules/_three@0.139.2@three/examples/jsm/loaders/GLTFLoader.js":
 /*!******************************************************************************!*\
   !*** ./node_modules/_three@0.139.2@three/examples/jsm/loaders/GLTFLoader.js ***!
@@ -60311,48 +59713,53 @@ var __webpack_exports__ = {};
   !*** ./src/23-importModelsAnimation/index.ts ***!
   \***********************************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! three */ "./node_modules/_three@0.139.2@three/build/three.module.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! three */ "./node_modules/_three@0.139.2@three/build/three.module.js");
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ "./src/23-importModelsAnimation/style.css");
 /* harmony import */ var three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls */ "./node_modules/_three@0.139.2@three/examples/jsm/controls/OrbitControls.js");
 /* harmony import */ var lil_gui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lil-gui */ "./node_modules/_lil-gui@0.16.1@lil-gui/dist/lil-gui.esm.js");
 /* harmony import */ var three_examples_jsm_loaders_GLTFLoader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three/examples/jsm/loaders/GLTFLoader */ "./node_modules/_three@0.139.2@three/examples/jsm/loaders/GLTFLoader.js");
-/* harmony import */ var three_examples_jsm_loaders_DRACOLoader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three/examples/jsm/loaders/DRACOLoader */ "./node_modules/_three@0.139.2@three/examples/jsm/loaders/DRACOLoader.js");
-/* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/stats */ "./src/common/stats.ts");
-/* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../common/utils */ "./src/common/utils.ts");
+/* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/stats */ "./src/common/stats.ts");
+/* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/utils */ "./src/common/utils.ts");
+/* eslint-disable no-use-before-define */
+
+/* eslint-disable no-param-reassign */
 
 
 
 
-
+ // import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 
 
  // Canvas
 
 var canvas = document.querySelector('#mainCanvas'); // Scene
 
-var scene = new three__WEBPACK_IMPORTED_MODULE_7__.Scene(); // Gui
+var scene = new three__WEBPACK_IMPORTED_MODULE_6__.Scene(); // Gui
 
-var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI(); // Size
+var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
+var surveyWeight = 0;
+var walkWeight = 0;
+var runWeight = 0; // Size
 
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
 }; // Camera
 
-var camera = new three__WEBPACK_IMPORTED_MODULE_7__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(4, 4, 6); // Controls
+var camera = new three__WEBPACK_IMPORTED_MODULE_6__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
+camera.position.set(4, 2, 6); // Controls
 
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.zoomSpeed = 0.3;
-controls.target = new three__WEBPACK_IMPORTED_MODULE_7__.Vector3(0, 3, 0);
-controls.autoRotate = true;
+controls.target = new three__WEBPACK_IMPORTED_MODULE_6__.Vector3(0, 3, 0); // controls.autoRotate = true
+
 /**
  * Objects
  */
 // plane
 
-var plane = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(new three__WEBPACK_IMPORTED_MODULE_7__.PlaneGeometry(15, 15), new three__WEBPACK_IMPORTED_MODULE_7__.MeshStandardMaterial({
+var plane = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(new three__WEBPACK_IMPORTED_MODULE_6__.PlaneGeometry(15, 15), new three__WEBPACK_IMPORTED_MODULE_6__.MeshStandardMaterial({
   color: '#607D8B'
 }));
 plane.rotateX(-Math.PI / 2);
@@ -60362,27 +59769,39 @@ scene.add(plane);
  * Models
  */
 
-var gltfLoader = new three_examples_jsm_loaders_GLTFLoader__WEBPACK_IMPORTED_MODULE_3__.GLTFLoader(); // draco
-// Optional: Provide a DRACOLoader instance to decode compressed mesh data
-
-var dracoLoader = new three_examples_jsm_loaders_DRACOLoader__WEBPACK_IMPORTED_MODULE_4__.DRACOLoader(); // Specify path to a folder containing WASM/JS decoding libraries.
-
-dracoLoader.setDecoderPath('../assets/draco/'); // Optional: Pre-fetch Draco WASM/JS module.
-
-dracoLoader.preload();
-gltfLoader.setDRACOLoader(dracoLoader);
-gltfLoader.load('../assets/models/Duck/glTF/Duck.gltf', // '../assets/models/Duck/glTF-Binary/Duck.glb',
-// '../assets/models/Duck/glTF-Draco/Duck.gltf',
-// '../assets/models/FlightHelmet/glTF/FlightHelmet.gltf',
-function (gltf) {
+var model = null;
+var mixer = null;
+var skeleton = null;
+var actionSurvey = null;
+var actionWalk = null;
+var actionRun = null;
+var gltfLoader = new three_examples_jsm_loaders_GLTFLoader__WEBPACK_IMPORTED_MODULE_3__.GLTFLoader();
+gltfLoader.load('../assets/models/Fox/glTF/Fox.gltf', function (gltf) {
   console.log('success');
-  console.log(gltf); // gltf.scene.scale.set(10, 10, 10)
-  // scene.add(gltf.scene)
+  console.log(gltf);
+  model = gltf.scene;
+  model.scale.set(0.03, 0.03, 0.03);
+  scene.add(model); // 遍历添加光影
 
-  var duck = gltf.scene.children[0];
-  duck.children[1].castShadow = true;
-  duck.position.set(0, -0.09, 0);
-  scene.add(duck);
+  model.traverse(function (object) {
+    if (object.isMesh) {
+      object.castShadow = true;
+    }
+  });
+  skeleton = new three__WEBPACK_IMPORTED_MODULE_6__.SkeletonHelper(model);
+  skeleton.visible = false;
+  scene.add(skeleton); // Animations
+
+  mixer = new three__WEBPACK_IMPORTED_MODULE_6__.AnimationMixer(gltf.scene);
+  actionSurvey = mixer.clipAction(gltf.animations[0]);
+  actionWalk = mixer.clipAction(gltf.animations[1]);
+  actionRun = mixer.clipAction(gltf.animations[2]);
+  actionWalk.setEffectiveWeight(0);
+  actionRun.setEffectiveWeight(0);
+  actionSurvey.play();
+  actionWalk.play();
+  actionRun.play();
+  createGUIPanel();
 }, function (progress) {
   console.log('progress');
   console.log(progress);
@@ -60394,7 +59813,7 @@ function (gltf) {
  * Light
  */
 
-var directionLight = new three__WEBPACK_IMPORTED_MODULE_7__.DirectionalLight();
+var directionLight = new three__WEBPACK_IMPORTED_MODULE_6__.DirectionalLight();
 directionLight.castShadow = true;
 directionLight.position.set(5, 5, 6);
 directionLight.shadow.camera.near = 1;
@@ -60403,38 +59822,102 @@ directionLight.shadow.camera.top = 10;
 directionLight.shadow.camera.right = 10;
 directionLight.shadow.camera.bottom = -10;
 directionLight.shadow.camera.left = -10;
-var directionLightHelper = new three__WEBPACK_IMPORTED_MODULE_7__.DirectionalLightHelper(directionLight, 2);
+var directionLightHelper = new three__WEBPACK_IMPORTED_MODULE_6__.DirectionalLightHelper(directionLight, 2);
 directionLightHelper.visible = false;
 scene.add(directionLightHelper);
-var directionalLightCameraHelper = new three__WEBPACK_IMPORTED_MODULE_7__.CameraHelper(directionLight.shadow.camera);
+var directionalLightCameraHelper = new three__WEBPACK_IMPORTED_MODULE_6__.CameraHelper(directionLight.shadow.camera);
 directionalLightCameraHelper.visible = false;
 scene.add(directionalLightCameraHelper);
-var ambientLight = new three__WEBPACK_IMPORTED_MODULE_7__.AmbientLight(new three__WEBPACK_IMPORTED_MODULE_7__.Color('#ffffff'), 0.3);
+var ambientLight = new three__WEBPACK_IMPORTED_MODULE_6__.AmbientLight(new three__WEBPACK_IMPORTED_MODULE_6__.Color('#ffffff'), 0.3);
 scene.add(ambientLight, directionLight); // Renderer
 
-var renderer = new three__WEBPACK_IMPORTED_MODULE_7__.WebGLRenderer({
+var renderer = new three__WEBPACK_IMPORTED_MODULE_6__.WebGLRenderer({
   canvas: canvas,
   antialias: true
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_7__.PCFSoftShadowMap; // Animations
+renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_6__.PCFSoftShadowMap; // Animations
+
+var clock = new three__WEBPACK_IMPORTED_MODULE_6__.Clock();
+var previousTime = 0;
 
 var tick = function tick() {
-  _common_stats__WEBPACK_IMPORTED_MODULE_5__["default"].begin();
-  controls.update(); // Render
+  _common_stats__WEBPACK_IMPORTED_MODULE_4__["default"].begin();
+  controls.update();
+  var elapsedTime = clock.getElapsedTime();
+  var deltaTime = elapsedTime - previousTime;
+  previousTime = elapsedTime; // update mixer
+
+  if (mixer) {
+    mixer.update(deltaTime);
+
+    if (actionSurvey) {
+      surveyWeight = actionSurvey.getEffectiveWeight();
+    }
+
+    if (actionWalk) {
+      walkWeight = actionWalk.getEffectiveWeight();
+    }
+
+    if (actionRun) {
+      runWeight = actionRun.getEffectiveWeight();
+    }
+
+    var animationFolder = gui.children[5];
+    animationFolder.children[0].disable(surveyWeight !== 1);
+    animationFolder.children[1].disable(walkWeight !== 1);
+    animationFolder.children[2].disable(runWeight !== 1);
+    animationFolder.children[3].disable(walkWeight !== 1);
+  } // Render
+
 
   renderer.render(scene, camera);
-  _common_stats__WEBPACK_IMPORTED_MODULE_5__["default"].end();
+  _common_stats__WEBPACK_IMPORTED_MODULE_4__["default"].end();
   requestAnimationFrame(tick);
 };
 
 tick();
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_6__.listenResize)(sizes, camera, renderer);
-gui.add(directionLightHelper, 'visible').name('lightHelper visible');
-gui.add(directionalLightCameraHelper, 'visible').name('lightCameraHelper visible');
-gui.add(controls, 'autoRotate');
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_5__.listenResize)(sizes, camera, renderer);
+
+var createGUIPanel = function createGUIPanel() {
+  gui.add(directionLightHelper, 'visible').name('lightHelper visible');
+  gui.add(directionalLightCameraHelper, 'visible').name('lightCameraHelper visible');
+  gui.add(controls, 'autoRotate');
+  gui.add(model, 'visible').name('model visible');
+  gui.add(skeleton, 'visible').name('skeleton visible');
+
+  var executeCrossFade = function executeCrossFade(startAction, endAction) {
+    var duration = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+    if (!startAction || !endAction) return;
+    endAction.enabled = true;
+    endAction.time = 0;
+    endAction.setEffectiveTimeScale(1);
+    endAction.setEffectiveWeight(1);
+    startAction.crossFadeTo(endAction, duration, true);
+  };
+
+  var guiObj = {
+    surveyToWalk: function surveyToWalk() {
+      executeCrossFade(actionSurvey, actionWalk);
+    },
+    walkToRun: function walkToRun() {
+      executeCrossFade(actionWalk, actionRun);
+    },
+    runToWalk: function runToWalk() {
+      executeCrossFade(actionRun, actionWalk);
+    },
+    walkToSurvey: function walkToSurvey() {
+      executeCrossFade(actionWalk, actionSurvey);
+    }
+  };
+  var animationFolder = gui.addFolder('Animation');
+  animationFolder.add(guiObj, 'surveyToWalk');
+  animationFolder.add(guiObj, 'walkToRun');
+  animationFolder.add(guiObj, 'runToWalk');
+  animationFolder.add(guiObj, 'walkToSurvey');
+};
 })();
 
 /******/ })()
