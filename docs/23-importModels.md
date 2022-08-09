@@ -399,6 +399,18 @@ gltfLoader.load(
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01xeQydZ20BwlvMtNou_!!6000000006812-2-tps-1138-601.png)
 
+再增加影子效果如下
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01ICudIQ1cw9xRo88Xj_!!6000000003664-1-tps-716-299.gif)
+
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/23-importModels/)
+
+可扫码访问
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN0186MCQf1PgVPiAE08x_!!6000000001870-2-tps-200-200.png)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/23-importModels)
+
 ### 什么时候选择使用 Draco 压缩模型？
 
 虽然看起来 Draco 压缩是双赢的局面，但事实并非如此。确实，它会让几何图形更轻轻量化，但首先必须加载 DRACOLoader 类和解码器。其次，计算机需要花费时间和资源来解码压缩文件，这可能会导致体验开始时出现短暂的冻结，即使我们使用的是 worker 和 Web Assembly 代码。
