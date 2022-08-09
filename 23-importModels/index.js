@@ -60381,7 +60381,7 @@ function (gltf) {
 
   var duck = gltf.scene.children[0];
   duck.children[1].castShadow = true;
-  duck.position.set(0, -0.09, 0);
+  duck.position.set(0, -0.1, 0);
   scene.add(duck);
 }, function (progress) {
   console.log('progress');
