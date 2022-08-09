@@ -24,9 +24,9 @@ document.body.appendChild(stats.dom);
 
 /***/ }),
 
-/***/ "./node_modules/_gsap@3.10.3@gsap/CSSPlugin.js":
+/***/ "./node_modules/_gsap@3.10.4@gsap/CSSPlugin.js":
 /*!*****************************************************!*\
-  !*** ./node_modules/_gsap@3.10.3@gsap/CSSPlugin.js ***!
+  !*** ./node_modules/_gsap@3.10.4@gsap/CSSPlugin.js ***!
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -39,9 +39,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "checkPrefix": () => (/* binding */ _checkPropPrefix),
 /* harmony export */   "default": () => (/* binding */ CSSPlugin)
 /* harmony export */ });
-/* harmony import */ var _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gsap-core.js */ "./node_modules/_gsap@3.10.3@gsap/gsap-core.js");
+/* harmony import */ var _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gsap-core.js */ "./node_modules/_gsap@3.10.4@gsap/gsap-core.js");
 /*!
- * CSSPlugin 3.10.3
+ * CSSPlugin 3.10.4
  * https://greensock.com
  *
  * Copyright 2008-2022, GreenSock. All rights reserved.
@@ -1455,9 +1455,9 @@ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.gsap.registerPlugin(CSSPlugin);
 
 /***/ }),
 
-/***/ "./node_modules/_gsap@3.10.3@gsap/gsap-core.js":
+/***/ "./node_modules/_gsap@3.10.4@gsap/gsap-core.js":
 /*!*****************************************************!*\
-  !*** ./node_modules/_gsap@3.10.3@gsap/gsap-core.js ***!
+  !*** ./node_modules/_gsap@3.10.4@gsap/gsap-core.js ***!
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -1539,7 +1539,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
 
 /*!
- * GSAP 3.10.3
+ * GSAP 3.10.4
  * https://greensock.com
  *
  * @license Copyright 2008-2022, GreenSock. All rights reserved.
@@ -5603,7 +5603,7 @@ var gsap = _gsap.registerPlugin({
   }
 }, _buildModifierPlugin("roundProps", _roundModifier), _buildModifierPlugin("modifiers"), _buildModifierPlugin("snap", snap)) || _gsap; //to prevent the core plugins from being dropped via aggressive tree shaking, we must include them in the variable declaration in this way.
 
-Tween.version = Timeline.version = gsap.version = "3.10.3";
+Tween.version = Timeline.version = gsap.version = "3.10.4";
 _coreReady = 1;
 _windowExists() && _wake();
 var Power0 = _easeMap.Power0,
@@ -5631,9 +5631,9 @@ var Power0 = _easeMap.Power0,
 
 /***/ }),
 
-/***/ "./node_modules/_gsap@3.10.3@gsap/index.js":
+/***/ "./node_modules/_gsap@3.10.4@gsap/index.js":
 /*!*************************************************!*\
-  !*** ./node_modules/_gsap@3.10.3@gsap/index.js ***!
+  !*** ./node_modules/_gsap@3.10.4@gsap/index.js ***!
   \*************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -5666,8 +5666,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ gsapWithCSS),
 /* harmony export */   "gsap": () => (/* binding */ gsapWithCSS)
 /* harmony export */ });
-/* harmony import */ var _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gsap-core.js */ "./node_modules/_gsap@3.10.3@gsap/gsap-core.js");
-/* harmony import */ var _CSSPlugin_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CSSPlugin.js */ "./node_modules/_gsap@3.10.3@gsap/CSSPlugin.js");
+/* harmony import */ var _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gsap-core.js */ "./node_modules/_gsap@3.10.4@gsap/gsap-core.js");
+/* harmony import */ var _CSSPlugin_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CSSPlugin.js */ "./node_modules/_gsap@3.10.4@gsap/CSSPlugin.js");
 
 
 var gsapWithCSS = _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.gsap.registerPlugin(_CSSPlugin_js__WEBPACK_IMPORTED_MODULE_1__.CSSPlugin) || _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.gsap,
@@ -56847,7 +56847,7 @@ var __webpack_exports__ = {};
   \***********************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "./node_modules/_three@0.139.2@three/build/three.module.js");
-/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gsap */ "./node_modules/_gsap@3.10.3@gsap/index.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gsap */ "./node_modules/_gsap@3.10.4@gsap/index.js");
 /* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/stats */ "./src/common/stats.ts");
 
 
