@@ -232,3 +232,99 @@ Blender 的优势之一是它的快捷方式。 它们有很多，一旦你掌�
 我们将场景清空，保留一个立方体和点光源。将下面的两个视图分别改为Z和Y轴视角。并且渲染为 wireframe。然后保存预设 `File > Defaults > Save Startup File`。再次打开时就是这个界面模式了。
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01KemDV922uwvGUzYHp_!!6000000007181-2-tps-1831-1114.png)
+
+# 汉堡模型制作
+
+接下来我们将开始汉堡模型的制作，并且最终我们会将其导入到 Three.js 中。
+
+## 单位统一
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01OTEjlx1IIVLr1q4Mg_!!6000000000870-2-tps-374-172.png)
+
+默认单位是 m，对于制作一个汉堡来说就太奇怪了，所以我们索性就将单位设置为 none。
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01XpCJem1lwvA15OKd9_!!6000000004884-2-tps-373-403.png)
+
+汉堡的直径大概是 10 cm，我们就制作一个直径大概在 10 个单位的汉堡吧。
+
+## 汉堡底部的面包
+
+首先我们创建一个尺寸大约为10的立方体。
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01qOBc2e1GpovlRJwoN_!!6000000000672-2-tps-1831-1114.png)
+
+使用 Subdivision Surface 将立方体细分面，如下图
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01m9Fn5S1d8z3BW96A8_!!6000000003692-2-tps-1535-825.png)
+
+我们可以在物体上右击，再点击 Shade Smooth 将物体的面变得光滑。
+
+然后再进入编辑模式，将立方体上表面进行移动。
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01Ie2ytq1XK4wvll1sV_!!6000000002904-2-tps-1238-756.png)
+
+再按 `Ctrl + R` 来增加循环边（loop cut 环切)
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01avRcxT1Yv0V6lWGyn_!!6000000003120-2-tps-1266-823.png)
+
+我们可以再次使用增加循环边，是面包底部更平坦
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01Rh3LTv1GL8OTl4p6B_!!6000000000605-2-tps-1078-452.png)
+
+保存后，我们会发现，会有2个文件同时存在，一个是后缀名为 blend 另一个是 blend1，这是因为1结尾是的备份，如果有问题，你可以将 blend1 文件改名为 blend 继续使用。
+
+## 肉饼制作
+
+我们可以复制一个汉堡底部面包，然后再经过调整，得到一个肉饼！
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01lL1src1XNHip7KaCY_!!6000000002911-2-tps-1213-753.png)
+
+## 芝士片
+
+我们使用 plane 几何体制作芝士片
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01xP14r029tlCdSltxk_!!6000000008126-2-tps-1181-724.png)
+
+现在看起来还太假，我们需要为它增加曲线弧度和厚度。
+
+编辑模式，选择芝士片的面，右击，选择 Subdivide
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01Wc26c121TBI9NkrME_!!6000000006985-2-tps-700-510.png)
+
+Number of Cut 可以设置为 12
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01SbeiFr22i7paGxsXL_!!6000000007153-2-tps-1235-683.png)
+
+在编辑模式下，选择 Proportional Editing（成比例编辑），可以移动一组点，让芝士看起来更真实
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01naJ8G61YO1z2MIfLd_!!6000000003048-2-tps-773-579.png)
+
+回到 Object 模式，我们可以在芝士上右击，选择 Smooth
+
+接下来需要增加一些厚度，选择 solidify
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01BbKrTJ1z7XLMoatl9_!!6000000006667-2-tps-1434-702.png)
+
+可以看到芝士的已经有了厚度，我们想让边缘更锋利一些，可以选择 Object Data Properties 里的 Normals 的 auto smooth 角度修改
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01Na0eWS1ltFzXHNxkT_!!6000000004876-2-tps-1633-820.png)
+
+我们可以复制2层肉饼和芝士，并稍微旋转一下，效果如下
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01056MGH1zo8B0d0SU7_!!6000000006760-2-tps-1286-633.png)
+
+## 上层面包
+
+我们将下层面包复制一个，并旋转。
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01AT79j01avaEEyb5OJ_!!6000000003392-2-tps-790-409.png)
+
+## 材质
+
+可以再撒点芝麻增加一些材质。我们给汉堡增加颜色，并将面包和肉饼的粗糙度调整到最大，芝士的粗糙度相对低一些。
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01IpOF5v1KDaKR47gnU_!!6000000001130-2-tps-1302-824.png)
+
+Blender 自带的渲染效果如下：
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01slwSna1P94VIQOd7j_!!6000000001797-2-tps-1920-1080.png)
