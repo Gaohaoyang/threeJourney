@@ -1,4 +1,4 @@
-使用 Blender 设计模型
+使用 Blender 设计和导出模型
 
 有很多 3D 建模的软件，比如 Cinema 4D、Maya、3DS Max、Blender、ZBrush 等。本节课我们将学习 Blender 因为它是免费的，并且性能也还不错。
 
@@ -328,3 +328,28 @@ Number of Cut 可以设置为 12
 Blender 自带的渲染效果如下：
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01slwSna1P94VIQOd7j_!!6000000001797-2-tps-1920-1080.png)
+
+## 导出模型
+
+File > Export > glTF 2.0 (.glb/.gltf)
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01kZcQTf1YGFFcaJ0Fm_!!6000000003031-2-tps-948-604.png)
+
+导出配置如下设置
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01vxrB3L1i7DbQhbEq2_!!6000000004365-2-tps-346-716.png)
+
+# Three.js 中渲染
+
+使用上一节学习的导入模型渲染，效果如下：
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01Byp1xO1Bx5887ToQR_!!6000000000011-2-tps-1256-680.png)
+
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/24-customModelsWithBlender/)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/24-customModelsWithBlender)
+
+看起来颜色和 Blender 里渲染的不太一样，我们下一节会详细讲讲如何做到真实渲染。
+# 小结
+
+本节学习了 Blender 的快捷键和基本操作，并制作了一个汉堡模型，导出模型，导入到 Three.js 中渲染。下一节将学习什么是真实渲染。

@@ -17,6 +17,7 @@
 - [Three.js 之 15 Scroll based animation 基于页面滚动的动画](https://juejin.cn/post/7118746934000484365/)
 - [Three.js 之 16 Physics 物理引擎](https://juejin.cn/post/7121739944199995399/)
 - [Three.js 之 17 Import Model 导入模型](https://juejin.cn/post/7129885749838610440/)
+- [Three.js 之 18 使用 Blender 设计和导出模型](https://juejin.cn/post/7134241298290212895/)
 
 未完待续
 
