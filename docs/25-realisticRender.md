@@ -1,3 +1,29 @@
+我正在参加「掘金·启航计划」
+
+本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。包含以下内容
+
+- [Three.js 之 1 Animation 动画](https://juejin.cn/post/7095621578976657421)
+- [Three.js 之 2 Camera 相机](https://juejin.cn/post/7101207231382683655)
+- [Three.js 之 3 画布与全屏](https://juejin.cn/post/7101207945387442212)
+- [Three.js 之 4 Geometry 几何体](https://juejin.cn/post/7101208474775715876)
+- [Three.js 之 5 debug UI](https://juejin.cn/post/7101209060753539109)
+- [Three.js 之 6 Texture 纹理](https://juejin.cn/post/7101209181822124069)
+- [Three.js 之 7 Materials 材质](https://juejin.cn/post/7103191619373006885/)
+- [Three.js 之 8 炫酷的 3D Text](https://juejin.cn/post/7104817223444725774)
+- [Three.js 之 9 Light 光](https://juejin.cn/post/7107886009253101599/)
+- [Three.js 之 10 Shadow 投影](https://juejin.cn/post/7108379667387645982)
+- [Three.js 之 11 Haunted House 恐怖鬼屋](https://juejin.cn/post/7110777125518442526)
+- [Three.js 之 12 Particles 粒子效果](https://juejin.cn/post/7113540626347458591/)
+- [Three.js 之 13 Galaxy 银河效果生成器](https://juejin.cn/post/7113574687271026724/)
+- [Three.js 之 14 Raycaster 光线投射](https://juejin.cn/post/7116160094261215239/)
+- [Three.js 之 15 Scroll based animation 基于页面滚动的动画](https://juejin.cn/post/7118746934000484365/)
+- [Three.js 之 16 Physics 物理引擎](https://juejin.cn/post/7121739944199995399/)
+- [Three.js 之 17 Import Model 导入模型](https://juejin.cn/post/7129885749838610440/)
+- [Three.js 之 18 使用 Blender 设计和导出模型](https://juejin.cn/post/7134241298290212895/)
+- [Three.js 之 19 realistic render 真实渲染](https://juejin.cn/post/7152438555246067719)
+
+未完待续
+
 我们上一节最后将汉堡模型导入到了 Three.js 的场景中了，但是颜色效果很奇怪。为了让它渲染的更真实，我们需要做一些额外的操作，接下来就一起看看吧~
 
 我们导入复杂一点模型进行展示，我们导入之前了解过的飞行员头盔。
