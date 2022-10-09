@@ -382,6 +382,12 @@ directionLight.shadow.normalBias = 0.05
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/25-realisticRenderBurger)
 
+与上一节的汉堡对比，就会发现之前的很丑毫无胃口，哈哈哈
+
+<img src="https://gw.alicdn.com/imgextra/i3/O1CN01Byp1xO1Bx5887ToQR_!!6000000000011-2-tps-1256-680.png" width="600px" />
+
 # 小结
 
+本节学习了如何让模型更加真实的渲染。通过添加环境贴图、renderer 拟真优化等方式完成。通过 physicallyCorrectLights, environmentMap, outputEncoding, textures encoding, toneMapping, toneMappingExposure, antialias, Shadows 等让渲染显得更加真实。
 
+让物体在3D空间中更加真实的渲染非常酷。虽然我们做了很多努力，但有时看上去还是不够真实，任重道远。
