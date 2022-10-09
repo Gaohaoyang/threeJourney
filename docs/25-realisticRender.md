@@ -348,3 +348,40 @@ no shadow | shadow
 在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/25-realisticRender/)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/25-realisticRender)
+
+# 汉堡模型
+
+还记得上一节我们做的汉堡模型吗？我们也将它重新渲染一下看看效果。
+
+导入并渲染后发现表面有一些小条纹，这被称为 shadow acne（阴影粉刺 or 阴影痤疮）
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01uAveqz1FPstdmmYK9_!!6000000000480-2-tps-374-402.png)
+
+这是因为在计算表面是否在阴影中时，出于精确原因，阴影粉刺可能会出现在光滑和平坦的表面上。 这里发生的事情是汉堡包在它自己的表面上投下了阴影。我们可以使用以下2个属性解决问题
+
+`.bias : Float` 用于平面
+
+阴影贴图偏差，在确定曲面是否在阴影中时，从标准化深度添加或减去多少。
+默认值为0.此处非常小的调整（大约0.0001）可能有助于减少阴影中的伪影
+
+`.normalBias : Float` 用于曲面
+
+定义用于查询阴影贴图的位置沿对象法线偏移多少。 默认值为 0。增加此值可用于减少阴影粉刺，尤其是在光线以浅角度照射到几何体上的大型场景中。 代价是阴影可能会出现扭曲。
+
+我们添加如下代码
+
+```js
+directionLight.shadow.normalBias = 0.05
+```
+
+最终效果如下
+
+<img src="https://gw.alicdn.com/imgextra/i4/O1CN01P3VIFK1hpMAIHdT9h_!!6000000004326-2-tps-1125-2436.png" width="400px" />
+
+在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/25-realisticRenderBurger/)
+
+[demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/25-realisticRenderBurger)
+
+# 小结
+
+
