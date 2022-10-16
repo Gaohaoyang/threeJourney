@@ -38,9 +38,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
-
 /* eslint-disable import/prefer-default-export */
-
 /* eslint-disable no-param-reassign */
 
 /**
@@ -50,23 +48,24 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight; // update camera
+    sizes.height = window.innerHeight;
 
+    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix(); // update renderer
+    camera.updateProjectionMatrix();
 
+    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
+
 /**
  * 全屏
  */
-
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
-
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -83,10 +82,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
+
 /**
  * 双击全屏
  */
-
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -53077,19 +53076,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // Canvas
 
-var canvas = document.querySelector('#mainCanvas'); // Scene
 
-var scene = new three__WEBPACK_IMPORTED_MODULE_4__.Scene(); // Object
+// Canvas
+var canvas = document.querySelector('#mainCanvas');
 
+// Scene
+var scene = new three__WEBPACK_IMPORTED_MODULE_4__.Scene();
+
+// Object
 var geometry = new three__WEBPACK_IMPORTED_MODULE_4__.BufferGeometry();
 var triangleVertices = [];
-
 for (var index = 0; index < 300; index += 1) {
   triangleVertices.push(Math.random() - 0.5);
 }
-
 var vertices = new Float32Array(triangleVertices);
 geometry.setAttribute('position', new three__WEBPACK_IMPORTED_MODULE_4__.BufferAttribute(vertices, 3));
 var material = new three__WEBPACK_IMPORTED_MODULE_4__.MeshBasicMaterial({
@@ -53097,36 +53097,39 @@ var material = new three__WEBPACK_IMPORTED_MODULE_4__.MeshBasicMaterial({
   wireframe: true
 });
 var triangle = new three__WEBPACK_IMPORTED_MODULE_4__.Mesh(geometry, material);
-scene.add(triangle); // Size
+scene.add(triangle);
 
+// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-}; // Camera
+};
 
+// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_4__.PerspectiveCamera(75, sizes.width / sizes.height, 1, 100);
 camera.position.set(0, 0, 3);
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
-controls.enableDamping = true; // controls.enabled = false
-// Renderer
+controls.enableDamping = true;
+// controls.enabled = false
 
+// Renderer
 var renderer = new three__WEBPACK_IMPORTED_MODULE_4__.WebGLRenderer({
   canvas: canvas
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_3__.dbClkfullScreen)(canvas);
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_3__.listenResize)(sizes, camera, renderer); // Animations
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_3__.listenResize)(sizes, camera, renderer);
 
+// Animations
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].begin();
-  controls.update(); // Render
-
+  controls.update();
+  // Render
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].end();
   requestAnimationFrame(tick);
 };
-
 tick();
 })();
 

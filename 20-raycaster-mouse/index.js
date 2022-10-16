@@ -38,9 +38,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
-
 /* eslint-disable import/prefer-default-export */
-
 /* eslint-disable no-param-reassign */
 
 /**
@@ -50,23 +48,24 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight; // update camera
+    sizes.height = window.innerHeight;
 
+    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix(); // update renderer
+    camera.updateProjectionMatrix();
 
+    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
+
 /**
  * 全屏
  */
-
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
-
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -83,10 +82,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
+
 /**
  * 双击全屏
  */
-
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -55373,20 +55372,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // Canvas
 
-var canvas = document.querySelector('#mainCanvas'); // Scene
 
-var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene(); // Size
+// Canvas
+var canvas = document.querySelector('#mainCanvas');
 
+// Scene
+var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene();
+
+// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-}; // Camera
+};
 
+// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_5__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(-14, 10, 25); // Controls
+camera.position.set(-14, 10, 25);
 
+// Controls
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.zoomSpeed = 0.3;
@@ -55395,13 +55399,10 @@ controls.autoRotateSpeed = 1;
 controls.autoRotate = true;
 var ballNumInRow = 5;
 var cubeGroup = new three__WEBPACK_IMPORTED_MODULE_5__.Group();
-
 for (var k = 0; k < ballNumInRow; k += 1) {
   var planeGroup = new three__WEBPACK_IMPORTED_MODULE_5__.Group();
-
   for (var j = 0; j < ballNumInRow; j += 1) {
     var rowGroup = new three__WEBPACK_IMPORTED_MODULE_5__.Group();
-
     for (var i = 0; i < ballNumInRow; i += 1) {
       var object = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(1, 32, 32), new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial({
         color: '#fff'
@@ -55410,15 +55411,12 @@ for (var k = 0; k < ballNumInRow; k += 1) {
       object.name = 'ball';
       rowGroup.add(object);
     }
-
     rowGroup.position.setZ(j * 2);
     planeGroup.add(rowGroup);
   }
-
   planeGroup.position.setY(k * 2);
   cubeGroup.add(planeGroup);
 }
-
 cubeGroup.position.set(-ballNumInRow / 2 - 1.5, -ballNumInRow / 2 - 1.5, -ballNumInRow / 2 - 1.5);
 scene.add(cubeGroup);
 var objectsToTest = [];
@@ -55436,12 +55434,13 @@ var ambientLight = new three__WEBPACK_IMPORTED_MODULE_5__.AmbientLight(new three
 scene.add(ambientLight, directionLight);
 var directionLightHelper = new three__WEBPACK_IMPORTED_MODULE_5__.DirectionalLightHelper(directionLight, 2);
 scene.add(directionLightHelper);
+
 /**
  * Raycaster
  */
+var raycaster = new three__WEBPACK_IMPORTED_MODULE_5__.Raycaster();
 
-var raycaster = new three__WEBPACK_IMPORTED_MODULE_5__.Raycaster(); // Renderer
-
+// Renderer
 var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
   canvas: canvas,
   antialias: true
@@ -55450,10 +55449,10 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer);
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.dbClkfullScreen)(document.body);
+
 /**
  * Mouse
  */
-
 var mouse = {
   x: null,
   y: null
@@ -55464,45 +55463,41 @@ window.addEventListener('mousemove', function (event) {
 });
 window.addEventListener('touchmove', function (event) {
   var _event$touches$ = event.touches[0],
-      clientX = _event$touches$.clientX,
-      clientY = _event$touches$.clientY;
+    clientX = _event$touches$.clientX,
+    clientY = _event$touches$.clientY;
   mouse.x = clientX / sizes.width * 2 - 1;
   mouse.y = -(clientY / sizes.height) * 2 + 1;
-}); // Animations
+});
 
+// Animations
 var tick = function tick() {
   var _intersects$;
-
   // console.log(mouse);
-  _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].begin();
 
+  _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].begin();
   if (mouse.x && mouse.y) {
     raycaster.setFromCamera({
       x: mouse.x,
       y: mouse.y
     }, camera);
   }
-
   var intersects = raycaster.intersectObjects(objectsToTest);
-
   if (JSON.stringify((_intersects$ = intersects[0]) === null || _intersects$ === void 0 ? void 0 : _intersects$.object.material.color) === JSON.stringify(new three__WEBPACK_IMPORTED_MODULE_5__.Color(0xffffff))) {
     var _intersects$2;
-
     (_intersects$2 = intersects[0]) === null || _intersects$2 === void 0 ? void 0 : _intersects$2.object.material.color.set(new three__WEBPACK_IMPORTED_MODULE_5__.Color(Math.random(), Math.random(), Math.random()));
   }
+  controls.update();
 
-  controls.update(); // Render
-
+  // Render
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].end();
   requestAnimationFrame(tick);
 };
-
 tick();
+
 /**
  * Debug
  */
-
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
 gui.add(controls, 'enableRotate');
 gui.add(controls, 'autoRotate');

@@ -38,9 +38,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
-
 /* eslint-disable import/prefer-default-export */
-
 /* eslint-disable no-param-reassign */
 
 /**
@@ -50,23 +48,24 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight; // update camera
+    sizes.height = window.innerHeight;
 
+    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix(); // update renderer
+    camera.updateProjectionMatrix();
 
+    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
+
 /**
  * 全屏
  */
-
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
-
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -83,10 +82,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
+
 /**
  * 双击全屏
  */
-
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -55468,20 +55467,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // Canvas
 
-var canvas = document.querySelector('#mainCanvas'); // Scene
 
+// Canvas
+var canvas = document.querySelector('#mainCanvas');
+
+// Scene
 var scene = new three__WEBPACK_IMPORTED_MODULE_6__.Scene();
+
 /**
  * Objects
  */
 // Material
-
 var material = new three__WEBPACK_IMPORTED_MODULE_6__.MeshStandardMaterial();
 material.metalness = 0;
-material.roughness = 0.4; // Objects
+material.roughness = 0.4;
 
+// Objects
 var sphere = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(new three__WEBPACK_IMPORTED_MODULE_6__.SphereGeometry(0.5, 32, 32), material);
 sphere.position.set(-1.5, 0, 0);
 var cube = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(new three__WEBPACK_IMPORTED_MODULE_6__.BoxGeometry(0.75, 0.75, 0.75), material);
@@ -55491,10 +55493,10 @@ var plane = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(new three__WEBPACK_IMPOR
 plane.rotation.set(-Math.PI / 2, 0, 0);
 plane.position.set(0, -0.65, 0);
 scene.add(sphere, cube, torus, plane);
+
 /**
  * Lights
  */
-
 var ambientLight = new three__WEBPACK_IMPORTED_MODULE_6__.AmbientLight('#ffffff', 0.5);
 scene.add(ambientLight);
 var directionalLight = new three__WEBPACK_IMPORTED_MODULE_6__.DirectionalLight('#ffffaa', 0.5);
@@ -55521,33 +55523,39 @@ var spotLight = new three__WEBPACK_IMPORTED_MODULE_6__.SpotLight(0x78ff00, 0.5, 
 spotLight.position.set(0, 2, 3);
 scene.add(spotLight);
 var spotLightHelper = new three__WEBPACK_IMPORTED_MODULE_6__.SpotLightHelper(spotLight);
-scene.add(spotLightHelper); // Size
+scene.add(spotLightHelper);
 
+// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-}; // Camera
+};
 
+// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_6__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
 camera.position.set(1, 1, 2);
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
-controls.enableDamping = true; // controls.autoRotate = true
+controls.enableDamping = true;
+// controls.autoRotate = true
 // controls.enabled = false
-// Renderer
 
+// Renderer
 var renderer = new three__WEBPACK_IMPORTED_MODULE_6__.WebGLRenderer({
   canvas: canvas
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_5__.listenResize)(sizes, camera, renderer); // Clock
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_5__.listenResize)(sizes, camera, renderer);
 
-var clock = new three__WEBPACK_IMPORTED_MODULE_6__.Clock(); // Animations
+// Clock
+var clock = new three__WEBPACK_IMPORTED_MODULE_6__.Clock();
 
+// Animations
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_4__["default"].begin();
-  var elapsedTime = clock.getElapsedTime(); // Update Objects
+  var elapsedTime = clock.getElapsedTime();
 
+  // Update Objects
   sphere.rotation.y = 0.1 * elapsedTime;
   cube.rotation.y = 0.1 * elapsedTime;
   torus.rotation.y = 0.1 * elapsedTime;
@@ -55555,18 +55563,18 @@ var tick = function tick() {
   cube.rotation.x = 0.15 * elapsedTime;
   torus.rotation.x = 0.15 * elapsedTime;
   controls.update();
-  spotLightHelper.update(); // Render
+  spotLightHelper.update();
 
+  // Render
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_4__["default"].end();
   requestAnimationFrame(tick);
 };
-
 tick();
+
 /**
  * Debug
  */
-
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_3__.GUI();
 var meshFolder = gui.addFolder('Mesh');
 meshFolder.add(material, 'metalness', 0, 1, 0.0001);

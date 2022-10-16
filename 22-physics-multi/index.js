@@ -38,9 +38,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
-
 /* eslint-disable import/prefer-default-export */
-
 /* eslint-disable no-param-reassign */
 
 /**
@@ -50,23 +48,24 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight; // update camera
+    sizes.height = window.innerHeight;
 
+    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix(); // update renderer
+    camera.updateProjectionMatrix();
 
+    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
+
 /**
  * 全屏
  */
-
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
-
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -83,10 +82,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
+
 /**
  * 双击全屏
  */
-
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -68773,12 +68772,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // Canvas
 
-var canvas = document.querySelector('#mainCanvas'); // Scene
 
-var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene(); // Gui
+// Canvas
+var canvas = document.querySelector('#mainCanvas');
 
+// Scene
+var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene();
+
+// Gui
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
 var guiObj = {
   CannonDebugger: false,
@@ -68786,38 +68788,42 @@ var guiObj = {
   createBox: function createBox() {},
   reset: function reset() {}
 };
-var cannonDebuggerVisible = false; // Size
+var cannonDebuggerVisible = false;
 
+// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-}; // Camera
+};
 
+// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_5__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(4, 4, 12); // Controls
+camera.position.set(4, 4, 12);
 
+// Controls
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.zoomSpeed = 0.3;
 controls.autoRotate = true;
 controls.target = new three__WEBPACK_IMPORTED_MODULE_5__.Vector3(0, 3, 0);
+
 /**
  * Objects
  */
 // material
+var material = new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial();
 
-var material = new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial(); // plane
-
+// plane
 var plane = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.PlaneGeometry(15, 15), new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial({
   color: '#607D8B'
 }));
 plane.rotateX(-Math.PI / 2);
 plane.receiveShadow = true;
 scene.add(plane);
+
 /**
  * Light
  */
-
 var directionLight = new three__WEBPACK_IMPORTED_MODULE_5__.DirectionalLight();
 directionLight.castShadow = true;
 directionLight.position.set(5, 5, 6);
@@ -68834,8 +68840,9 @@ var directionalLightCameraHelper = new three__WEBPACK_IMPORTED_MODULE_5__.Camera
 directionalLightCameraHelper.visible = false;
 scene.add(directionalLightCameraHelper);
 var ambientLight = new three__WEBPACK_IMPORTED_MODULE_5__.AmbientLight(new three__WEBPACK_IMPORTED_MODULE_5__.Color('#ffffff'), 0.3);
-scene.add(ambientLight, directionLight); // Renderer
+scene.add(ambientLight, directionLight);
 
+// Renderer
 var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
   canvas: canvas,
   antialias: true
@@ -68843,26 +68850,23 @@ var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
+
 /**
  * Sounds
  */
-
 var hitSound = new Audio('../assets/sounds/hit.mp3');
-
 var playHitSound = function playHitSound(collision) {
   var impactStrength = collision.contact.getImpactVelocityAlongNormal();
-
   if (impactStrength > 1.5) {
     hitSound.volume = Math.random();
     hitSound.currentTime = 0;
     hitSound.play();
   }
 };
+
 /**
  * Physics
  */
-
-
 var world = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.World();
 world.gravity.set(0, -9.82, 0);
 world.broadphase = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.SAPBroadphase(world);
@@ -68873,28 +68877,28 @@ var defaultContactMaterial = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.ContactM
   restitution: 0.6
 });
 world.addContactMaterial(defaultContactMaterial);
+
 /**
  * Utils
  */
-
 var objectsToUpdate = [];
 var sphereGeometry = new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(1, 32, 32);
-
 var createSphere = function createSphere(radius, position) {
   // Three.js mesh
   var mesh = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(sphereGeometry, material);
   mesh.castShadow = true;
   mesh.scale.set(radius, radius, radius);
   mesh.position.copy(position);
-  scene.add(mesh); // Cannon body
+  scene.add(mesh);
 
+  // Cannon body
   var shape = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Sphere(radius);
   var body = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Body({
     mass: 1,
     shape: shape,
     material: defaultMaterial
-  }); // @ts-ignore
-
+  });
+  // @ts-ignore
   body.position.copy(position);
   world.addBody(body);
   objectsToUpdate.push({
@@ -68903,29 +68907,28 @@ var createSphere = function createSphere(radius, position) {
   });
   body.addEventListener('collide', playHitSound);
 };
-
 guiObj.createSphere = function () {
   createSphere(Math.random(), new three__WEBPACK_IMPORTED_MODULE_5__.Vector3((Math.random() - 0.5) * 8, 5, (Math.random() - 0.5) * 8));
-}; // Boxes
+};
 
-
+// Boxes
 var boxGeometry = new three__WEBPACK_IMPORTED_MODULE_5__.BoxGeometry();
-
 var createBoxes = function createBoxes(width, height, depth, position) {
   // Three.js mesh
   var mesh = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(boxGeometry, material);
   mesh.castShadow = true;
   mesh.scale.set(width, height, depth);
   mesh.position.copy(position);
-  scene.add(mesh); // Cannon body
+  scene.add(mesh);
 
+  // Cannon body
   var shape = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Box(new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Vec3(width * 0.5, height * 0.5, depth * 0.5));
   var body = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Body({
     mass: 1,
     shape: shape,
     material: defaultMaterial
-  }); // @ts-ignore
-
+  });
+  // @ts-ignore
   body.position.copy(position);
   world.addBody(body);
   objectsToUpdate.push({
@@ -68934,23 +68937,21 @@ var createBoxes = function createBoxes(width, height, depth, position) {
   });
   body.addEventListener('collide', playHitSound);
 };
-
 guiObj.createBox = function () {
   createBoxes(Math.random(), Math.random(), Math.random(), new three__WEBPACK_IMPORTED_MODULE_5__.Vector3((Math.random() - 0.5) * 8, 5, (Math.random() - 0.5) * 8));
 };
-
 guiObj.reset = function () {
   objectsToUpdate.forEach(function (object) {
     // Remove body
     object.body.removeEventListener('collide', playHitSound);
-    world.removeBody(object.body); // Remove mesh
-
+    world.removeBody(object.body);
+    // Remove mesh
     scene.remove(object.mesh);
   });
   objectsToUpdate.splice(0, objectsToUpdate.length);
-}; // floor
+};
 
-
+// floor
 var floorShape = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Plane();
 var floorBody = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Body({
   type: cannon_es__WEBPACK_IMPORTED_MODULE_6__.Body.STATIC,
@@ -68958,14 +68959,16 @@ var floorBody = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Body({
   material: defaultMaterial
 });
 floorBody.quaternion.setFromAxisAngle(new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Vec3(1, 0, 0), -Math.PI / 2);
-world.addBody(floorBody); // cannonDebugger
+world.addBody(floorBody);
 
+// cannonDebugger
 var cannonDebugger = (0,cannon_es_debugger__WEBPACK_IMPORTED_MODULE_7__["default"])(scene, world, {
   onInit: function onInit(body, mesh) {
     mesh.visible = cannonDebuggerVisible;
   }
-}); // Animations
+});
 
+// Animations
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].begin();
   controls.update();
@@ -68974,26 +68977,26 @@ var tick = function tick() {
 
   objectsToUpdate.forEach(function (object) {
     // @ts-ignore
-    object.mesh.position.copy(object.body.position); // @ts-ignore
-
+    object.mesh.position.copy(object.body.position);
+    // @ts-ignore
     object.mesh.quaternion.copy(object.body.quaternion);
-  }); // Render
+  });
 
+  // Render
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].end();
   requestAnimationFrame(tick);
 };
-
 tick();
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer); // dbClkfullScreen(document.documentElement)
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer);
+// dbClkfullScreen(document.documentElement)
 
 /**
  * Debug
  */
-
 gui.add(guiObj, 'reset');
-gui.add(controls, 'autoRotate'); // gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
-
+gui.add(controls, 'autoRotate');
+// gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
 gui.add(material, 'wireframe');
 gui.add(directionLightHelper, 'visible').name('directionLightHelper visible').onChange(function (v) {
   directionalLightCameraHelper.visible = v;

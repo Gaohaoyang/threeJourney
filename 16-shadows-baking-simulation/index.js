@@ -38,9 +38,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
-
 /* eslint-disable import/prefer-default-export */
-
 /* eslint-disable no-param-reassign */
 
 /**
@@ -50,23 +48,24 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight; // update camera
+    sizes.height = window.innerHeight;
 
+    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix(); // update renderer
+    camera.updateProjectionMatrix();
 
+    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
+
 /**
  * 全屏
  */
-
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
-
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -83,10 +82,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
+
 /**
  * 双击全屏
  */
-
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -55370,32 +55369,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/utils */ "./src/common/utils.ts");
 
 
- // import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper'
+
+// import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper'
 
 
 
- // Canvas
 
-var canvas = document.querySelector('#mainCanvas'); // Scene
+// Canvas
+var canvas = document.querySelector('#mainCanvas');
 
-var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene(); // Texture
+// Scene
+var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene();
 
+// Texture
 var textureLoader = new three__WEBPACK_IMPORTED_MODULE_5__.TextureLoader();
 var simpleShadow = textureLoader.load('../assets/textures/simpleShadow.jpg');
+
 /**
  * Objects
  */
 // Material
-
 var material = new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial();
 material.metalness = 0;
-material.roughness = 0.4; // Objects
+material.roughness = 0.4;
 
-var sphere = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(0.5, 32, 32), material); // sphere.castShadow = true
+// Objects
+var sphere = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(0.5, 32, 32), material);
+// sphere.castShadow = true
 
 var plane = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.PlaneGeometry(5, 5), material);
 plane.rotation.set(-Math.PI / 2, 0, 0);
-plane.position.set(0, -0.5, 0); // plane.receiveShadow = true
+plane.position.set(0, -0.5, 0);
+// plane.receiveShadow = true
 
 var shadowPlane = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.PlaneGeometry(1.5, 1.5), new three__WEBPACK_IMPORTED_MODULE_5__.MeshBasicMaterial({
   color: '#000000',
@@ -55405,41 +55410,49 @@ var shadowPlane = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK
 shadowPlane.rotateX(-Math.PI / 2);
 shadowPlane.position.y = plane.position.y + 0.01;
 scene.add(sphere, plane, shadowPlane);
+
 /**
  * Lights
  */
-
 var ambientLight = new three__WEBPACK_IMPORTED_MODULE_5__.AmbientLight('#ffffff', 0.4);
 scene.add(ambientLight);
 var directionalLight = new three__WEBPACK_IMPORTED_MODULE_5__.DirectionalLight('#ffffaa', 0.5);
 directionalLight.position.set(0, 1.3, 0);
-scene.add(directionalLight); // console.log(directionalLight.shadow)
+scene.add(directionalLight);
+
+// console.log(directionalLight.shadow)
 
 var directionalLightHelper = new three__WEBPACK_IMPORTED_MODULE_5__.DirectionalLightHelper(directionalLight);
 directionalLightHelper.visible = false;
-scene.add(directionalLightHelper); // Size
+scene.add(directionalLightHelper);
 
+// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-}; // Camera
+};
 
+// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_5__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
 camera.position.set(0.5, 2, 4);
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
-controls.enableDamping = true; // Renderer
+controls.enableDamping = true;
 
+// Renderer
 var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
   canvas: canvas
 });
 renderer.setSize(sizes.width, sizes.height);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // renderer.shadowMap.enabled = true
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+// renderer.shadowMap.enabled = true
 // renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer); // Clock
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer);
 
-var clock = new three__WEBPACK_IMPORTED_MODULE_5__.Clock(); // Animations
+// Clock
+var clock = new three__WEBPACK_IMPORTED_MODULE_5__.Clock();
 
+// Animations
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].begin();
   var elapsedTime = clock.getElapsedTime();
@@ -55449,18 +55462,18 @@ var tick = function tick() {
   shadowPlane.position.x = sphere.position.x;
   shadowPlane.position.z = sphere.position.z;
   shadowPlane.material.opacity = (1 - sphere.position.y) * 0.6;
-  controls.update(); // Render
+  controls.update();
 
+  // Render
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].end();
   requestAnimationFrame(tick);
 };
-
 tick();
+
 /**
  * Debug
  */
-
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
 var autoRotateFolder = gui.addFolder('AutoRotate');
 autoRotateFolder.add(controls, 'autoRotate');
@@ -55474,7 +55487,8 @@ ambientLightFolder.add(ambientLight, 'visible').listen();
 ambientLightFolder.add(ambientLight, 'intensity', 0, 1, 0.001);
 var directionalLightFolder = gui.addFolder('DirectionalLight');
 directionalLightFolder.add(directionalLight, 'visible').onChange(function (visible) {
-  directionalLightHelper.visible = visible; // directionalLightCameraHelper.visible = visible
+  directionalLightHelper.visible = visible;
+  // directionalLightCameraHelper.visible = visible
 }).listen();
 directionalLightFolder.add(directionalLightHelper, 'visible').name('helper visible').listen();
 directionalLightFolder.add(directionalLight, 'intensity', 0, 1, 0.001);

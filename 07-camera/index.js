@@ -52459,36 +52459,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/stats */ "./src/common/stats.ts");
 
 
- // Canvas
 
-var canvas = document.querySelector('#mainCanvas'); // Scene
 
-var scene = new three__WEBPACK_IMPORTED_MODULE_2__.Scene(); // Object
+// Canvas
+var canvas = document.querySelector('#mainCanvas');
 
+// Scene
+var scene = new three__WEBPACK_IMPORTED_MODULE_2__.Scene();
+
+// Object
 var cube = new three__WEBPACK_IMPORTED_MODULE_2__.Mesh(new three__WEBPACK_IMPORTED_MODULE_2__.BoxGeometry(1, 1, 1), new three__WEBPACK_IMPORTED_MODULE_2__.MeshBasicMaterial({
   color: 0x607d8b
 }));
-scene.add(cube); // Camera
+scene.add(cube);
 
+// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_2__.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 1, 100);
 camera.position.set(0, 0, 3);
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_0__.OrbitControls(camera, canvas);
-controls.enableDamping = true; // Renderer
+controls.enableDamping = true;
 
+// Renderer
 var renderer = new three__WEBPACK_IMPORTED_MODULE_2__.WebGLRenderer({
   canvas: canvas
 });
-renderer.setSize(canvas.clientWidth, canvas.clientHeight); // Animations
+renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
+// Animations
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_1__["default"].begin();
-  controls.update(); // Render
-
+  controls.update();
+  // Render
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_1__["default"].end();
   requestAnimationFrame(tick);
 };
-
 tick();
 })();
 

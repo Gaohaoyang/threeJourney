@@ -38,9 +38,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
-
 /* eslint-disable import/prefer-default-export */
-
 /* eslint-disable no-param-reassign */
 
 /**
@@ -50,23 +48,24 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight; // update camera
+    sizes.height = window.innerHeight;
 
+    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix(); // update renderer
+    camera.updateProjectionMatrix();
 
+    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
+
 /**
  * 全屏
  */
-
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
-
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -83,10 +82,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
+
 /**
  * 双击全屏
  */
-
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -55373,74 +55372,81 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // Canvas
 
-var canvas = document.querySelector('#mainCanvas'); // Scene
 
+// Canvas
+var canvas = document.querySelector('#mainCanvas');
+
+// Scene
 var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene();
+
 /**
  * Objects
  */
 // Material
-
 var material = new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial();
 material.metalness = 0;
 material.roughness = 0.4;
+
 /**
  * Particles
  */
 // geometry
+var sphereGeometry = new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(1, 32, 32);
 
-var sphereGeometry = new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(1, 32, 32); // material
-
+// material
 var pointMaterial = new three__WEBPACK_IMPORTED_MODULE_5__.PointsMaterial({
   size: 0.02,
   sizeAttenuation: true
 });
 var particles = new three__WEBPACK_IMPORTED_MODULE_5__.Points(sphereGeometry, pointMaterial);
 scene.add(particles);
+
 /**
  * Lights
  */
-
 var ambientLight = new three__WEBPACK_IMPORTED_MODULE_5__.AmbientLight('#ffffff', 0.4);
-scene.add(ambientLight); // Size
+scene.add(ambientLight);
 
+// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-}; // Camera
+};
 
+// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_5__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
 camera.position.set(2, 1.8, 2);
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
-controls.enableDamping = true; // controls.autoRotateSpeed = 0.2
+controls.enableDamping = true;
+// controls.autoRotateSpeed = 0.2
+controls.zoomSpeed = 0.3;
 
-controls.zoomSpeed = 0.3; // Renderer
-
+// Renderer
 var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
   canvas: canvas
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer);
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.dbClkfullScreen)(document.body); // Animations
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.dbClkfullScreen)(document.body);
 
+// Animations
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].begin();
   controls.update();
-  pointMaterial.needsUpdate = true; // Render
+  pointMaterial.needsUpdate = true;
 
+  // Render
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].end();
   requestAnimationFrame(tick);
 };
-
 tick();
+
 /**
  * Debug
  */
-
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
 gui.add(controls, 'autoRotate');
 gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01);

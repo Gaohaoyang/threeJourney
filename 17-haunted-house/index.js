@@ -38,9 +38,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
-
 /* eslint-disable import/prefer-default-export */
-
 /* eslint-disable no-param-reassign */
 
 /**
@@ -50,23 +48,24 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight; // update camera
+    sizes.height = window.innerHeight;
 
+    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix(); // update renderer
+    camera.updateProjectionMatrix();
 
+    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
+
 /**
  * 全屏
  */
-
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
-
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -83,10 +82,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
+
 /**
  * 双击全屏
  */
-
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -55373,12 +55372,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // Canvas
 
-var canvas = document.querySelector('#mainCanvas'); // Scene
 
-var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene(); // Textures
+// Canvas
+var canvas = document.querySelector('#mainCanvas');
 
+// Scene
+var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene();
+
+// Textures
 var textureLoader = new three__WEBPACK_IMPORTED_MODULE_5__.TextureLoader();
 var doorColorTexture = textureLoader.load('../assets/textures/door2/baseColor.jpg');
 var doorAmbientOcclusionTexture = textureLoader.load('../assets/textures/door2/ambientOcclusion.jpg');
@@ -55426,15 +55428,16 @@ floorAmbientOcclusionTexture.wrapT = three__WEBPACK_IMPORTED_MODULE_5__.RepeatWr
 floorHeightTexture.wrapT = three__WEBPACK_IMPORTED_MODULE_5__.RepeatWrapping;
 floorNormalTexture.wrapT = three__WEBPACK_IMPORTED_MODULE_5__.RepeatWrapping;
 floorRoughnessTexture.wrapT = three__WEBPACK_IMPORTED_MODULE_5__.RepeatWrapping;
+
 /**
  * Objects
  */
 // Material
-
 var material = new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial();
 material.metalness = 0;
-material.roughness = 0.4; // ground
+material.roughness = 0.4;
 
+// ground
 var plane = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.PlaneGeometry(40, 40), new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial({
   map: floorColorTexture,
   aoMap: floorAmbientOcclusionTexture,
@@ -55445,11 +55448,13 @@ var plane = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPOR
 }));
 plane.rotation.set(-Math.PI / 2, 0, 0);
 plane.position.set(0, 0, 0);
-scene.add(plane); // house
+scene.add(plane);
 
+// house
 var house = new three__WEBPACK_IMPORTED_MODULE_5__.Group();
-scene.add(house); // walls
+scene.add(house);
 
+// walls
 var walls = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.BoxGeometry(4, 2.5, 4, 200, 200), new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial({
   map: brickColorTexture,
   aoMap: brickAmbientOcclusionTexture,
@@ -55460,15 +55465,17 @@ var walls = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPOR
 }));
 walls.position.y = 1.25;
 walls.geometry.setAttribute('uv2', new three__WEBPACK_IMPORTED_MODULE_5__.Float32BufferAttribute(walls.geometry.attributes.uv.array, 2));
-house.add(walls); // roof
+house.add(walls);
 
+// roof
 var roof = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.ConeGeometry(3.25, 1, 4), new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial({
   color: '#b35f45'
 }));
 roof.rotation.y = Math.PI / 4;
 roof.position.y = 2.5 + 0.5;
-house.add(roof); // door
+house.add(roof);
 
+// door
 var door = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.PlaneGeometry(3.2, 2.4, 100, 100), new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial({
   map: doorColorTexture,
   transparent: true,
@@ -55483,8 +55490,9 @@ var door = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORT
 door.geometry.setAttribute('uv2', new three__WEBPACK_IMPORTED_MODULE_5__.Float32BufferAttribute(door.geometry.attributes.uv.array, 2));
 door.position.y = 1;
 door.position.z = 2 + 0.001;
-house.add(door); // Bushes
+house.add(door);
 
+// Bushes
 var bushGeometry = new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(1, 16, 16);
 var bushMaterial = new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial({
   color: '#827717'
@@ -55501,15 +55509,15 @@ bush3.position.set(-0.8, 0.1, 2.2);
 var bush4 = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(bushGeometry, bushMaterial);
 bush4.scale.set(0.15, 0.15, 0.15);
 bush4.position.set(-1, 0.05, 2.6);
-house.add(bush1, bush2, bush3, bush4); // graves
+house.add(bush1, bush2, bush3, bush4);
 
+// graves
 var graves = new three__WEBPACK_IMPORTED_MODULE_5__.Group();
 scene.add(graves);
 var graveGeometry = new three__WEBPACK_IMPORTED_MODULE_5__.BoxGeometry(0.6, 0.8, 0.2);
 var graveMaterial = new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial({
   color: '#b2b6b1'
 });
-
 for (var i = 0; i < 50; i += 1) {
   var grave = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(graveGeometry, graveMaterial);
   var angle = Math.random() * Math.PI * 2;
@@ -55522,11 +55530,10 @@ for (var i = 0; i < 50; i += 1) {
   grave.castShadow = true;
   graves.add(grave);
 }
+
 /**
  * Lights
  */
-
-
 var ambientLight = new three__WEBPACK_IMPORTED_MODULE_5__.AmbientLight('#b9d5ff', 0.12);
 scene.add(ambientLight);
 var directionalLight = new three__WEBPACK_IMPORTED_MODULE_5__.DirectionalLight('#b9d5ff', 0.12);
@@ -55534,18 +55541,19 @@ directionalLight.position.set(1, 0.75, 0);
 directionalLight.shadow.mapSize.width = 256;
 directionalLight.shadow.mapSize.height = 256;
 directionalLight.shadow.camera.far = 15;
-scene.add(directionalLight); // Door light
+scene.add(directionalLight);
 
+// Door light
 var doorLight = new three__WEBPACK_IMPORTED_MODULE_5__.PointLight('#ff7d46', 1, 7);
 doorLight.position.set(0, 2.2, 2.7);
 doorLight.shadow.mapSize.width = 256;
 doorLight.shadow.mapSize.height = 256;
 doorLight.shadow.camera.far = 7;
 house.add(doorLight);
+
 /**
  * Ghosts
  */
-
 var ghost1 = new three__WEBPACK_IMPORTED_MODULE_5__.PointLight('#ff00ff', 2, 3);
 ghost1.shadow.mapSize.width = 256;
 ghost1.shadow.mapSize.height = 256;
@@ -55572,18 +55580,20 @@ bush2.castShadow = true;
 bush3.castShadow = true;
 bush4.castShadow = true;
 plane.receiveShadow = true;
+
 /**
  * Fog
  */
-
 var fog = new three__WEBPACK_IMPORTED_MODULE_5__.Fog('#262837', 1, 20);
-scene.fog = fog; // Size
+scene.fog = fog;
 
+// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-}; // Camera
+};
 
+// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_5__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
 camera.position.set(7, 1.8, 8);
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
@@ -55593,22 +55603,27 @@ controls.autoRotateSpeed = 0.2;
 controls.maxDistance = 20;
 controls.minDistance = 4;
 controls.zoomSpeed = 0.3;
-controls.maxPolarAngle = 87 * (Math.PI / 180); // controls.minPolarAngle = 30 * (Math.PI / 180)
+controls.maxPolarAngle = 87 * (Math.PI / 180);
+// controls.minPolarAngle = 30 * (Math.PI / 180)
+
 // Sound
 // 创建一个 AudioListener 并将其添加到 camera 中
-
 var listener = new three__WEBPACK_IMPORTED_MODULE_5__.AudioListener();
-camera.add(listener); // 创建一个全局 audio 源
+camera.add(listener);
 
-var sound = new three__WEBPACK_IMPORTED_MODULE_5__.Audio(listener); // 加载一个 sound 并将其设置为 Audio 对象的缓冲区
+// 创建一个全局 audio 源
+var sound = new three__WEBPACK_IMPORTED_MODULE_5__.Audio(listener);
 
+// 加载一个 sound 并将其设置为 Audio 对象的缓冲区
 var audioLoader = new three__WEBPACK_IMPORTED_MODULE_5__.AudioLoader();
 audioLoader.load('../assets/sounds/ghost.mp3', function (buffer) {
   sound.setBuffer(buffer);
   sound.setLoop(true);
   sound.setVolume(0.5);
   sound.play();
-}); // 创建一个 positional audio 源
+});
+
+// 创建一个 positional audio 源
 // const soundPositional = new THREE.PositionalAudio(listener)
 // const audioLoaderPositional = new THREE.AudioLoader()
 // audioLoaderPositional.load('../assets/sounds/baby-cry.mp3', (buffer) => {
@@ -55629,8 +55644,9 @@ ghostSoundLoader.load('../assets/sounds/horror-ghost-14.wav', function (buffer) 
   ghostSound.setVolume(0.6);
   ghostSound.play();
 });
-ghost2.add(ghostSound); // Renderer
+ghost2.add(ghostSound);
 
+// Renderer
 var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
   canvas: canvas,
   antialias: true
@@ -55641,14 +55657,15 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_5__.PCFSoftShadowMap;
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer);
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.dbClkfullScreen)(document.body); // Animations
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.dbClkfullScreen)(document.body);
 
+// Animations
 var clock = new three__WEBPACK_IMPORTED_MODULE_5__.Clock();
-
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].begin();
-  var elapsedTime = clock.getElapsedTime(); // Ghosts
+  var elapsedTime = clock.getElapsedTime();
 
+  // Ghosts
   var ghost1Angle = elapsedTime * 0.5;
   ghost1.position.x = Math.cos(ghost1Angle) * 4;
   ghost1.position.z = Math.sin(ghost1Angle) * 4;
@@ -55661,30 +55678,30 @@ var tick = function tick() {
   ghost3.position.x = Math.cos(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.32));
   ghost3.position.z = Math.sin(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.5));
   ghost3.position.y = Math.sin(elapsedTime * 4) + Math.sin(elapsedTime * 2.5);
-  controls.update(); // Render
+  controls.update();
 
+  // Render
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].end();
   requestAnimationFrame(tick);
 };
-
 tick();
+
 /**
  * Debug
  */
-
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
 gui.add(controls, 'autoRotate');
 gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01);
 var guiObj = {
   soundOff: function soundOff() {
-    sound.pause(); // soundPositional.pause()
-
+    sound.pause();
+    // soundPositional.pause()
     ghostSound.pause();
   },
   soundOn: function soundOn() {
-    sound.play(); // soundPositional.play()
-
+    sound.play();
+    // soundPositional.play()
     ghostSound.play();
   }
 };
