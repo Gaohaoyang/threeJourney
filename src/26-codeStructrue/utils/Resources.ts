@@ -11,7 +11,7 @@ interface SourceType {
 export default class Resources extends EventEmitter {
   sources: SourceType[]
 
-  items: any
+  items: Record<string, any>
 
   toLoad: number
 
