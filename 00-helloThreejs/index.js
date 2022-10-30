@@ -51153,9 +51153,10 @@ scene.add(cube);
 var camera = new three__WEBPACK_IMPORTED_MODULE_0__.PerspectiveCamera(45, 4 / 3, 1, 1000);
 camera.position.set(1, 1, 5);
 scene.add(camera); // 相机加入场景
-camera.lookAt(cube.position); // 相机视点设置为cube
 
+camera.lookAt(cube.position); // 相机视点设置为cube
 // 创建渲染器
+
 var renderer = new three__WEBPACK_IMPORTED_MODULE_0__.WebGLRenderer({
   canvas: document.querySelector('#mainCanvas')
 });

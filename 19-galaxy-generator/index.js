@@ -38,7 +38,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
+
 /* eslint-disable import/prefer-default-export */
+
 /* eslint-disable no-param-reassign */
 
 /**
@@ -48,24 +50,23 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight;
+    sizes.height = window.innerHeight; // update camera
 
-    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix();
+    camera.updateProjectionMatrix(); // update renderer
 
-    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
-
 /**
  * 全屏
  */
+
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
+
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -82,10 +83,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
-
 /**
  * 双击全屏
  */
+
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -55372,21 +55373,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ // Canvas
 
+var canvas = document.querySelector('#mainCanvas'); // Scene
 
-// Canvas
-var canvas = document.querySelector('#mainCanvas');
+var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene(); // Size
 
-// Scene
-var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene();
-
-// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-};
+}; // Camera
 
-// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_5__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
 camera.position.set(4, 5, 4);
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
@@ -55394,10 +55391,10 @@ controls.enableDamping = true;
 controls.zoomSpeed = 0.3;
 controls.autoRotateSpeed = 0.7;
 controls.autoRotate = true;
-
 /**
  * Galaxy
  */
+
 var parameters = {
   count: 10000,
   size: 0.02,
@@ -55412,19 +55409,21 @@ var parameters = {
 var geometry;
 var material;
 var points;
+
 var generatorGalaxy = function generatorGalaxy() {
   if (points) {
     geometry.dispose();
     material.dispose();
     scene.remove(points);
   }
-  var colorInside = new three__WEBPACK_IMPORTED_MODULE_5__.Color(parameters.insideColor);
-  var colorOutside = new three__WEBPACK_IMPORTED_MODULE_5__.Color(parameters.outsideColor);
 
-  // Geometry
+  var colorInside = new three__WEBPACK_IMPORTED_MODULE_5__.Color(parameters.insideColor);
+  var colorOutside = new three__WEBPACK_IMPORTED_MODULE_5__.Color(parameters.outsideColor); // Geometry
+
   geometry = new three__WEBPACK_IMPORTED_MODULE_5__.BufferGeometry();
   var position = new Float32Array(parameters.count * 3);
   var colors = new Float32Array(parameters.count * 3);
+
   for (var i = 0; i < parameters.count; i += 1) {
     var i3 = i * 3;
     var radius = Math.random() * parameters.radius;
@@ -55442,10 +55441,10 @@ var generatorGalaxy = function generatorGalaxy() {
     colors[i3 + 1] = mixedColor.g;
     colors[i3 + 2] = mixedColor.b;
   }
-  geometry.setAttribute('position', new three__WEBPACK_IMPORTED_MODULE_5__.BufferAttribute(position, 3));
-  geometry.setAttribute('color', new three__WEBPACK_IMPORTED_MODULE_5__.BufferAttribute(colors, 3));
 
-  // Material
+  geometry.setAttribute('position', new three__WEBPACK_IMPORTED_MODULE_5__.BufferAttribute(position, 3));
+  geometry.setAttribute('color', new three__WEBPACK_IMPORTED_MODULE_5__.BufferAttribute(colors, 3)); // Material
+
   material = new three__WEBPACK_IMPORTED_MODULE_5__.PointsMaterial({
     size: parameters.size,
     sizeAttenuation: true,
@@ -55456,32 +55455,31 @@ var generatorGalaxy = function generatorGalaxy() {
   points = new three__WEBPACK_IMPORTED_MODULE_5__.Points(geometry, material);
   scene.add(points);
 };
-generatorGalaxy();
 
-// Renderer
+generatorGalaxy(); // Renderer
+
 var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
   canvas: canvas
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer);
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.dbClkfullScreen)(document.body);
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.dbClkfullScreen)(document.body); // Animations
 
-// Animations
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].begin();
-  controls.update();
+  controls.update(); // Render
 
-  // Render
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].end();
   requestAnimationFrame(tick);
 };
-tick();
 
+tick();
 /**
  * Debug
  */
+
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
 gui.add(controls, 'autoRotate');
 gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01);

@@ -38,7 +38,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
+
 /* eslint-disable import/prefer-default-export */
+
 /* eslint-disable no-param-reassign */
 
 /**
@@ -48,24 +50,23 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight;
+    sizes.height = window.innerHeight; // update camera
 
-    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix();
+    camera.updateProjectionMatrix(); // update renderer
 
-    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
-
 /**
  * 全屏
  */
+
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
+
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -82,10 +83,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
-
 /**
  * 双击全屏
  */
+
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -55372,17 +55373,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ // Canvas
 
+var canvas = document.querySelector('#mainCanvas'); // Scene
 
-// Canvas
-var canvas = document.querySelector('#mainCanvas');
-
-// Scene
 var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene();
-
 /**
  * Textures
  */
+
 var textureLoader = new three__WEBPACK_IMPORTED_MODULE_5__.TextureLoader();
 var doorColorTexture = textureLoader.load('../assets/textures/door/color.jpg');
 var doorAlphaTexture = textureLoader.load('../assets/textures/door/alpha.jpg');
@@ -55392,9 +55391,7 @@ var doorMetalnessTexture = textureLoader.load('../assets/textures/door/metalness
 var doorNormalTexture = textureLoader.load('../assets/textures/door/normal.jpg');
 var doorRoughnessTexture = textureLoader.load('../assets/textures/door/roughness.jpg');
 var matcapTexture = textureLoader.load('../assets/textures/matcaps/3.png');
-var gradientTexture = textureLoader.load('../assets/textures/gradients/5.jpg');
-
-// Objects
+var gradientTexture = textureLoader.load('../assets/textures/gradients/5.jpg'); // Objects
 // const material = new THREE.MeshBasicMaterial()
 // material.map = doorColorTexture
 // material.color = new THREE.Color('#009688')
@@ -55403,28 +55400,22 @@ var gradientTexture = textureLoader.load('../assets/textures/gradients/5.jpg');
 // material.opacity = 0.5
 // material.alphaMap = doorAlphaTexture
 // material.side = THREE.DoubleSide
-
 // const material = new THREE.MeshNormalMaterial()
 // material.flatShading = true
-
 // const material = new THREE.MeshMatcapMaterial()
 // material.matcap = matcapTexture
-
 // const material = new THREE.MeshDepthMaterial()
-
 // const material = new THREE.MeshLambertMaterial()
-
 // const material = new THREE.MeshPhongMaterial()
 // material.shininess = 60
 // material.specular = new THREE.Color('#00ff00')
-
 // gradientTexture.magFilter = THREE.NearestFilter
 // const material = new THREE.MeshToonMaterial()
 // material.gradientMap = gradientTexture
 
-var material = new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial();
-// material.metalness = 0.45
+var material = new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial(); // material.metalness = 0.45
 // material.roughness = 0.65
+
 material.map = doorColorTexture;
 material.aoMap = doorAmbientOcclusionTexture;
 material.aoMapIntensity = 1;
@@ -55445,70 +55436,63 @@ var torus = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPOR
 torus.position.set(1.5, 0, 0);
 sphere.geometry.setAttribute('uv2', new three__WEBPACK_IMPORTED_MODULE_5__.BufferAttribute(sphere.geometry.attributes.uv.array, 2));
 plane.geometry.setAttribute('uv2', new three__WEBPACK_IMPORTED_MODULE_5__.BufferAttribute(plane.geometry.attributes.uv.array, 2));
-torus.geometry.setAttribute('uv2', new three__WEBPACK_IMPORTED_MODULE_5__.BufferAttribute(torus.geometry.attributes.uv.array, 2));
-
-// console.log(sphere.geometry)
+torus.geometry.setAttribute('uv2', new three__WEBPACK_IMPORTED_MODULE_5__.BufferAttribute(torus.geometry.attributes.uv.array, 2)); // console.log(sphere.geometry)
 
 scene.add(sphere, plane, torus);
-
 /**
  * Lights
  */
+
 var ambientLight = new three__WEBPACK_IMPORTED_MODULE_5__.AmbientLight('#ffffff', 0.5);
 scene.add(ambientLight);
 var pointLight = new three__WEBPACK_IMPORTED_MODULE_5__.PointLight('#ffffff', 0.5);
 pointLight.position.x = 2;
 pointLight.position.y = 3;
 pointLight.position.z = 4;
-scene.add(pointLight);
+scene.add(pointLight); // Size
 
-// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-};
+}; // Camera
 
-// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_5__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
 camera.position.set(0, 0, 2);
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
-controls.enableDamping = true;
-// controls.enabled = false
-
+controls.enableDamping = true; // controls.enabled = false
 // Renderer
+
 var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
   canvas: canvas
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer);
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer); // Clock
 
-// Clock
-var clock = new three__WEBPACK_IMPORTED_MODULE_5__.Clock();
+var clock = new three__WEBPACK_IMPORTED_MODULE_5__.Clock(); // Animations
 
-// Animations
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].begin();
-  var elapsedTime = clock.getElapsedTime();
+  var elapsedTime = clock.getElapsedTime(); // Update Objects
 
-  // Update Objects
   sphere.rotation.y = 0.1 * elapsedTime;
   plane.rotation.y = 0.1 * elapsedTime;
   torus.rotation.y = 0.1 * elapsedTime;
   sphere.rotation.x = 0.15 * elapsedTime;
   plane.rotation.x = 0.15 * elapsedTime;
   torus.rotation.x = 0.15 * elapsedTime;
-  controls.update();
-  // Render
+  controls.update(); // Render
+
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].end();
   requestAnimationFrame(tick);
 };
-tick();
 
+tick();
 /**
  * Debug
  */
+
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
 gui.add(material, 'metalness').min(0).max(1).step(0.0001);
 gui.add(material, 'roughness').min(0).max(1).step(0.0001);

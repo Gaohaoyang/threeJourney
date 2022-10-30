@@ -38,7 +38,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
+
 /* eslint-disable import/prefer-default-export */
+
 /* eslint-disable no-param-reassign */
 
 /**
@@ -48,24 +50,23 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight;
+    sizes.height = window.innerHeight; // update camera
 
-    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix();
+    camera.updateProjectionMatrix(); // update renderer
 
-    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
-
 /**
  * 全屏
  */
+
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
+
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -82,10 +83,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
-
 /**
  * 双击全屏
  */
+
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -55650,11 +55651,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/stats */ "./src/common/stats.ts");
 /* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../common/utils */ "./src/common/utils.ts");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 /* eslint-disable max-len */
 
 
@@ -55674,32 +55681,28 @@ var debugObj = {
   removeMesh: function removeMesh() {},
   addMesh: function addMesh() {},
   showTextBounding: false
-};
+}; // Canvas
 
-// Canvas
 var canvas = document.querySelector('#mainCanvas');
-
 /**
  * Debug
  */
-var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_4__.GUI();
 
-// Scene
+var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_4__.GUI(); // Scene
+
 var scene = new three__WEBPACK_IMPORTED_MODULE_7__.Scene();
-scene.background = new three__WEBPACK_IMPORTED_MODULE_7__.Color(0x512da8);
+scene.background = new three__WEBPACK_IMPORTED_MODULE_7__.Color(0x512da8); // Load font
 
-// Load font
 var fontLoader = new three_examples_jsm_loaders_FontLoader__WEBPACK_IMPORTED_MODULE_2__.FontLoader();
-fontLoader.load('../assets/fonts/Fira Code Medium_Regular.json',
-// onLoad回调
+fontLoader.load('../assets/fonts/Fira Code Medium_Regular.json', // onLoad回调
 function (font) {
   var textureLoader = new three__WEBPACK_IMPORTED_MODULE_7__.TextureLoader();
   var matcapTexture = textureLoader.load('../assets/textures/matcaps/9.png');
   var material = new three__WEBPACK_IMPORTED_MODULE_7__.MeshMatcapMaterial();
-  material.matcap = matcapTexture;
-  // material.wireframe = false
+  material.matcap = matcapTexture; // material.wireframe = false
 
   var text;
+
   var createText = function createText() {
     var textInfo = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultTextInfo;
     var textGeometry = new three_examples_jsm_geometries_TextGeometry__WEBPACK_IMPORTED_MODULE_3__.TextGeometry(textInfo, {
@@ -55717,35 +55720,40 @@ function (font) {
     text = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(textGeometry, material);
     scene.add(text);
   };
-  createText();
 
-  // const boxHelper = new THREE.BoxHelper(text, 0xffff00)
+  createText(); // const boxHelper = new THREE.BoxHelper(text, 0xffff00)
   // boxHelper.visible = false
   // scene.add(boxHelper)
 
   var donutGeometry = new three__WEBPACK_IMPORTED_MODULE_7__.TorusGeometry(0.3, 0.2, 20, 45);
   var boxGeometry = new three__WEBPACK_IMPORTED_MODULE_7__.BoxGeometry(0.6, 0.6, 0.6);
   var meshArr = [];
+
   var createMesh = function createMesh() {
     var mesh;
+
     for (var i = 0; i < 100; i += 1) {
       if (i % 10 <= 1) {
         mesh = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(boxGeometry, material);
       } else {
         mesh = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(donutGeometry, material);
       }
+
       mesh.position.set((Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10);
       mesh.setRotationFromEuler(new three__WEBPACK_IMPORTED_MODULE_7__.Euler(Math.PI * Math.random(), Math.PI * Math.random(), Math.PI * Math.random()));
       var radomScale = Math.random() * 0.5 + 0.5;
       mesh.scale.set(radomScale, radomScale, radomScale);
       meshArr.push(mesh);
     }
+
     scene.add.apply(scene, _toConsumableArray(meshArr));
   };
+
   var removeMesh = function removeMesh() {
     scene.remove.apply(scene, _toConsumableArray(meshArr));
     meshArr = [];
   };
+
   createMesh();
   gui.add(debugObj, 'text').onChange(function (e) {
     // console.log(e)
@@ -55755,26 +55763,28 @@ function (font) {
   gui.addColor(debugObj, 'sceneColor').onChange(function (e) {
     scene.background = new three__WEBPACK_IMPORTED_MODULE_7__.Color(e);
   });
+
   debugObj.addMesh = function () {
     createMesh();
   };
+
   gui.add(debugObj, 'addMesh');
+
   debugObj.removeMesh = function () {
     removeMesh();
   };
+
   gui.add(debugObj, 'removeMesh');
   gui.add(debugObj, 'fullScreen').onChange(function () {
     (0,_common_utils__WEBPACK_IMPORTED_MODULE_6__.setFullScreen)(document.body);
   });
-});
+}); // Size
 
-// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-};
+}; // Camera
 
-// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_7__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
 camera.position.set(2, 2, 3);
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
@@ -55782,26 +55792,24 @@ controls.enableDamping = true;
 controls.autoRotate = true;
 controls.autoRotateSpeed = 0.4;
 gui.add(controls, 'autoRotate');
-gui.add(controls, 'autoRotateSpeed').min(0.1).max(20).step(0.001);
+gui.add(controls, 'autoRotateSpeed').min(0.1).max(20).step(0.001); // Renderer
 
-// Renderer
 var renderer = new three__WEBPACK_IMPORTED_MODULE_7__.WebGLRenderer({
   canvas: canvas
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_6__.listenResize)(sizes, camera, renderer);
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_6__.listenResize)(sizes, camera, renderer); // Animations
 
-// Animations
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_5__["default"].begin();
-  controls.update();
+  controls.update(); // Render
 
-  // Render
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_5__["default"].end();
   requestAnimationFrame(tick);
 };
+
 tick();
 })();
 

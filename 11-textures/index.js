@@ -38,7 +38,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
+
 /* eslint-disable import/prefer-default-export */
+
 /* eslint-disable no-param-reassign */
 
 /**
@@ -48,24 +50,23 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight;
+    sizes.height = window.innerHeight; // update camera
 
-    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix();
+    camera.updateProjectionMatrix(); // update renderer
 
-    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
-
 /**
  * 全屏
  */
+
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
+
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -82,10 +83,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
-
 /**
  * 双击全屏
  */
+
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -53078,7 +53079,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * Textures
  */
@@ -53088,89 +53088,85 @@ __webpack_require__.r(__webpack_exports__);
 // image.onload = () => {
 //   texture.needsUpdate = true
 // }
+
 var loadingManager = new three__WEBPACK_IMPORTED_MODULE_4__.LoadingManager();
+
 loadingManager.onStart = function (url, itemsLoaded, itemsTotal) {
   console.log("Started loading file: ".concat(url, ".\nLoaded ").concat(itemsLoaded, " of ").concat(itemsTotal, " files."));
 };
+
 loadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
   console.log("Loading file: ".concat(url, ".\nLoaded ").concat(itemsLoaded, " of ").concat(itemsTotal, " files."));
 };
+
 loadingManager.onLoad = function () {
   console.log('Loading complete!');
 };
+
 loadingManager.onError = function (url) {
   console.log("There was an error loading ".concat(url));
 };
+
 var textureLoader = new three__WEBPACK_IMPORTED_MODULE_4__.TextureLoader(loadingManager);
-var colorTexture = textureLoader.load('../assets/textures/door/color.jpg');
-// const colorTexture = textureLoader.load('https://gw.alicdn.com/imgextra/i4/O1CN01Ow2oCS1m9kEL8DTpD_!!6000000004912-2-tps-16-16.png')
+var colorTexture = textureLoader.load('../assets/textures/door/color.jpg'); // const colorTexture = textureLoader.load('https://gw.alicdn.com/imgextra/i4/O1CN01Ow2oCS1m9kEL8DTpD_!!6000000004912-2-tps-16-16.png')
 // const alphaTexture = textureLoader.load('../assets/textures/door/alpha.jpg')
 // const ambientOcclusionTexture = textureLoader.load('../assets/textures/door/ambientOcclusion.jpg')
 // const heightTexture = textureLoader.load('../assets/textures/door/height.jpg')
 // const metalnessTexture = textureLoader.load('../assets/textures/door/metalness.jpg')
-
 // colorTexture.offset.x = 1
 // colorTexture.offset.y = 1
 // colorTexture.wrapS = THREE.MirroredRepeatWrapping
 // colorTexture.wrapT = THREE.MirroredRepeatWrapping
-
 // colorTexture.offset.x = 0.5
 // colorTexture.offset.y = 0
-
 // colorTexture.wrapS = THREE.RepeatWrapping
 // colorTexture.wrapT = THREE.RepeatWrapping
 // colorTexture.center = new THREE.Vector2(0.5, 0.5)
 // colorTexture.rotation = Math.PI / 4
-
 // colorTexture.magFilter = THREE.NearestFilter
-colorTexture.generateMipmaps = false;
 
-// Canvas
-var canvas = document.querySelector('#mainCanvas');
+colorTexture.generateMipmaps = false; // Canvas
 
-// Scene
+var canvas = document.querySelector('#mainCanvas'); // Scene
+
 var scene = new three__WEBPACK_IMPORTED_MODULE_4__.Scene();
 var box = new three__WEBPACK_IMPORTED_MODULE_4__.BoxGeometry(1, 1, 1);
 var material = new three__WEBPACK_IMPORTED_MODULE_4__.MeshBasicMaterial({
   // color: 0x607d8b,
   map: colorTexture
 });
-console.log(box.attributes.uv);
+console.log(box.attributes.uv); // Object
 
-// Object
 var cubeMesh = new three__WEBPACK_IMPORTED_MODULE_4__.Mesh(box, material);
-scene.add(cubeMesh);
+scene.add(cubeMesh); // Size
 
-// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-};
+}; // Camera
 
-// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_4__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
 camera.position.set(0, 0, 2.6);
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
-controls.enableDamping = true;
-// controls.enabled = false
-
+controls.enableDamping = true; // controls.enabled = false
 // Renderer
+
 var renderer = new three__WEBPACK_IMPORTED_MODULE_4__.WebGLRenderer({
   canvas: canvas
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_3__.listenResize)(sizes, camera, renderer);
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_3__.listenResize)(sizes, camera, renderer); // Animations
 
-// Animations
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].begin();
-  controls.update();
-  // Render
+  controls.update(); // Render
+
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].end();
   requestAnimationFrame(tick);
 };
+
 tick();
 })();
 

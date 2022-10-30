@@ -38,7 +38,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
+
 /* eslint-disable import/prefer-default-export */
+
 /* eslint-disable no-param-reassign */
 
 /**
@@ -48,24 +50,23 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight;
+    sizes.height = window.innerHeight; // update camera
 
-    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix();
+    camera.updateProjectionMatrix(); // update renderer
 
-    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
-
 /**
  * 全屏
  */
+
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
+
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -82,10 +83,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
-
 /**
  * 双击全屏
  */
+
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -60325,59 +60326,52 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ // Canvas
 
+var canvas = document.querySelector('#mainCanvas'); // Scene
 
-// Canvas
-var canvas = document.querySelector('#mainCanvas');
+var scene = new three__WEBPACK_IMPORTED_MODULE_7__.Scene(); // Gui
 
-// Scene
-var scene = new three__WEBPACK_IMPORTED_MODULE_7__.Scene();
+var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI(); // Size
 
-// Gui
-var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
-
-// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-};
+}; // Camera
 
-// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_7__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(4, 4, 6);
+camera.position.set(4, 4, 6); // Controls
 
-// Controls
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.zoomSpeed = 0.3;
 controls.target = new three__WEBPACK_IMPORTED_MODULE_7__.Vector3(0, 3, 0);
 controls.autoRotate = true;
-
 /**
  * Objects
  */
 // plane
+
 var plane = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(new three__WEBPACK_IMPORTED_MODULE_7__.PlaneGeometry(15, 15), new three__WEBPACK_IMPORTED_MODULE_7__.MeshStandardMaterial({
   color: '#607D8B'
 }));
 plane.rotateX(-Math.PI / 2);
 plane.receiveShadow = true;
 scene.add(plane);
-
 /**
  * Models
  */
-var gltfLoader = new three_examples_jsm_loaders_GLTFLoader__WEBPACK_IMPORTED_MODULE_3__.GLTFLoader();
-// draco
+
+var gltfLoader = new three_examples_jsm_loaders_GLTFLoader__WEBPACK_IMPORTED_MODULE_3__.GLTFLoader(); // draco
 // Optional: Provide a DRACOLoader instance to decode compressed mesh data
-var dracoLoader = new three_examples_jsm_loaders_DRACOLoader__WEBPACK_IMPORTED_MODULE_4__.DRACOLoader();
-// Specify path to a folder containing WASM/JS decoding libraries.
-dracoLoader.setDecoderPath('../assets/draco/');
-// Optional: Pre-fetch Draco WASM/JS module.
+
+var dracoLoader = new three_examples_jsm_loaders_DRACOLoader__WEBPACK_IMPORTED_MODULE_4__.DRACOLoader(); // Specify path to a folder containing WASM/JS decoding libraries.
+
+dracoLoader.setDecoderPath('../assets/draco/'); // Optional: Pre-fetch Draco WASM/JS module.
+
 dracoLoader.preload();
 gltfLoader.setDRACOLoader(dracoLoader);
-gltfLoader.load(
-// '../assets/models/Duck/glTF/Duck.gltf',
+gltfLoader.load( // '../assets/models/Duck/glTF/Duck.gltf',
 // '../assets/models/Duck/glTF-Binary/Duck.glb',
 // '../assets/models/Duck/glTF-Draco/Duck.gltf',
 // '../assets/models/FlightHelmet/glTF/FlightHelmet.gltf',
@@ -60392,10 +60386,10 @@ gltfLoader.load(
   console.log('error');
   console.log(error);
 });
-
 /**
  * Light
  */
+
 var directionLight = new three__WEBPACK_IMPORTED_MODULE_7__.DirectionalLight();
 directionLight.castShadow = true;
 directionLight.position.set(5, 5, 6);
@@ -60412,9 +60406,8 @@ var directionalLightCameraHelper = new three__WEBPACK_IMPORTED_MODULE_7__.Camera
 directionalLightCameraHelper.visible = false;
 scene.add(directionalLightCameraHelper);
 var ambientLight = new three__WEBPACK_IMPORTED_MODULE_7__.AmbientLight(new three__WEBPACK_IMPORTED_MODULE_7__.Color('#ffffff'), 0.3);
-scene.add(ambientLight, directionLight);
+scene.add(ambientLight, directionLight); // Renderer
 
-// Renderer
 var renderer = new three__WEBPACK_IMPORTED_MODULE_7__.WebGLRenderer({
   canvas: canvas,
   antialias: true
@@ -60422,18 +60415,17 @@ var renderer = new three__WEBPACK_IMPORTED_MODULE_7__.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_7__.PCFSoftShadowMap;
+renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_7__.PCFSoftShadowMap; // Animations
 
-// Animations
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_5__["default"].begin();
-  controls.update();
+  controls.update(); // Render
 
-  // Render
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_5__["default"].end();
   requestAnimationFrame(tick);
 };
+
 tick();
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_6__.listenResize)(sizes, camera, renderer);
 gui.add(directionLightHelper, 'visible').name('lightHelper visible');

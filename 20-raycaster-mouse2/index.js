@@ -38,7 +38,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
+
 /* eslint-disable import/prefer-default-export */
+
 /* eslint-disable no-param-reassign */
 
 /**
@@ -48,24 +50,23 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight;
+    sizes.height = window.innerHeight; // update camera
 
-    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix();
+    camera.updateProjectionMatrix(); // update renderer
 
-    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
-
 /**
  * 全屏
  */
+
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
+
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -82,10 +83,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
-
 /**
  * 双击全屏
  */
+
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -55368,10 +55369,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/stats */ "./src/common/stats.ts");
 /* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/utils */ "./src/common/utils.ts");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
@@ -55379,33 +55385,29 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+ // Canvas
 
-// Canvas
-var canvas = document.querySelector('#mainCanvas');
+var canvas = document.querySelector('#mainCanvas'); // Scene
 
-// Scene
-var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene();
+var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene(); // Size
 
-// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-};
+}; // Camera
 
-// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_5__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(0, 0, 12);
+camera.position.set(0, 0, 12); // Controls
 
-// Controls
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
 controls.enableDamping = true;
-controls.zoomSpeed = 0.3;
-// controls.autoRotateSpeed = 1
+controls.zoomSpeed = 0.3; // controls.autoRotateSpeed = 1
 // controls.autoRotate = true
 
 /**
  * Objects
  */
+
 var object1 = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(1, 32, 32), new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial({
   color: '#B71C1C'
 }));
@@ -55427,22 +55429,18 @@ var ambientLight = new three__WEBPACK_IMPORTED_MODULE_5__.AmbientLight(new three
 scene.add(ambientLight, directionLight);
 var directionLightHelper = new three__WEBPACK_IMPORTED_MODULE_5__.DirectionalLightHelper(directionLight, 2);
 scene.add(directionLightHelper);
-
 /**
  * Raycaster
  */
-var raycaster = new three__WEBPACK_IMPORTED_MODULE_5__.Raycaster();
-// const rayOrigin = new THREE.Vector3(-6, 0, 0)
+
+var raycaster = new three__WEBPACK_IMPORTED_MODULE_5__.Raycaster(); // const rayOrigin = new THREE.Vector3(-6, 0, 0)
 // const rayDirections = new THREE.Vector3(10, 0, 0)
 // rayDirections.normalize()
 // raycaster.set(rayOrigin, rayDirections)
-
 // const intersect = raycaster.intersectObject(object1)
 // const intersects = raycaster.intersectObjects([object1, object2, object3])
-
 // console.log(intersect)
 // console.log(intersects)
-
 // const arrowHelper = new THREE.ArrowHelper(
 //   raycaster.ray.direction,
 //   raycaster.ray.origin,
@@ -55452,8 +55450,8 @@ var raycaster = new three__WEBPACK_IMPORTED_MODULE_5__.Raycaster();
 //   0.5,
 // )
 // scene.add(arrowHelper)
-
 // Renderer
+
 var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
   canvas: canvas,
   antialias: true
@@ -55462,10 +55460,10 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer);
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.dbClkfullScreen)(document.body);
-
 /**
  * Mouse
  */
+
 var mouse = {
   x: null,
   y: null
@@ -55478,30 +55476,31 @@ var currentIntersect = null;
 window.addEventListener('click', function (event) {
   mouse.x = event.clientX / sizes.width * 2 - 1;
   mouse.y = -(event.clientY / sizes.height) * 2 + 1;
+
   if (currentIntersect) {
     // console.log(currentIntersect)
     switch (currentIntersect.object) {
       case object1:
         console.log('clicked object1');
         break;
+
       case object2:
         console.log('clicked object2');
         break;
+
       case object3:
         console.log('clicked object3');
         break;
+
       default:
         break;
     }
   }
-});
-
-// Animations
+}); // Animations
 // const clock = new THREE.Clock()
-var tick = function tick() {
-  _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].begin();
 
-  // const elapsedTime = clock.getElapsedTime()
+var tick = function tick() {
+  _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].begin(); // const elapsedTime = clock.getElapsedTime()
   // object1.position.setY(Math.sin(elapsedTime * 2) * 2)
   // object2.position.setY(Math.sin(elapsedTime * 1.5) * 2)
   // object3.position.setY(Math.sin(elapsedTime * 3) * 2)
@@ -55512,42 +55511,48 @@ var tick = function tick() {
       y: mouse.y
     }, camera);
   }
+
   var objectsToTest = [object1, object2, object3];
   var intersects = raycaster.intersectObjects(objectsToTest);
+
   if (intersects.length) {
     if (!currentIntersect) {
       console.log('mouse enter');
     }
+
     var _intersects = _slicedToArray(intersects, 1);
+
     currentIntersect = _intersects[0];
   } else {
     if (currentIntersect) {
       console.log('mouse leave');
     }
+
     currentIntersect = null;
   }
+
   objectsToTest.forEach(function (item) {
     item.material.color.set('#B71C1C');
   });
   intersects.forEach(function (item) {
     item.object.material.color.set('#F9A825');
   });
-  controls.update();
+  controls.update(); // Render
 
-  // Render
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].end();
   requestAnimationFrame(tick);
 };
-tick();
 
+tick();
 /**
  * Debug
  */
+
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
 gui.add(controls, 'autoRotate');
-gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01);
-// gui.add(arrowHelper, 'visible').name('arrowHelper visible')
+gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01); // gui.add(arrowHelper, 'visible').name('arrowHelper visible')
+
 gui.add(directionLightHelper, 'visible').name('directionLightHelper visible');
 })();
 

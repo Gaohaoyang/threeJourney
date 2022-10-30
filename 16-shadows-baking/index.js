@@ -38,7 +38,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
+
 /* eslint-disable import/prefer-default-export */
+
 /* eslint-disable no-param-reassign */
 
 /**
@@ -48,24 +50,23 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight;
+    sizes.height = window.innerHeight; // update camera
 
-    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix();
+    camera.updateProjectionMatrix(); // update renderer
 
-    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
-
 /**
  * 全屏
  */
+
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
+
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -82,10 +83,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
-
 /**
  * 双击全屏
  */
+
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -55369,51 +55370,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/utils */ "./src/common/utils.ts");
 
 
-
-// import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper'
-
+ // import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper'
 
 
 
-// Canvas
-var canvas = document.querySelector('#mainCanvas');
+ // Canvas
 
-// Scene
-var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene();
+var canvas = document.querySelector('#mainCanvas'); // Scene
 
-// Texture
+var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene(); // Texture
+
 var textureLoader = new three__WEBPACK_IMPORTED_MODULE_5__.TextureLoader();
 var bakedShadow = textureLoader.load('../assets/textures/bakedShadow.jpg');
-
 /**
  * Objects
  */
 // Material
+
 var material = new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial();
 material.metalness = 0;
-material.roughness = 0.4;
+material.roughness = 0.4; // Objects
 
-// Objects
-var sphere = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(0.5, 32, 32), material);
-// sphere.castShadow = true
+var sphere = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.SphereGeometry(0.5, 32, 32), material); // sphere.castShadow = true
 
 var plane = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.PlaneGeometry(5, 5), new three__WEBPACK_IMPORTED_MODULE_5__.MeshBasicMaterial({
   map: bakedShadow
 }));
 plane.rotation.set(-Math.PI / 2, 0, 0);
-plane.position.set(0, -0.5, 0);
-// plane.receiveShadow = true
+plane.position.set(0, -0.5, 0); // plane.receiveShadow = true
 
 scene.add(sphere, plane);
-
 /**
  * Lights
  */
+
 var ambientLight = new three__WEBPACK_IMPORTED_MODULE_5__.AmbientLight('#ffffff', 0.4);
 scene.add(ambientLight);
 var directionalLight = new three__WEBPACK_IMPORTED_MODULE_5__.DirectionalLight('#ffffaa', 0.5);
-directionalLight.position.set(1, 0.75, 1);
-// directionalLight.castShadow = true
+directionalLight.position.set(1, 0.75, 1); // directionalLight.castShadow = true
 // directionalLight.shadow.mapSize.width = 1024
 // directionalLight.shadow.mapSize.height = 1024
 // directionalLight.shadow.camera.near = 1
@@ -55423,16 +55417,12 @@ directionalLight.position.set(1, 0.75, 1);
 // directionalLight.shadow.camera.bottom = -2
 // directionalLight.shadow.camera.left = -2
 // directionalLight.shadow.radius = 10
-scene.add(directionalLight);
 
-// console.log(directionalLight.shadow)
+scene.add(directionalLight); // console.log(directionalLight.shadow)
 
 var directionalLightHelper = new three__WEBPACK_IMPORTED_MODULE_5__.DirectionalLightHelper(directionalLight);
-scene.add(directionalLightHelper);
-
-// const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+scene.add(directionalLightHelper); // const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
 // scene.add(directionalLightCameraHelper)
-
 // const spotLight = new THREE.SpotLight(0x78ff00, 0.5, 10, Math.PI * 0.1, 0.25, 1)
 // spotLight.distance = 6
 // spotLight.position.set(0, 2, 2)
@@ -55443,13 +55433,10 @@ scene.add(directionalLightHelper);
 // spotLight.shadow.camera.far = 6
 // spotLight.shadow.radius = 10
 // scene.add(spotLight)
-
 // const spotLightHelper = new THREE.SpotLightHelper(spotLight)
 // scene.add(spotLightHelper)
-
 // const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera)
 // scene.add(spotLightCameraHelper)
-
 // const pointLight = new THREE.PointLight(0xff9000, 0.5, 10, 2)
 // pointLight.position.set(-1, 1, 0)
 // pointLight.castShadow = true
@@ -55459,54 +55446,48 @@ scene.add(directionalLightHelper);
 // pointLight.shadow.camera.near = 0.5
 // pointLight.shadow.camera.far = 4
 // scene.add(pointLight)
-
 // const pointLightHelper = new THREE.PointLightHelper(pointLight)
 // scene.add(pointLightHelper)
-
 // const pointLightCameraHelper = new THREE.CameraHelper(pointLight.shadow.camera)
 // scene.add(pointLightCameraHelper)
-
 // Size
+
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-};
+}; // Camera
 
-// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_5__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
 camera.position.set(1, 1, 2);
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.autoRotate = true;
-controls.autoRotateSpeed = 0.8;
-// controls.enabled = false
-
+controls.autoRotateSpeed = 0.8; // controls.enabled = false
 // Renderer
+
 var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
   canvas: canvas
 });
 renderer.setSize(sizes.width, sizes.height);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-// renderer.shadowMap.enabled = true
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // renderer.shadowMap.enabled = true
 // renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer);
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_4__.listenResize)(sizes, camera, renderer); // Animations
 
-// Animations
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].begin();
-  controls.update();
+  controls.update(); // Render
 
-  // Render
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_3__["default"].end();
   requestAnimationFrame(tick);
 };
-tick();
 
+tick();
 /**
  * Debug
  */
+
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
 var autoRotateFolder = gui.addFolder('AutoRotate');
 autoRotateFolder.add(controls, 'autoRotate');
@@ -55520,17 +55501,14 @@ ambientLightFolder.add(ambientLight, 'visible').listen();
 ambientLightFolder.add(ambientLight, 'intensity', 0, 1, 0.001);
 var directionalLightFolder = gui.addFolder('DirectionalLight');
 directionalLightFolder.add(directionalLight, 'visible').onChange(function (visible) {
-  directionalLightHelper.visible = visible;
-  // directionalLightCameraHelper.visible = visible
+  directionalLightHelper.visible = visible; // directionalLightCameraHelper.visible = visible
 }).listen();
-directionalLightFolder.add(directionalLightHelper, 'visible').name('helper visible').listen();
-// directionalLightFolder
+directionalLightFolder.add(directionalLightHelper, 'visible').name('helper visible').listen(); // directionalLightFolder
 //   .add(directionalLightCameraHelper, 'visible')
 //   .name('camera helper visible')
 //   .listen()
-directionalLightFolder.add(directionalLight, 'intensity', 0, 1, 0.001);
 
-// const spotLightFolder = gui.addFolder('SpotLight')
+directionalLightFolder.add(directionalLight, 'intensity', 0, 1, 0.001); // const spotLightFolder = gui.addFolder('SpotLight')
 // spotLightFolder
 //   .add(spotLight, 'visible')
 //   .onChange((visible: boolean) => {
@@ -55545,7 +55523,6 @@ directionalLightFolder.add(directionalLight, 'intensity', 0, 1, 0.001);
 // spotLightFolder.add(spotLight, 'angle', 0, Math.PI / 2, 0.001)
 // spotLightFolder.add(spotLight, 'penumbra', 0, 1, 0.001)
 // spotLightFolder.add(spotLight, 'decay', 0, 10, 0.001)
-
 // const pointLightFolder = gui.addFolder('PointLight')
 // pointLightFolder
 //   .add(pointLight, 'visible')
@@ -55558,7 +55535,6 @@ directionalLightFolder.add(directionalLight, 'intensity', 0, 1, 0.001);
 // pointLightFolder.add(pointLightCameraHelper, 'visible').name('camera helper visible').listen()
 // pointLightFolder.add(pointLight, 'distance', 0, 100, 0.00001)
 // pointLightFolder.add(pointLight, 'decay', 0, 10, 0.00001)
-
 // const guiObj = {
 //   turnOffAllLights() {
 //     ambientLight.visible = false
@@ -55601,9 +55577,7 @@ directionalLightFolder.add(directionalLight, 'intensity', 0, 1, 0.001);
 //     spotLightCameraHelper.visible = true
 //   },
 // }
-
 // guiObj.hideAllHelpers()
-
 // gui.add(guiObj, 'turnOffAllLights')
 // gui.add(guiObj, 'turnOnAllLights')
 // gui.add(guiObj, 'hideAllHelpers')

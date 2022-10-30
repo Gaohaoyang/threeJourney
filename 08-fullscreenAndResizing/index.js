@@ -53004,34 +53004,28 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ // Canvas
 
+var canvas = document.querySelector('#mainCanvas'); // Scene
 
-// Canvas
-var canvas = document.querySelector('#mainCanvas');
+var scene = new three__WEBPACK_IMPORTED_MODULE_3__.Scene(); // Object
 
-// Scene
-var scene = new three__WEBPACK_IMPORTED_MODULE_3__.Scene();
-
-// Object
 var cube = new three__WEBPACK_IMPORTED_MODULE_3__.Mesh(new three__WEBPACK_IMPORTED_MODULE_3__.BoxGeometry(1, 1, 1), new three__WEBPACK_IMPORTED_MODULE_3__.MeshBasicMaterial({
   color: 0x607d8b
 }));
-scene.add(cube);
+scene.add(cube); // Size
 
-// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-};
+}; // Camera
 
-// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_3__.PerspectiveCamera(75, sizes.width / sizes.height, 1, 100);
 camera.position.set(0, 0, 3);
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
-controls.enableDamping = true;
-// controls.enabled = false
-
+controls.enableDamping = true; // controls.enabled = false
 // Renderer
+
 var renderer = new three__WEBPACK_IMPORTED_MODULE_3__.WebGLRenderer({
   canvas: canvas
 });
@@ -53039,6 +53033,7 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 window.addEventListener('dblclick', function () {
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
+
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -53056,26 +53051,24 @@ window.addEventListener('dblclick', function () {
 window.addEventListener('resize', function () {
   // update sizes
   sizes.width = window.innerWidth;
-  sizes.height = window.innerHeight;
+  sizes.height = window.innerHeight; // update camera
 
-  // update camera
   camera.aspect = sizes.width / sizes.height;
-  camera.updateProjectionMatrix();
+  camera.updateProjectionMatrix(); // update renderer
 
-  // update renderer
   renderer.setSize(sizes.width, sizes.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-});
+}); // Animations
 
-// Animations
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].begin();
-  controls.update();
-  // Render
+  controls.update(); // Render
+
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].end();
   requestAnimationFrame(tick);
 };
+
 tick();
 })();
 

@@ -38,7 +38,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
+
 /* eslint-disable import/prefer-default-export */
+
 /* eslint-disable no-param-reassign */
 
 /**
@@ -48,24 +50,23 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight;
+    sizes.height = window.innerHeight; // update camera
 
-    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix();
+    camera.updateProjectionMatrix(); // update renderer
 
-    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
-
 /**
  * 全屏
  */
+
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
+
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -82,10 +83,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
-
 /**
  * 双击全屏
  */
+
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -59720,59 +59721,54 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/stats */ "./src/common/stats.ts");
 /* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/utils */ "./src/common/utils.ts");
 /* eslint-disable no-use-before-define */
+
 /* eslint-disable no-param-reassign */
 
 
 
 
-
-// import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
-
+ // import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 
 
-// Canvas
-var canvas = document.querySelector('#mainCanvas');
+ // Canvas
 
-// Scene
-var scene = new three__WEBPACK_IMPORTED_MODULE_6__.Scene();
+var canvas = document.querySelector('#mainCanvas'); // Scene
 
-// Gui
+var scene = new three__WEBPACK_IMPORTED_MODULE_6__.Scene(); // Gui
+
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
 var surveyWeight = 0;
 var walkWeight = 0;
-var runWeight = 0;
+var runWeight = 0; // Size
 
-// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-};
+}; // Camera
 
-// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_6__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(4, 2, 6);
+camera.position.set(4, 2, 6); // Controls
 
-// Controls
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.zoomSpeed = 0.3;
-controls.target = new three__WEBPACK_IMPORTED_MODULE_6__.Vector3(0, 3, 0);
-// controls.autoRotate = true
+controls.target = new three__WEBPACK_IMPORTED_MODULE_6__.Vector3(0, 3, 0); // controls.autoRotate = true
 
 /**
  * Objects
  */
 // plane
+
 var plane = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(new three__WEBPACK_IMPORTED_MODULE_6__.PlaneGeometry(15, 15), new three__WEBPACK_IMPORTED_MODULE_6__.MeshStandardMaterial({
   color: '#607D8B'
 }));
 plane.rotateX(-Math.PI / 2);
 plane.receiveShadow = true;
 scene.add(plane);
-
 /**
  * Models
  */
+
 var model = null;
 var mixer = null;
 var skeleton = null;
@@ -59785,9 +59781,8 @@ gltfLoader.load('../assets/models/Fox/glTF/Fox.gltf', function (gltf) {
   console.log(gltf);
   model = gltf.scene;
   model.scale.set(0.03, 0.03, 0.03);
-  scene.add(model);
+  scene.add(model); // 遍历添加光影
 
-  // 遍历添加光影
   model.traverse(function (object) {
     if (object.isMesh) {
       object.castShadow = true;
@@ -59795,9 +59790,8 @@ gltfLoader.load('../assets/models/Fox/glTF/Fox.gltf', function (gltf) {
   });
   skeleton = new three__WEBPACK_IMPORTED_MODULE_6__.SkeletonHelper(model);
   skeleton.visible = false;
-  scene.add(skeleton);
+  scene.add(skeleton); // Animations
 
-  // Animations
   mixer = new three__WEBPACK_IMPORTED_MODULE_6__.AnimationMixer(gltf.scene);
   actionSurvey = mixer.clipAction(gltf.animations[0]);
   actionWalk = mixer.clipAction(gltf.animations[1]);
@@ -59815,10 +59809,10 @@ gltfLoader.load('../assets/models/Fox/glTF/Fox.gltf', function (gltf) {
   console.log('error');
   console.log(error);
 });
-
 /**
  * Light
  */
+
 var directionLight = new three__WEBPACK_IMPORTED_MODULE_6__.DirectionalLight();
 directionLight.castShadow = true;
 directionLight.position.set(5, 5, 6);
@@ -59835,9 +59829,8 @@ var directionalLightCameraHelper = new three__WEBPACK_IMPORTED_MODULE_6__.Camera
 directionalLightCameraHelper.visible = false;
 scene.add(directionalLightCameraHelper);
 var ambientLight = new three__WEBPACK_IMPORTED_MODULE_6__.AmbientLight(new three__WEBPACK_IMPORTED_MODULE_6__.Color('#ffffff'), 0.3);
-scene.add(ambientLight, directionLight);
+scene.add(ambientLight, directionLight); // Renderer
 
-// Renderer
 var renderer = new three__WEBPACK_IMPORTED_MODULE_6__.WebGLRenderer({
   canvas: canvas,
   antialias: true
@@ -59845,50 +59838,56 @@ var renderer = new three__WEBPACK_IMPORTED_MODULE_6__.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_6__.PCFSoftShadowMap;
+renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_6__.PCFSoftShadowMap; // Animations
 
-// Animations
 var clock = new three__WEBPACK_IMPORTED_MODULE_6__.Clock();
 var previousTime = 0;
+
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_4__["default"].begin();
   controls.update();
   var elapsedTime = clock.getElapsedTime();
   var deltaTime = elapsedTime - previousTime;
-  previousTime = elapsedTime;
+  previousTime = elapsedTime; // update mixer
 
-  // update mixer
   if (mixer) {
     mixer.update(deltaTime);
+
     if (actionSurvey) {
       surveyWeight = actionSurvey.getEffectiveWeight();
     }
+
     if (actionWalk) {
       walkWeight = actionWalk.getEffectiveWeight();
     }
+
     if (actionRun) {
       runWeight = actionRun.getEffectiveWeight();
     }
+
     var animationFolder = gui.children[5];
     animationFolder.children[0].disable(surveyWeight !== 1);
     animationFolder.children[1].disable(walkWeight !== 1);
     animationFolder.children[2].disable(runWeight !== 1);
     animationFolder.children[3].disable(walkWeight !== 1);
-  }
+  } // Render
 
-  // Render
+
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_4__["default"].end();
   requestAnimationFrame(tick);
 };
+
 tick();
 (0,_common_utils__WEBPACK_IMPORTED_MODULE_5__.listenResize)(sizes, camera, renderer);
+
 var createGUIPanel = function createGUIPanel() {
   gui.add(directionLightHelper, 'visible').name('lightHelper visible');
   gui.add(directionalLightCameraHelper, 'visible').name('lightCameraHelper visible');
   gui.add(controls, 'autoRotate');
   gui.add(model, 'visible').name('model visible');
   gui.add(skeleton, 'visible').name('skeleton visible');
+
   var executeCrossFade = function executeCrossFade(startAction, endAction) {
     var duration = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
     if (!startAction || !endAction) return;
@@ -59898,6 +59897,7 @@ var createGUIPanel = function createGUIPanel() {
     endAction.setEffectiveWeight(1);
     startAction.crossFadeTo(endAction, duration, true);
   };
+
   var guiObj = {
     surveyToWalk: function surveyToWalk() {
       executeCrossFade(actionSurvey, actionWalk);

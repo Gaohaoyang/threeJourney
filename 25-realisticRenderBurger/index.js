@@ -38,7 +38,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setFullScreen": () => (/* binding */ setFullScreen)
 /* harmony export */ });
 /* eslint-disable no-lonely-if */
+
 /* eslint-disable import/prefer-default-export */
+
 /* eslint-disable no-param-reassign */
 
 /**
@@ -48,24 +50,23 @@ var listenResize = function listenResize(sizes, camera, renderer) {
   window.addEventListener('resize', function () {
     // update sizes
     sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight;
+    sizes.height = window.innerHeight; // update camera
 
-    // update camera
     camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix();
+    camera.updateProjectionMatrix(); // update renderer
 
-    // update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 };
-
 /**
  * 全屏
  */
+
 var setFullScreen = function setFullScreen(canvas) {
   // @ts-ignore
   var fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
+
   if (fullscreenElement) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -82,10 +83,10 @@ var setFullScreen = function setFullScreen(canvas) {
     }
   }
 };
-
 /**
  * 双击全屏
  */
+
 var dbClkfullScreen = function dbClkfullScreen(canvas) {
   window.addEventListener('dblclick', function () {
     setFullScreen(canvas);
@@ -60326,35 +60327,28 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ // Canvas
 
+var canvas = document.querySelector('#mainCanvas'); // Scene
 
-// Canvas
-var canvas = document.querySelector('#mainCanvas');
+var scene = new three__WEBPACK_IMPORTED_MODULE_7__.Scene(); // Gui
 
-// Scene
-var scene = new three__WEBPACK_IMPORTED_MODULE_7__.Scene();
-
-// Gui
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI();
 var debugObject = {
   envMapIntensity: 0.66
-};
+}; // Size
 
-// Size
 var sizes = {
   width: window.innerWidth,
   height: window.innerHeight
-};
+}; // Camera
 
-// Camera
 var camera = new three__WEBPACK_IMPORTED_MODULE_7__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(8, 2, -4);
+camera.position.set(8, 2, -4); // Controls
 
-// Controls
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
 controls.enableDamping = true;
-controls.zoomSpeed = 0.3;
-// controls.target = new THREE.Vector3(0, 3, 0)
+controls.zoomSpeed = 0.3; // controls.target = new THREE.Vector3(0, 3, 0)
 // controls.autoRotate = true
 
 /**
@@ -60369,6 +60363,7 @@ controls.zoomSpeed = 0.3;
 /**
  * Loaders
  */
+
 var gltfLoader = new three_examples_jsm_loaders_GLTFLoader__WEBPACK_IMPORTED_MODULE_3__.GLTFLoader();
 var dracoLoader = new three_examples_jsm_loaders_DRACOLoader__WEBPACK_IMPORTED_MODULE_4__.DRACOLoader();
 dracoLoader.setDecoderPath('../assets/draco/');
@@ -60376,18 +60371,18 @@ dracoLoader.preload();
 dracoLoader.preload();
 gltfLoader.setDRACOLoader(dracoLoader);
 var cubeTextureLoader = new three__WEBPACK_IMPORTED_MODULE_7__.CubeTextureLoader();
-
 /**
  * Environment map
  */
+
 var environmentMap = cubeTextureLoader.load(['../assets/textures/environmentMaps/3/px.jpg', '../assets/textures/environmentMaps/3/nx.jpg', '../assets/textures/environmentMaps/3/py.jpg', '../assets/textures/environmentMaps/3/ny.jpg', '../assets/textures/environmentMaps/3/pz.jpg', '../assets/textures/environmentMaps/3/nz.jpg']);
 environmentMap.encoding = three__WEBPACK_IMPORTED_MODULE_7__.sRGBEncoding;
-scene.background = environmentMap;
-// scene.environment = environmentMap
+scene.background = environmentMap; // scene.environment = environmentMap
 
 /**
  * Update all materials
  */
+
 var updateAllMaterials = function updateAllMaterials() {
   scene.traverse(function (child) {
     if (child instanceof three__WEBPACK_IMPORTED_MODULE_7__.Mesh && child.material instanceof three__WEBPACK_IMPORTED_MODULE_7__.MeshStandardMaterial) {
@@ -60399,11 +60394,12 @@ var updateAllMaterials = function updateAllMaterials() {
     }
   });
 };
-gui.add(debugObject, 'envMapIntensity').min(0).max(10).step(0.001).onChange(updateAllMaterials);
 
+gui.add(debugObject, 'envMapIntensity').min(0).max(10).step(0.001).onChange(updateAllMaterials);
 /**
  * Models
  */
+
 gltfLoader.load('../assets/myModels/hamburger.glb', function (gltf) {
   gltf.scene.scale.set(0.4, 0.4, 0.4);
   gltf.scene.position.set(0, -2.5, 0);
@@ -60412,10 +60408,10 @@ gltfLoader.load('../assets/myModels/hamburger.glb', function (gltf) {
   scene.add(gltf.scene);
   updateAllMaterials();
 });
-
 /**
  * Light
  */
+
 var directionLight = new three__WEBPACK_IMPORTED_MODULE_7__.DirectionalLight('#ffffff', 4.7);
 directionLight.position.set(-1.39, 0.82, -4.34);
 scene.add(directionLight);
@@ -60430,13 +60426,12 @@ directionalLightCameraHelper.visible = false;
 directionLight.shadow.camera.far = 15;
 directionLight.shadow.mapSize.set(1024, 1024);
 directionLight.shadow.normalBias = 0.05;
-
 /** axesHelper */
+
 var axesHelper = new three__WEBPACK_IMPORTED_MODULE_7__.AxesHelper(5);
 scene.add(axesHelper);
-axesHelper.visible = false;
+axesHelper.visible = false; // Renderer
 
-// Renderer
 var renderer = new three__WEBPACK_IMPORTED_MODULE_7__.WebGLRenderer({
   canvas: canvas,
   antialias: true
@@ -60457,22 +60452,20 @@ gui.add(renderer, 'toneMapping', {
   ACESFilmic: three__WEBPACK_IMPORTED_MODULE_7__.ACESFilmicToneMapping
 });
 gui.add(renderer, 'toneMappingExposure').min(0).max(10).step(0.001);
-gui.add(controls, 'autoRotate');
+gui.add(controls, 'autoRotate'); // Animations
 
-// Animations
 var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_5__["default"].begin();
-  controls.update();
+  controls.update(); // Render
 
-  // Render
   renderer.render(scene, camera);
   _common_stats__WEBPACK_IMPORTED_MODULE_5__["default"].end();
   requestAnimationFrame(tick);
 };
-tick();
-(0,_common_utils__WEBPACK_IMPORTED_MODULE_6__.listenResize)(sizes, camera, renderer);
 
-// gui.add(directionLightHelper, 'visible').name('lightHelper visible')
+tick();
+(0,_common_utils__WEBPACK_IMPORTED_MODULE_6__.listenResize)(sizes, camera, renderer); // gui.add(directionLightHelper, 'visible').name('lightHelper visible')
+
 gui.add(directionalLightCameraHelper, 'visible').name('lightCameraHelper visible');
 gui.add(axesHelper, 'visible').name('axesHelper visible');
 gui.add(controls, 'autoRotate');
