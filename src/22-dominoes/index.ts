@@ -28,12 +28,13 @@ const sizes = {
 
 // Camera
 const camera = new THREE.PerspectiveCamera(20, sizes.width / sizes.height, 0.1, 1000)
-camera.position.set(0, 8, 80)
+camera.position.set(20, 30, 120)
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
 controls.zoomSpeed = 0.3
+controls.target.set(14, 0, 0)
 
 const axesHelper = new THREE.AxesHelper(5)
 scene.add(axesHelper)
@@ -42,7 +43,10 @@ scene.add(axesHelper)
  * Objects
  */
 // material
-const material = new THREE.MeshStandardMaterial()
+const material = new THREE.MeshStandardMaterial({
+  metalness: 0,
+  roughness: 0,
+})
 
 // sphere
 // const sphere = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 16), material)
@@ -51,7 +55,7 @@ const material = new THREE.MeshStandardMaterial()
 // scene.add(sphere)
 
 // plane
-const plane = new THREE.Mesh(new THREE.PlaneGeometry(15, 15), material)
+const plane = new THREE.Mesh(new THREE.PlaneGeometry(150, 150), material)
 plane.rotateX(-Math.PI / 2)
 plane.receiveShadow = true
 scene.add(plane)
@@ -59,10 +63,20 @@ scene.add(plane)
 /**
  * Light
  */
-const directionLight = new THREE.DirectionalLight()
+const directionLight = new THREE.DirectionalLight('#ffffff', 2)
 directionLight.castShadow = true
-directionLight.position.set(5, 5, 6)
-const ambientLight = new THREE.AmbientLight(new THREE.Color('#ffffff'), 0.3)
+directionLight.shadow.camera.top = 100
+directionLight.shadow.camera.right = 100
+directionLight.shadow.camera.bottom = -100
+directionLight.shadow.camera.left = -100
+directionLight.shadow.camera.near = 1
+directionLight.shadow.camera.far = 600
+directionLight.shadow.mapSize.set(2048, 2048)
+const directionalLightCameraHelper = new THREE.CameraHelper(directionLight.shadow.camera)
+scene.add(directionalLightCameraHelper)
+
+directionLight.position.set(-50, 80, 60)
+const ambientLight = new THREE.AmbientLight(new THREE.Color('#ffffff'), 1)
 scene.add(ambientLight, directionLight)
 
 const directionLightHelper = new THREE.DirectionalLightHelper(directionLight, 2)
@@ -76,7 +90,9 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+renderer.physicallyCorrectLights = true
 renderer.shadowMap.enabled = true
+renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
 /**
  * Sounds
@@ -95,35 +111,20 @@ const playHitSound = (collision: { contact: CANNON.ContactEquation }) => {
  * Physics
  */
 const world = new CANNON.World()
-world.gravity.set(0, -9.82, 0)
+world.gravity.set(0, -10, 0)
 
 const floorMaterial = new CANNON.Material('floorMaterial')
 const defaultMaterial = new CANNON.Material('default')
 const defaultContactMaterial = new CANNON.ContactMaterial(defaultMaterial, defaultMaterial, {
   friction: 0.01,
-  restitution: 1,
+  restitution: 0.5,
 })
 const floorContactMaterial = new CANNON.ContactMaterial(floorMaterial, defaultMaterial, {
   friction: 0.9,
   restitution: 0.1,
 })
-// const slideContactMaterial = new CANNON.ContactMaterial(defaultMaterial, defaultMaterial, {
-//   friction: 0.3,
-//   restitution: 0.6,
-// })
 world.addContactMaterial(defaultContactMaterial)
 world.addContactMaterial(floorContactMaterial)
-// world.addContactMaterial(defaultContactMaterial)
-
-// const sphereShape = new CANNON.Sphere(1)
-// const sphereBody = new CANNON.Body({
-//   mass: 1,
-//   position: new CANNON.Vec3(0, 4, 0),
-//   shape: sphereShape,
-//   material: defaultMaterial,
-// })
-// world.addBody(sphereBody)
-// sphereBody.applyForce(new CANNON.Vec3(100, 0, 0), new CANNON.Vec3(0, 0, 0))
 
 const guiObj = {
   // drop() {
@@ -142,18 +143,29 @@ const floorBody = new CANNON.Body({
 floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2)
 world.addBody(floorBody)
 
+const dominoeWidth = 0.25
+const dominoeHeight = 3
+const dominoeDepth = 1.5
+
 const objectsToUpdate: Array<{
   mesh: THREE.Mesh
   body: CANNON.Body
 }> = []
-for (let i = 0; i < 20; i += 1) {
-  const dominoe = new THREE.Mesh(new THREE.BoxGeometry(0.5, 6, 3), material)
-  dominoe.position.set(i * 4, 3, 0)
+
+const addOneDominoe = (x: number, y: number, z: number) => {
+  const dominoe = new THREE.Mesh(
+    new THREE.BoxGeometry(dominoeWidth, dominoeHeight, dominoeDepth),
+    material
+  )
+  dominoe.position.set(x, y, z)
   dominoe.castShadow = true
+  dominoe.receiveShadow = true
   scene.add(dominoe)
 
   // Cannon body
-  const shape = new CANNON.Box(new CANNON.Vec3(0.5 * 0.5, 6 * 0.5, 3 * 0.5))
+  const shape = new CANNON.Box(
+    new CANNON.Vec3(dominoeWidth * 0.5, dominoeHeight * 0.5, dominoeDepth * 0.5)
+  )
   const body = new CANNON.Body({
     mass: 0.2,
     shape,
@@ -169,10 +181,22 @@ for (let i = 0; i < 20; i += 1) {
   body.addEventListener('collide', playHitSound)
 }
 
+const addLine = ({ gap }: { gap: number }) => {
+  for (let i = 0; i < 20; i += 1) {
+    addOneDominoe((i * dominoeHeight) / 2, dominoeHeight / 2, gap)
+  }
+}
+
+for (let i = 0; i < 10; i += 1) {
+  addLine({
+    gap: 12 * dominoeWidth * i,
+  })
+}
+
 // console.log(scene);
 console.log(world)
 // world.removeBody(world.bodies[1])
-world.bodies[1].applyForce(new CANNON.Vec3(20, 0, 0), new CANNON.Vec3(0, 0, 0))
+// world.bodies[1].applyForce(new CANNON.Vec3(20, 0, 0), new CANNON.Vec3(0, 0, 0))
 
 // cannonDebugger
 const cannonMeshes: THREE.Mesh[] = []
@@ -200,7 +224,7 @@ gui
 // Animations
 const tick = () => {
   stats.begin()
-  controls.update()
+  // controls.update()
   world.fixedStep()
   cannonDebugger.update() // Update the CannonDebugger meshes
 
@@ -226,8 +250,8 @@ dbClkfullScreen(document.documentElement)
  * Debug
  */
 
-gui.add(controls, 'autoRotate')
-gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
+// gui.add(controls, 'autoRotate')
+// gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
 gui.add(material, 'wireframe')
 gui.add(directionLightHelper, 'visible').name('directionLightHelper visible')
 
