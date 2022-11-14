@@ -128,6 +128,7 @@ const playHitSound = (collision: { contact: CANNON.ContactEquation }) => {
  */
 const world = new CANNON.World()
 world.gravity.set(0, -10, 0)
+world.allowSleep = true
 
 const floorMaterial = new CANNON.Material('floorMaterial')
 const defaultMaterial = new CANNON.Material('default')
@@ -170,19 +171,55 @@ const objectsToUpdate: Array<{
 }> = []
 
 const addOneDominoe = (x: number, y: number, z: number) => {
-  const dominoe = new THREE.Mesh(
-    new THREE.BoxGeometry(dominoeDepth, dominoeHeight, dominoeWidth),
-    new THREE.MeshStandardMaterial({
-      metalness: 0.3,
-      roughness: 0.8,
-      // color: '#37474F',
-      // envMap: environmentMap,
-      // envMapIntensity: 1,
-    })
-  )
+  // const nCoordsComponents = 3 // x,y,z
+  // const nColorComponents = 3 // r,g,b
+  // const nFaces = 6 // e.g. for a pyramid
+  // const nVerticesPerFace = 3 // Triangle faces
+  // const colors = new Float32Array(nFaces * nVerticesPerFace * nColorComponents)
+
+  const geometry = new THREE.BoxGeometry(dominoeDepth, dominoeHeight, dominoeWidth)
+  // const { count } = geometry.attributes.position
+  // console.log(count)
+  // geometry.setAttribute('color', new THREE.BufferAttribute(new Float32Array(count * 3), 3))
+
+  // const colors1 = geometry.attributes.color
+  // // const positions1 = geometry.attributes.position
+  // // const radius = 200
+  // for (let i = 0; i < count; i += 1) {
+  //   // color.setHSL((positions1.getY(i) / radius + 1) / 2, 1.0, 0.5)
+
+  //   if (i === 5) {
+  //     const color = new THREE.Color('#ffffff')
+  //     color.setRGB(255, 0, 0)
+  //     colors1.setXYZ(5, color.r, color.g, color.b)
+  //   } else {
+  //     // const color = new THREE.Color('#ffffff')
+  //     // color.setRGB(255, 255, 255)
+  //     // colors1.setXYZ(i, color.r, color.g, color.b)
+  //   }
+  // }
+
+  const material = new THREE.MeshStandardMaterial({
+    metalness: 0.3,
+    roughness: 0.8,
+    color: '#ffffff',
+    // vertexColors: true,
+  })
+  const dominoe = new THREE.Mesh(geometry, material)
+
   dominoe.position.set(x, y, z)
   dominoe.castShadow = true
   dominoe.receiveShadow = true
+
+  // const planeOfBox = new THREE.Mesh(
+  //   new THREE.PlaneGeometry(dominoeWidth, dominoeHeight),
+  //   new THREE.MeshStandardMaterial({
+  //     color: '#00ff00',
+  //   })
+  // )
+  // planeOfBox.position.set(x, y, z)
+  // group.add(dominoe, planeOfBox)
+
   scene.add(dominoe)
 
   // Cannon body
@@ -196,6 +233,7 @@ const addOneDominoe = (x: number, y: number, z: number) => {
   })
   // @ts-ignore
   body.position.copy(dominoe.position)
+  body.sleepSpeedLimit = 1
   world.addBody(body)
   objectsToUpdate.push({
     mesh: dominoe,
