@@ -67,12 +67,14 @@ directionalLightCameraHelper.visible = false
 scene.add(directionalLightCameraHelper)
 
 directionLight.position.set(-50, 80, 60)
-const ambientLight = new THREE.AmbientLight(new THREE.Color('#ffffff'), 3)
-scene.add(ambientLight, directionLight)
+scene.add(directionLight)
 
-const directionLightHelper = new THREE.DirectionalLightHelper(directionLight, 2)
-directionLightHelper.visible = false
-scene.add(directionLightHelper)
+const ambientLight = new THREE.AmbientLight(new THREE.Color('#ffffff'), 3)
+scene.add(ambientLight)
+
+// const directionLightHelper = new THREE.DirectionalLightHelper(directionLight, 2)
+// directionLightHelper.visible = false
+// scene.add(directionLightHelper)
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
@@ -279,7 +281,7 @@ listenResize(sizes, camera, renderer)
 /**
  * Debug
  */
-gui.add(directionLightHelper, 'visible').name('directionLightHelper visible')
-gui.add(directionalLightCameraHelper, 'visible').name('directionalLightCameraHelper visible')
+// gui.add(directionLightHelper, 'visible').name('directionLightHelper visible')
+// gui.add(directionalLightCameraHelper, 'visible').name('directionalLightCameraHelper visible')
 
 gui.add(guiObj, 'start')

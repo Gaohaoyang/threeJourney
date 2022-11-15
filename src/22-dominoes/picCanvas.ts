@@ -6,7 +6,7 @@ Array<{
   b: number
 }>
 >
-> = () => new Promise((resolve, reject) => {
+> = () => new Promise((resolve) => {
   const canvas: HTMLCanvasElement | null = document.querySelector('#picCanvas')
   const minify2DArr: Array<{
     r: number
@@ -18,7 +18,7 @@ Array<{
     if (ctx) {
       const img = new Image()
       // img.src = '../assets/cherry.png'
-      img.src = '../assets/pokeman.png'
+      // img.src = '../assets/pokeman.png'
       img.src = '../assets/Hello.png'
       img.addEventListener('load', () => {
         ctx.drawImage(img, 0, 0, 20, 10, 0, 0, 20, 10)
