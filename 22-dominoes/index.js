@@ -1,6 +1,63 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/22-dominoes/picCanvas.ts":
+/*!**************************************!*\
+  !*** ./src/22-dominoes/picCanvas.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var getMinifyPicColor = function getMinifyPicColor() {
+  return new Promise(function (resolve, reject) {
+    var canvas = document.querySelector('#picCanvas');
+    var minify2DArr = [];
+
+    if (canvas) {
+      var ctx = canvas.getContext('2d');
+
+      if (ctx) {
+        var img = new Image(); // img.src = '../assets/cherry.png'
+
+        img.src = '../assets/pokeman.png';
+        img.src = '../assets/Hello.png';
+        img.addEventListener('load', function () {
+          ctx.drawImage(img, 0, 0, 20, 10, 0, 0, 20, 10);
+          var imageData = ctx.getImageData(0, 0, 20, 10);
+          var pixels = imageData.data; // console.log(pixels.length)
+
+          for (var i = 0; i < pixels.length; i += 4) {
+            minify2DArr.push({
+              r: pixels[i],
+              g: pixels[i + 1],
+              b: pixels[i + 2]
+            });
+          }
+
+          ctx.putImageData(imageData, 0, 0);
+          console.log(minify2DArr);
+          var newArr = [];
+
+          while (minify2DArr.length) {
+            newArr.push(minify2DArr.splice(0, 20));
+          }
+
+          console.log(newArr);
+          resolve(newArr);
+        });
+      }
+    }
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getMinifyPicColor);
+
+/***/ }),
+
 /***/ "./src/common/stats.ts":
 /*!*****************************!*\
   !*** ./src/common/stats.ts ***!
@@ -13510,7 +13567,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_6_7_1_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_6_7_1_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "html,\nbody {\n  overflow: hidden;\n  /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n", "",{"version":3,"sources":["webpack://./src/22-dominoes/style.css"],"names":[],"mappings":"AAAA;;EAEE,gBAAgB;EAChB,cAAc;AAChB;;AAEA;EACE,SAAS;EACT,UAAU;AACZ;;AAEA;EACE,eAAe;EACf,MAAM;EACN,OAAO;EACP,aAAa;AACf","sourcesContent":["html,\nbody {\n  overflow: hidden;\n  /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "html,\nbody {\n  overflow: hidden;\n  /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n\n.picCanvas{\n  width: 20px;\n  height: 10px;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n}\n", "",{"version":3,"sources":["webpack://./src/22-dominoes/style.css"],"names":[],"mappings":"AAAA;;EAEE,gBAAgB;EAChB,cAAc;AAChB;;AAEA;EACE,SAAS;EACT,UAAU;AACZ;;AAEA;EACE,eAAe;EACf,MAAM;EACN,OAAO;EACP,aAAa;AACf;;AAEA;EACE,WAAW;EACX,YAAY;EACZ,eAAe;EACf,SAAS;EACT,OAAO;AACT","sourcesContent":["html,\nbody {\n  overflow: hidden;\n  /* 避免滚动时出现问题 */\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n.webgl {\n  position: fixed;\n  top: 0;\n  left: 0;\n  outline: none;\n}\n\n.picCanvas{\n  width: 20px;\n  height: 10px;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -68757,15 +68814,17 @@ var __webpack_exports__ = {};
   !*** ./src/22-dominoes/index.ts ***!
   \**********************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! three */ "./node_modules/_three@0.139.2@three/build/three.module.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! three */ "./node_modules/_three@0.139.2@three/build/three.module.js");
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ "./src/22-dominoes/style.css");
 /* harmony import */ var three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls */ "./node_modules/_three@0.139.2@three/examples/jsm/controls/OrbitControls.js");
 /* harmony import */ var lil_gui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lil-gui */ "./node_modules/_lil-gui@0.16.1@lil-gui/dist/lil-gui.esm.js");
-/* harmony import */ var cannon_es__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! cannon-es */ "./node_modules/_cannon-es@0.19.0@cannon-es/dist/cannon-es.js");
-/* harmony import */ var cannon_es_debugger__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! cannon-es-debugger */ "./node_modules/_cannon-es-debugger@1.0.0@cannon-es-debugger/dist/cannon-es-debugger.js");
+/* harmony import */ var cannon_es__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! cannon-es */ "./node_modules/_cannon-es@0.19.0@cannon-es/dist/cannon-es.js");
+/* harmony import */ var cannon_es_debugger__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! cannon-es-debugger */ "./node_modules/_cannon-es-debugger@1.0.0@cannon-es-debugger/dist/cannon-es-debugger.js");
 /* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/stats */ "./src/common/stats.ts");
 /* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/utils */ "./src/common/utils.ts");
+/* harmony import */ var _picCanvas__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./picCanvas */ "./src/22-dominoes/picCanvas.ts");
 /* eslint-disable no-param-reassign */
+
 
 
 
@@ -68777,7 +68836,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var canvas = document.querySelector('#mainCanvas'); // Scene
 
-var scene = new three__WEBPACK_IMPORTED_MODULE_5__.Scene(); // Gui
+var scene = new three__WEBPACK_IMPORTED_MODULE_6__.Scene(); // Gui
 
 var gui = new lil_gui__WEBPACK_IMPORTED_MODULE_2__.GUI(); // Size
 
@@ -68786,7 +68845,7 @@ var sizes = {
   height: window.innerHeight
 }; // Camera
 
-var camera = new three__WEBPACK_IMPORTED_MODULE_5__.PerspectiveCamera(20, sizes.width / sizes.height, 0.1, 1000);
+var camera = new three__WEBPACK_IMPORTED_MODULE_6__.PerspectiveCamera(20, sizes.width / sizes.height, 0.1, 10000);
 camera.position.set(5, 50, 150); // Controls
 
 var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, canvas);
@@ -68814,7 +68873,7 @@ controls.target.set(5, 10, 0); // const axesHelper = new THREE.AxesHelper(5)
  */
 // material
 
-var materialPlane = new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial({
+var materialPlane = new three__WEBPACK_IMPORTED_MODULE_6__.MeshStandardMaterial({
   metalness: 0.4,
   roughness: 0.5,
   color: '#90A4AE' // envMap: environmentMap,
@@ -68827,7 +68886,7 @@ var materialPlane = new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial(
 // scene.add(sphere)
 // plane
 
-var plane = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(new three__WEBPACK_IMPORTED_MODULE_5__.PlaneGeometry(150, 150), materialPlane);
+var plane = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(new three__WEBPACK_IMPORTED_MODULE_6__.PlaneGeometry(150, 150), materialPlane);
 plane.rotateX(-Math.PI / 2);
 plane.receiveShadow = true;
 scene.add(plane);
@@ -68835,7 +68894,7 @@ scene.add(plane);
  * Light
  */
 
-var directionLight = new three__WEBPACK_IMPORTED_MODULE_5__.DirectionalLight('#ffffff', 1);
+var directionLight = new three__WEBPACK_IMPORTED_MODULE_6__.DirectionalLight('#ffffff', 1);
 directionLight.castShadow = true;
 directionLight.shadow.camera.top = 50;
 directionLight.shadow.camera.right = 50;
@@ -68844,17 +68903,17 @@ directionLight.shadow.camera.left = -50;
 directionLight.shadow.camera.near = 1;
 directionLight.shadow.camera.far = 200;
 directionLight.shadow.mapSize.set(2048, 2048);
-var directionalLightCameraHelper = new three__WEBPACK_IMPORTED_MODULE_5__.CameraHelper(directionLight.shadow.camera);
+var directionalLightCameraHelper = new three__WEBPACK_IMPORTED_MODULE_6__.CameraHelper(directionLight.shadow.camera);
 directionalLightCameraHelper.visible = false;
 scene.add(directionalLightCameraHelper);
 directionLight.position.set(-50, 80, 60);
-var ambientLight = new three__WEBPACK_IMPORTED_MODULE_5__.AmbientLight(new three__WEBPACK_IMPORTED_MODULE_5__.Color('#ffffff'), 3);
+var ambientLight = new three__WEBPACK_IMPORTED_MODULE_6__.AmbientLight(new three__WEBPACK_IMPORTED_MODULE_6__.Color('#ffffff'), 3);
 scene.add(ambientLight, directionLight);
-var directionLightHelper = new three__WEBPACK_IMPORTED_MODULE_5__.DirectionalLightHelper(directionLight, 2);
+var directionLightHelper = new three__WEBPACK_IMPORTED_MODULE_6__.DirectionalLightHelper(directionLight, 2);
 directionLightHelper.visible = false;
 scene.add(directionLightHelper); // Renderer
 
-var renderer = new three__WEBPACK_IMPORTED_MODULE_5__.WebGLRenderer({
+var renderer = new three__WEBPACK_IMPORTED_MODULE_6__.WebGLRenderer({
   canvas: canvas,
   antialias: true
 });
@@ -68862,7 +68921,7 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.physicallyCorrectLights = true;
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_5__.PCFSoftShadowMap;
+renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_6__.PCFSoftShadowMap;
 /**
  * Sounds
  */
@@ -68883,16 +68942,16 @@ var playHitSound = function playHitSound(collision) {
  */
 
 
-var world = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.World();
+var world = new cannon_es__WEBPACK_IMPORTED_MODULE_7__.World();
 world.gravity.set(0, -10, 0);
 world.allowSleep = true;
-var floorMaterial = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Material('floorMaterial');
-var defaultMaterial = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Material('default');
-var defaultContactMaterial = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.ContactMaterial(defaultMaterial, defaultMaterial, {
+var floorMaterial = new cannon_es__WEBPACK_IMPORTED_MODULE_7__.Material('floorMaterial');
+var defaultMaterial = new cannon_es__WEBPACK_IMPORTED_MODULE_7__.Material('default');
+var defaultContactMaterial = new cannon_es__WEBPACK_IMPORTED_MODULE_7__.ContactMaterial(defaultMaterial, defaultMaterial, {
   friction: 0.01,
   restitution: 0.3
 });
-var floorContactMaterial = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.ContactMaterial(floorMaterial, defaultMaterial, {
+var floorContactMaterial = new cannon_es__WEBPACK_IMPORTED_MODULE_7__.ContactMaterial(floorMaterial, defaultMaterial, {
   friction: 0.9,
   restitution: 0.6
 });
@@ -68906,13 +68965,13 @@ var guiObj = {
   start: function start() {}
 }; // floor
 
-var floorShape = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Plane();
-var floorBody = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Body({
-  type: cannon_es__WEBPACK_IMPORTED_MODULE_6__.Body.STATIC,
+var floorShape = new cannon_es__WEBPACK_IMPORTED_MODULE_7__.Plane();
+var floorBody = new cannon_es__WEBPACK_IMPORTED_MODULE_7__.Body({
+  type: cannon_es__WEBPACK_IMPORTED_MODULE_7__.Body.STATIC,
   shape: floorShape,
   material: floorMaterial
 });
-floorBody.quaternion.setFromAxisAngle(new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Vec3(1, 0, 0), -Math.PI / 2);
+floorBody.quaternion.setFromAxisAngle(new cannon_es__WEBPACK_IMPORTED_MODULE_7__.Vec3(1, 0, 0), -Math.PI / 2);
 world.addBody(floorBody);
 var dominoeDepth = 0.2;
 var dominoeHeight = 3;
@@ -68920,52 +68979,25 @@ var dominoeWidth = 1.5;
 var objectsToUpdate = [];
 
 var addOneDominoe = function addOneDominoe(x, y, z) {
-  // const nCoordsComponents = 3 // x,y,z
-  // const nColorComponents = 3 // r,g,b
-  // const nFaces = 6 // e.g. for a pyramid
-  // const nVerticesPerFace = 3 // Triangle faces
-  // const colors = new Float32Array(nFaces * nVerticesPerFace * nColorComponents)
-  var geometry = new three__WEBPACK_IMPORTED_MODULE_5__.BoxGeometry(dominoeDepth, dominoeHeight, dominoeWidth); // const { count } = geometry.attributes.position
-  // console.log(count)
-  // geometry.setAttribute('color', new THREE.BufferAttribute(new Float32Array(count * 3), 3))
-  // const colors1 = geometry.attributes.color
-  // // const positions1 = geometry.attributes.position
-  // // const radius = 200
-  // for (let i = 0; i < count; i += 1) {
-  //   // color.setHSL((positions1.getY(i) / radius + 1) / 2, 1.0, 0.5)
-  //   if (i === 5) {
-  //     const color = new THREE.Color('#ffffff')
-  //     color.setRGB(255, 0, 0)
-  //     colors1.setXYZ(5, color.r, color.g, color.b)
-  //   } else {
-  //     // const color = new THREE.Color('#ffffff')
-  //     // color.setRGB(255, 255, 255)
-  //     // colors1.setXYZ(i, color.r, color.g, color.b)
-  //   }
-  // }
-
-  var material = new three__WEBPACK_IMPORTED_MODULE_5__.MeshStandardMaterial({
+  var color = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {
+    r: 255,
+    g: 255,
+    b: 255
+  };
+  var geometry = new three__WEBPACK_IMPORTED_MODULE_6__.BoxGeometry(dominoeDepth, dominoeHeight, dominoeWidth);
+  var material = new three__WEBPACK_IMPORTED_MODULE_6__.MeshStandardMaterial({
     metalness: 0.3,
     roughness: 0.8,
-    color: '#ffffff' // vertexColors: true,
-
+    color: new three__WEBPACK_IMPORTED_MODULE_6__.Color("rgb(".concat(color.r, ", ").concat(color.g, ", ").concat(color.b, ")"))
   });
-  var dominoe = new three__WEBPACK_IMPORTED_MODULE_5__.Mesh(geometry, material);
+  var dominoe = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(geometry, material);
   dominoe.position.set(x, y, z);
   dominoe.castShadow = true;
-  dominoe.receiveShadow = true; // const planeOfBox = new THREE.Mesh(
-  //   new THREE.PlaneGeometry(dominoeWidth, dominoeHeight),
-  //   new THREE.MeshStandardMaterial({
-  //     color: '#00ff00',
-  //   })
-  // )
-  // planeOfBox.position.set(x, y, z)
-  // group.add(dominoe, planeOfBox)
-
+  dominoe.receiveShadow = true;
   scene.add(dominoe); // Cannon body
 
-  var shape = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Box(new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Vec3(dominoeDepth * 0.5, dominoeHeight * 0.5, dominoeWidth * 0.5));
-  var body = new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Body({
+  var shape = new cannon_es__WEBPACK_IMPORTED_MODULE_7__.Box(new cannon_es__WEBPACK_IMPORTED_MODULE_7__.Vec3(dominoeDepth * 0.5, dominoeHeight * 0.5, dominoeWidth * 0.5));
+  var body = new cannon_es__WEBPACK_IMPORTED_MODULE_7__.Body({
     mass: 0.2,
     shape: shape,
     material: defaultMaterial
@@ -68979,46 +69011,49 @@ var addOneDominoe = function addOneDominoe(x, y, z) {
     body: body
   });
   body.addEventListener('collide', playHitSound);
-};
+}; // const addLine = ({ gap }: { gap: number }) => {
+//   for (let i = 0; i < 20; i += 1) {
+//     addOneDominoe((i * dominoeHeight) / 2, dominoeHeight / 2, gap)
+//   }
+// }
+// for (let i = 0; i < 10; i += 1) {
+//   addLine({
+//     gap: 1.5 * dominoeWidth * i,
+//   })
+// }
 
-var addLine = function addLine(_ref) {
-  var gap = _ref.gap;
-
-  for (var i = 0; i < 20; i += 1) {
-    addOneDominoe(i * dominoeHeight / 2, dominoeHeight / 2, gap);
-  }
-};
-
-for (var i = 0; i < 10; i += 1) {
-  addLine({
-    gap: 1.5 * dominoeWidth * i
-  });
-}
 
 var addTriangle = function addTriangle() {
   for (var row = 0; row < 9; row += 1) {
-    for (var _i = 0; _i <= row; _i += 1) {
-      addOneDominoe(-dominoeHeight / 2 * (9 - row), dominoeHeight / 2, 1.5 * dominoeWidth * _i + dominoeWidth * 0.8 * (9 - row));
+    for (var i = 0; i <= row; i += 1) {
+      addOneDominoe(-dominoeHeight / 2 * (9 - row), dominoeHeight / 2, 1.5 * dominoeWidth * i + dominoeWidth * 0.8 * (9 - row));
     }
   } // start line
 
 
-  for (var _i2 = 0; _i2 < 10; _i2 += 1) {
-    addOneDominoe(-dominoeHeight / 2 * 10 - _i2 * dominoeHeight / 2, dominoeHeight / 2, dominoeWidth * 0.8 * 9);
+  for (var _i = 0; _i < 10; _i += 1) {
+    addOneDominoe(-dominoeHeight / 2 * 10 - _i * dominoeHeight / 2, dominoeHeight / 2, dominoeWidth * 0.8 * 9);
   }
 };
 
-addTriangle(); // console.log(scene);
+(0,_picCanvas__WEBPACK_IMPORTED_MODULE_5__["default"])().then(function (arr) {
+  arr.forEach(function (item, index) {
+    item.forEach(function (color, i) {
+      addOneDominoe(i * dominoeHeight / 2, dominoeHeight / 2, 1.5 * dominoeWidth * index, color);
+    });
+  });
+  addTriangle();
+}); // console.log(scene);
 // console.log(world)
 // world.removeBody(world.bodies[1])
 
 guiObj.start = function () {
-  world.bodies[world.bodies.length - 1].applyForce(new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Vec3(30, 0, 0), new cannon_es__WEBPACK_IMPORTED_MODULE_6__.Vec3(0, 0, 0));
+  world.bodies[world.bodies.length - 1].applyForce(new cannon_es__WEBPACK_IMPORTED_MODULE_7__.Vec3(30, 0, 0), new cannon_es__WEBPACK_IMPORTED_MODULE_7__.Vec3(0, 0, 0));
 }; // cannonDebugger
 
 
 var cannonMeshes = [];
-var cannonDebugger = (0,cannon_es_debugger__WEBPACK_IMPORTED_MODULE_7__["default"])(scene, world, {
+var cannonDebugger = (0,cannon_es_debugger__WEBPACK_IMPORTED_MODULE_8__["default"])(scene, world, {
   onInit: function onInit(body, mesh) {
     mesh.visible = false;
     cannonMeshes.push(mesh);
