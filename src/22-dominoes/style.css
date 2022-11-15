@@ -15,3 +15,11 @@ body {
   left: 0;
   outline: none;
 }
+
+.picCanvas{
+  width: 20px;
+  height: 10px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}

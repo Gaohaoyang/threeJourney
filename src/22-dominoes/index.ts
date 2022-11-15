@@ -7,6 +7,7 @@ import * as CANNON from 'cannon-es'
 import CannonDebugger from 'cannon-es-debugger'
 import stats from '../common/stats'
 import { listenResize } from '../common/utils'
+import getMinifyPicColor from './picCanvas'
 
 // Canvas
 const canvas = document.querySelector('#mainCanvas') as HTMLCanvasElement
@@ -24,7 +25,7 @@ const sizes = {
 }
 
 // Camera
-const camera = new THREE.PerspectiveCamera(20, sizes.width / sizes.height, 0.1, 1000)
+const camera = new THREE.PerspectiveCamera(20, sizes.width / sizes.height, 0.1, 10000)
 camera.position.set(5, 50, 150)
 
 // Controls
@@ -170,55 +171,32 @@ const objectsToUpdate: Array<{
   body: CANNON.Body
 }> = []
 
-const addOneDominoe = (x: number, y: number, z: number) => {
-  // const nCoordsComponents = 3 // x,y,z
-  // const nColorComponents = 3 // r,g,b
-  // const nFaces = 6 // e.g. for a pyramid
-  // const nVerticesPerFace = 3 // Triangle faces
-  // const colors = new Float32Array(nFaces * nVerticesPerFace * nColorComponents)
-
+const addOneDominoe = (
+  x: number,
+  y: number,
+  z: number,
+  color: {
+    r: number
+    g: number
+    b: number
+  } = {
+    r: 255,
+    g: 255,
+    b: 255,
+  }
+) => {
   const geometry = new THREE.BoxGeometry(dominoeDepth, dominoeHeight, dominoeWidth)
-  // const { count } = geometry.attributes.position
-  // console.log(count)
-  // geometry.setAttribute('color', new THREE.BufferAttribute(new Float32Array(count * 3), 3))
-
-  // const colors1 = geometry.attributes.color
-  // // const positions1 = geometry.attributes.position
-  // // const radius = 200
-  // for (let i = 0; i < count; i += 1) {
-  //   // color.setHSL((positions1.getY(i) / radius + 1) / 2, 1.0, 0.5)
-
-  //   if (i === 5) {
-  //     const color = new THREE.Color('#ffffff')
-  //     color.setRGB(255, 0, 0)
-  //     colors1.setXYZ(5, color.r, color.g, color.b)
-  //   } else {
-  //     // const color = new THREE.Color('#ffffff')
-  //     // color.setRGB(255, 255, 255)
-  //     // colors1.setXYZ(i, color.r, color.g, color.b)
-  //   }
-  // }
 
   const material = new THREE.MeshStandardMaterial({
     metalness: 0.3,
     roughness: 0.8,
-    color: '#ffffff',
-    // vertexColors: true,
+    color: new THREE.Color(`rgb(${color.r}, ${color.g}, ${color.b})`),
   })
   const dominoe = new THREE.Mesh(geometry, material)
 
   dominoe.position.set(x, y, z)
   dominoe.castShadow = true
   dominoe.receiveShadow = true
-
-  // const planeOfBox = new THREE.Mesh(
-  //   new THREE.PlaneGeometry(dominoeWidth, dominoeHeight),
-  //   new THREE.MeshStandardMaterial({
-  //     color: '#00ff00',
-  //   })
-  // )
-  // planeOfBox.position.set(x, y, z)
-  // group.add(dominoe, planeOfBox)
 
   scene.add(dominoe)
 
@@ -242,17 +220,17 @@ const addOneDominoe = (x: number, y: number, z: number) => {
   body.addEventListener('collide', playHitSound)
 }
 
-const addLine = ({ gap }: { gap: number }) => {
-  for (let i = 0; i < 20; i += 1) {
-    addOneDominoe((i * dominoeHeight) / 2, dominoeHeight / 2, gap)
-  }
-}
+// const addLine = ({ gap }: { gap: number }) => {
+//   for (let i = 0; i < 20; i += 1) {
+//     addOneDominoe((i * dominoeHeight) / 2, dominoeHeight / 2, gap)
+//   }
+// }
 
-for (let i = 0; i < 10; i += 1) {
-  addLine({
-    gap: 1.5 * dominoeWidth * i,
-  })
-}
+// for (let i = 0; i < 10; i += 1) {
+//   addLine({
+//     gap: 1.5 * dominoeWidth * i,
+//   })
+// }
 
 const addTriangle = () => {
   for (let row = 0; row < 9; row += 1) {
@@ -275,7 +253,15 @@ const addTriangle = () => {
   }
 }
 
-addTriangle()
+getMinifyPicColor().then((arr) => {
+  arr.forEach((item, index) => {
+    item.forEach((color, i) => {
+      addOneDominoe((i * dominoeHeight) / 2, dominoeHeight / 2, 1.5 * dominoeWidth * index, color)
+    })
+  })
+
+  addTriangle()
+})
 
 // console.log(scene);
 // console.log(world)
