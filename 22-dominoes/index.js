@@ -68876,7 +68876,7 @@ controls.target.set(5, 10, 0); // const axesHelper = new THREE.AxesHelper(5)
 var materialPlane = new three__WEBPACK_IMPORTED_MODULE_6__.MeshStandardMaterial({
   metalness: 0.4,
   roughness: 0.5,
-  color: '#90A4AE' // envMap: environmentMap,
+  color: '#E8F5E9' // envMap: environmentMap,
   // envMapIntensity: 1,
 
 }); // sphere
