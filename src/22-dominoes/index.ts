@@ -59,7 +59,7 @@ controls.target.set(5, 10, 0)
 const materialPlane = new THREE.MeshStandardMaterial({
   metalness: 0.4,
   roughness: 0.5,
-  color: '#90A4AE',
+  color: '#E8F5E9',
   // envMap: environmentMap,
   // envMapIntensity: 1,
 })
