@@ -34,24 +34,6 @@ controls.enableDamping = true
 controls.zoomSpeed = 0.3
 controls.target.set(5, 10, 0)
 
-// const axesHelper = new THREE.AxesHelper(5)
-// scene.add(axesHelper)
-
-/**
- * Environment map
- */
-// const cubeTextureLoader = new THREE.CubeTextureLoader()
-// const environmentMap = cubeTextureLoader.load([
-//   '../assets/textures/environmentMaps/3/px.jpg',
-//   '../assets/textures/environmentMaps/3/nx.jpg',
-//   '../assets/textures/environmentMaps/3/py.jpg',
-//   '../assets/textures/environmentMaps/3/ny.jpg',
-//   '../assets/textures/environmentMaps/3/pz.jpg',
-//   '../assets/textures/environmentMaps/3/nz.jpg',
-// ])
-
-// environmentMap.encoding = THREE.sRGBEncoding
-
 /**
  * Objects
  */
@@ -60,15 +42,7 @@ const materialPlane = new THREE.MeshStandardMaterial({
   metalness: 0.4,
   roughness: 0.5,
   color: '#E8F5E9',
-  // envMap: environmentMap,
-  // envMapIntensity: 1,
 })
-
-// sphere
-// const sphere = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 16), material)
-// sphere.position.setY(1)
-// sphere.castShadow = true
-// scene.add(sphere)
 
 // plane
 const plane = new THREE.Mesh(new THREE.PlaneGeometry(150, 150), materialPlane)
@@ -145,9 +119,6 @@ world.addContactMaterial(defaultContactMaterial)
 world.addContactMaterial(floorContactMaterial)
 
 const guiObj = {
-  // drop() {
-  //   sphereBody.position = new CANNON.Vec3(0, 4, 0)
-  // },
   CannonDebugger: false,
   start: () => {},
 }
@@ -220,18 +191,6 @@ const addOneDominoe = (
   body.addEventListener('collide', playHitSound)
 }
 
-// const addLine = ({ gap }: { gap: number }) => {
-//   for (let i = 0; i < 20; i += 1) {
-//     addOneDominoe((i * dominoeHeight) / 2, dominoeHeight / 2, gap)
-//   }
-// }
-
-// for (let i = 0; i < 10; i += 1) {
-//   addLine({
-//     gap: 1.5 * dominoeWidth * i,
-//   })
-// }
-
 const addTriangle = () => {
   for (let row = 0; row < 9; row += 1) {
     for (let i = 0; i <= row; i += 1) {
@@ -263,9 +222,6 @@ getMinifyPicColor().then((arr) => {
   addTriangle()
 })
 
-// console.log(scene);
-// console.log(world)
-// world.removeBody(world.bodies[1])
 guiObj.start = () => {
   world.bodies[world.bodies.length - 1].applyForce(
     new CANNON.Vec3(30, 0, 0),
@@ -319,15 +275,10 @@ const tick = () => {
 tick()
 
 listenResize(sizes, camera, renderer)
-// dbClkfullScreen(document.documentElement)
 
 /**
  * Debug
  */
-
-// gui.add(controls, 'autoRotate')
-// gui.add(controls, 'autoRotateSpeed', 0.1, 10, 0.01)
-// gui.add(materialPlane, 'wireframe')
 gui.add(directionLightHelper, 'visible').name('directionLightHelper visible')
 gui.add(directionalLightCameraHelper, 'visible').name('directionalLightCameraHelper visible')
 
