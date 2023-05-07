@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import * as THREE from 'three'
 // import './style.css'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 // import * as dat from 'lil-gui'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import stats from '../common/stats'
@@ -10,7 +10,7 @@ import stats from '../common/stats'
 let renderer: THREE.WebGLRenderer | null = null
 let scene: THREE.Scene | null = null
 let camera: THREE.PerspectiveCamera | null = null
-let controls: OrbitControls | null = null
+// let controls: OrbitControls | null = null
 
 const initThreeModel = () => {
   // Scene
@@ -51,9 +51,9 @@ const initThreeModel = () => {
   // camera.position.set(8, 2, -4)
 
   // Controls
-  controls = new OrbitControls(camera, renderer.domElement)
-  controls.enableDamping = true
-  controls.zoomSpeed = 0.3
+  // controls = new OrbitControls(camera, renderer.domElement)
+  // controls.enableDamping = true
+  // controls.zoomSpeed = 0.3
   // controls.target = new THREE.Vector3(0, 3, 0)
   // controls.autoRotate = true
 
@@ -62,7 +62,7 @@ const initThreeModel = () => {
    */
   const testSphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.1, 32, 32),
-    new THREE.MeshStandardMaterial()
+    new THREE.MeshStandardMaterial(),
   )
   testSphere.position.set(0, 3, 0)
   scene.add(testSphere)
@@ -147,7 +147,7 @@ const initThreeModel = () => {
 const tick = () => {
   renderer?.setAnimationLoop(() => {
     stats.begin()
-    controls?.update()
+    // controls?.update()
     if (scene && camera && renderer) {
       renderer.render(scene, camera)
     }
