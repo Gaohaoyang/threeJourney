@@ -56858,8 +56858,8 @@ var initThreeModel = function initThreeModel() {
   document.body.appendChild(renderer.domElement);
 
   // Camera
-  camera = new three__WEBPACK_IMPORTED_MODULE_3__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-  camera.position.set(8, 2, -4);
+  camera = new three__WEBPACK_IMPORTED_MODULE_3__.PerspectiveCamera(75, sizes.width / sizes.height, 0.01, 10000);
+  // camera.position.set(8, 2, -4)
 
   // Controls
   controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_0__.OrbitControls(camera, renderer.domElement);
@@ -56871,11 +56871,8 @@ var initThreeModel = function initThreeModel() {
   /**
    * Objects
    */
-  // const testSphere = new THREE.Mesh(
-  //   new THREE.SphereGeometry(1, 32, 32),
-  //   new THREE.MeshStandardMaterial()
-  // )
-  // scene.add(testSphere)
+  var testSphere = new three__WEBPACK_IMPORTED_MODULE_3__.Mesh(new three__WEBPACK_IMPORTED_MODULE_3__.SphereGeometry(0.1, 32, 32), new three__WEBPACK_IMPORTED_MODULE_3__.MeshStandardMaterial());
+  scene.add(testSphere);
 
   /**
    * Loaders
@@ -56907,8 +56904,8 @@ var initThreeModel = function initThreeModel() {
    */
   gltfLoader.load('../assets/models/FlightHelmet/glTF/FlightHelmet.gltf', function (gltf) {
     var _scene2;
-    gltf.scene.scale.set(8, 8, 8);
-    gltf.scene.position.set(0, -3.4, 0);
+    gltf.scene.scale.set(4, 4, 4);
+    gltf.scene.position.set(0, -2, 0);
     gltf.scene.rotation.set(0, Math.PI * 0.5, 0);
     // gui.add(gltf.scene.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001)
     //   .name('rotation')
@@ -56968,8 +56965,12 @@ var tick = function tick() {
 };
 var arButton = document.querySelector('#ar-button');
 var notSupport = function notSupport() {
+  var _camera;
   arButton.textContent = 'Not Supported';
   arButton.disabled = true;
+  initThreeModel();
+  (_camera = camera) === null || _camera === void 0 ? void 0 : _camera.position.set(8, 2, -4);
+  tick();
 };
 var currentSession = null;
 var start = /*#__PURE__*/function () {
