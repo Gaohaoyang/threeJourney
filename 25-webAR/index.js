@@ -55613,7 +55613,7 @@ var initThreeModel = function initThreeModel() {
    * Objects
    */
   var testSphere = new three__WEBPACK_IMPORTED_MODULE_2__.Mesh(new three__WEBPACK_IMPORTED_MODULE_2__.SphereGeometry(0.1, 32, 32), new three__WEBPACK_IMPORTED_MODULE_2__.MeshStandardMaterial());
-  testSphere.position.set(0, 3, 0);
+  testSphere.position.set(0, 1, 0);
   scene.add(testSphere);
 
   /**
@@ -55646,8 +55646,8 @@ var initThreeModel = function initThreeModel() {
    */
   gltfLoader.load('../assets/models/FlightHelmet/glTF/FlightHelmet.gltf', function (gltf) {
     var _scene2;
-    gltf.scene.scale.set(4, 4, 4);
-    gltf.scene.position.set(0, -2, 0);
+    gltf.scene.scale.set(0.3, 0.3, 0.3);
+    gltf.scene.position.set(0, -0.4, 0);
     gltf.scene.rotation.set(0, Math.PI * 0.5, 0);
     // gui.add(gltf.scene.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001)
     //   .name('rotation')
@@ -55658,6 +55658,8 @@ var initThreeModel = function initThreeModel() {
   /**
    * Light
    */
+  var ambientLight = new three__WEBPACK_IMPORTED_MODULE_2__.AmbientLight(0xffffff, 0.5);
+  scene.add(ambientLight);
   var directionLight = new three__WEBPACK_IMPORTED_MODULE_2__.DirectionalLight('#ffffff', 2.8);
   directionLight.position.set(0.25, 3, -2.25);
   scene.add(directionLight);
