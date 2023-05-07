@@ -138,6 +138,7 @@ const initThreeModel = () => {
   renderer = new THREE.WebGLRenderer({
     canvas,
     antialias: true,
+    alpha: true,
   })
 
   renderer.setSize(sizes.width, sizes.height)
