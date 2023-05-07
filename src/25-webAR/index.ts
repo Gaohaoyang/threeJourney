@@ -225,11 +225,13 @@ const end = async () => {
 }
 
 const showStartAR = () => {
-  if (currentSession) {
-    end()
-  } else {
-    start()
-  }
+  arButton.addEventListener('click', () => {
+    if (currentSession) {
+      end()
+    } else {
+      start()
+    }
+  })
 }
 
 // initThreeModel()
