@@ -64,7 +64,7 @@ const initThreeModel = () => {
     new THREE.SphereGeometry(0.1, 32, 32),
     new THREE.MeshStandardMaterial(),
   )
-  testSphere.position.set(0, 3, 0)
+  testSphere.position.set(0, 1, 0)
   scene.add(testSphere)
 
   /**
@@ -95,8 +95,8 @@ const initThreeModel = () => {
    * Models
    */
   gltfLoader.load('../assets/models/FlightHelmet/glTF/FlightHelmet.gltf', (gltf) => {
-    gltf.scene.scale.set(4, 4, 4)
-    gltf.scene.position.set(0, -2, 0)
+    gltf.scene.scale.set(0.3, 0.3, 0.3)
+    gltf.scene.position.set(0, -0.4, 0)
     gltf.scene.rotation.set(0, Math.PI * 0.5, 0)
     // gui.add(gltf.scene.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001)
     //   .name('rotation')
@@ -107,6 +107,9 @@ const initThreeModel = () => {
   /**
    * Light
    */
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+  scene.add(ambientLight)
+
   const directionLight = new THREE.DirectionalLight('#ffffff', 2.8)
   directionLight.position.set(0.25, 3, -2.25)
   scene.add(directionLight)
@@ -127,6 +130,7 @@ const initThreeModel = () => {
 
   directionLight.shadow.camera.far = 15
   directionLight.shadow.mapSize.set(1024, 1024)
+
 
   /** axesHelper */
   const axesHelper = new THREE.AxesHelper(5)
