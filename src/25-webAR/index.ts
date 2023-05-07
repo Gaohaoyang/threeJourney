@@ -110,7 +110,7 @@ const initThreeModel = () => {
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
   scene.add(ambientLight)
 
-  const directionLight = new THREE.DirectionalLight('#ffffff', 2.8)
+  const directionLight = new THREE.DirectionalLight('#ffffff', 2)
   directionLight.position.set(0.25, 3, -2.25)
   scene.add(directionLight)
 
@@ -130,7 +130,6 @@ const initThreeModel = () => {
 
   directionLight.shadow.camera.far = 15
   directionLight.shadow.mapSize.set(1024, 1024)
-
 
   /** axesHelper */
   const axesHelper = new THREE.AxesHelper(5)
