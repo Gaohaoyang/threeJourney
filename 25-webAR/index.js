@@ -56951,7 +56951,8 @@ var initThreeModel = function initThreeModel() {
   // Renderer
   renderer = new three__WEBPACK_IMPORTED_MODULE_3__.WebGLRenderer({
     canvas: canvas,
-    antialias: true
+    antialias: true,
+    alpha: true
   });
   renderer.setSize(sizes.width, sizes.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
