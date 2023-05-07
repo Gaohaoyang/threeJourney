@@ -56873,8 +56873,8 @@ var initThreeModel = function initThreeModel() {
   /**
    * Objects
    */
-  var testSphere = new three__WEBPACK_IMPORTED_MODULE_3__.Mesh(new three__WEBPACK_IMPORTED_MODULE_3__.SphereGeometry(0.1, 32, 32), new three__WEBPACK_IMPORTED_MODULE_3__.MeshStandardMaterial());
-  testSphere.position.set(0, 0.5, -0.4);
+  var testSphere = new three__WEBPACK_IMPORTED_MODULE_3__.Mesh(new three__WEBPACK_IMPORTED_MODULE_3__.SphereGeometry(0.03, 32, 32), new three__WEBPACK_IMPORTED_MODULE_3__.MeshStandardMaterial());
+  testSphere.position.set(0, 0.2, 0);
   scene.add(testSphere);
 
   /**
@@ -56907,8 +56907,8 @@ var initThreeModel = function initThreeModel() {
    */
   gltfLoader.load('../assets/models/FlightHelmet/glTF/FlightHelmet.gltf', function (gltf) {
     var _scene2;
-    gltf.scene.scale.set(0.3, 0.3, 0.3);
-    gltf.scene.position.set(0, -0.4, -0.4);
+    gltf.scene.scale.set(0.5, 0.5, 0.5);
+    gltf.scene.position.set(0, -0.3, 0);
     gltf.scene.rotation.set(0, Math.PI * 0.5, 0);
     // gui.add(gltf.scene.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001)
     //   .name('rotation')
@@ -56919,7 +56919,7 @@ var initThreeModel = function initThreeModel() {
   /**
    * Light
    */
-  var ambientLight = new three__WEBPACK_IMPORTED_MODULE_3__.AmbientLight(0xffffff, 0.5);
+  var ambientLight = new three__WEBPACK_IMPORTED_MODULE_3__.AmbientLight(0xffffff, 0.4);
   scene.add(ambientLight);
   var directionLight = new three__WEBPACK_IMPORTED_MODULE_3__.DirectionalLight('#ffffff', 2);
   directionLight.position.set(0.25, 3, -2.25);
@@ -56974,7 +56974,7 @@ var notSupport = function notSupport() {
   arButton.textContent = 'Not Supported';
   arButton.disabled = true;
   initThreeModel();
-  (_camera = camera) === null || _camera === void 0 ? void 0 : _camera.position.set(8, 2, -4);
+  (_camera = camera) === null || _camera === void 0 ? void 0 : _camera.position.set(1, 1, -2);
   tick();
 };
 var currentSession = null;
