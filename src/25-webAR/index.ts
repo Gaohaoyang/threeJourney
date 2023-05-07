@@ -62,7 +62,7 @@ const initThreeModel = () => {
    */
   const testSphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.1, 32, 32),
-    new THREE.MeshStandardMaterial(),
+    new THREE.MeshStandardMaterial()
   )
   testSphere.position.set(0, 3, 0)
   scene.add(testSphere)
@@ -168,17 +168,16 @@ const notSupport = () => {
 let currentSession: any = null
 
 const start = async () => {
+  initThreeModel()
+  if (!renderer) {
+    return
+  }
   // 默认开始 webxr 时所有 html 元素都会消失，想现实在 ar 里需要设置下
   // @ts-ignore
   currentSession = await navigator.xr.requestSession('immersive-ar', {
     optionalFeatures: ['dom-overlay'],
     domOverlay: { root: document.body },
   })
-
-  initThreeModel()
-  if (!renderer) {
-    return
-  }
 
   // XR manager 会帮忙持续不断更新场景、相机的位置，然后渲染的物体能出现在锚定的物理世界里，作为开发人员只需要关注自己的 scene 就行
   // 当前物理世界的位置作为 AR 里虚拟世界的中心位置，还可以是 local floor 当前地面作为虚拟世界中心，不过可能这俩在 VR 里都有意义，在 AR 里只需 local 即可
