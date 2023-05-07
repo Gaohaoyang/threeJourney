@@ -56981,22 +56981,22 @@ var start = /*#__PURE__*/function () {
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          _context.next = 2;
+          initThreeModel();
+          if (renderer) {
+            _context.next = 3;
+            break;
+          }
+          return _context.abrupt("return");
+        case 3:
+          _context.next = 5;
           return navigator.xr.requestSession('immersive-ar', {
             optionalFeatures: ['dom-overlay'],
             domOverlay: {
               root: document.body
             }
           });
-        case 2:
+        case 5:
           currentSession = _context.sent;
-          initThreeModel();
-          if (renderer) {
-            _context.next = 6;
-            break;
-          }
-          return _context.abrupt("return");
-        case 6:
           // XR manager 会帮忙持续不断更新场景、相机的位置，然后渲染的物体能出现在锚定的物理世界里，作为开发人员只需要关注自己的 scene 就行
           // 当前物理世界的位置作为 AR 里虚拟世界的中心位置，还可以是 local floor 当前地面作为虚拟世界中心，不过可能这俩在 VR 里都有意义，在 AR 里只需 local 即可
           renderer.xr.setReferenceSpaceType('local');
