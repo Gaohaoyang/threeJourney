@@ -56827,6 +56827,7 @@ var scene = null;
 var camera = null;
 var controls = null;
 var initThreeModel = function initThreeModel() {
+  var _camera;
   // Scene
   scene = new three__WEBPACK_IMPORTED_MODULE_3__.Scene();
 
@@ -56861,6 +56862,7 @@ var initThreeModel = function initThreeModel() {
 
   // Camera
   camera = new three__WEBPACK_IMPORTED_MODULE_3__.PerspectiveCamera(75, sizes.width / sizes.height, 0.01, 10000);
+  (_camera = camera) === null || _camera === void 0 ? void 0 : _camera.position.set(0.5, 0, -0.5);
   // camera.position.set(8, 2, -4)
 
   // Controls
@@ -56919,9 +56921,9 @@ var initThreeModel = function initThreeModel() {
   /**
    * Light
    */
-  var ambientLight = new three__WEBPACK_IMPORTED_MODULE_3__.AmbientLight(0xffffff, 0.4);
+  var ambientLight = new three__WEBPACK_IMPORTED_MODULE_3__.AmbientLight(0xffffff, 0.3);
   scene.add(ambientLight);
-  var directionLight = new three__WEBPACK_IMPORTED_MODULE_3__.DirectionalLight('#ffffff', 2);
+  var directionLight = new three__WEBPACK_IMPORTED_MODULE_3__.DirectionalLight('#ffffff', 2.3);
   directionLight.position.set(0.25, 3, -2.25);
   scene.add(directionLight);
 
@@ -56970,11 +56972,9 @@ var tick = function tick() {
 };
 var arButton = document.querySelector('#ar-button');
 var notSupport = function notSupport() {
-  var _camera;
   arButton.textContent = 'Not Supported';
   arButton.disabled = true;
   initThreeModel();
-  (_camera = camera) === null || _camera === void 0 ? void 0 : _camera.position.set(0.5, 0, -0.5);
   tick();
 };
 var currentSession = null;
