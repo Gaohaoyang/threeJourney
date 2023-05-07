@@ -45,8 +45,8 @@ const initThreeModel = () => {
   document.body.appendChild(renderer.domElement)
 
   // Camera
-  camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-  camera.position.set(8, 2, -4)
+  camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.01, 10000)
+  // camera.position.set(8, 2, -4)
 
   // Controls
   controls = new OrbitControls(camera, renderer.domElement)
@@ -58,11 +58,11 @@ const initThreeModel = () => {
   /**
    * Objects
    */
-  // const testSphere = new THREE.Mesh(
-  //   new THREE.SphereGeometry(1, 32, 32),
-  //   new THREE.MeshStandardMaterial()
-  // )
-  // scene.add(testSphere)
+  const testSphere = new THREE.Mesh(
+    new THREE.SphereGeometry(0.1, 32, 32),
+    new THREE.MeshStandardMaterial()
+  )
+  scene.add(testSphere)
 
   /**
    * Loaders
@@ -92,8 +92,8 @@ const initThreeModel = () => {
    * Models
    */
   gltfLoader.load('../assets/models/FlightHelmet/glTF/FlightHelmet.gltf', (gltf) => {
-    gltf.scene.scale.set(8, 8, 8)
-    gltf.scene.position.set(0, -3.4, 0)
+    gltf.scene.scale.set(4, 4, 4)
+    gltf.scene.position.set(0, -2, 0)
     gltf.scene.rotation.set(0, Math.PI * 0.5, 0)
     // gui.add(gltf.scene.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001)
     //   .name('rotation')
@@ -158,6 +158,9 @@ const arButton = document.querySelector('#ar-button') as HTMLButtonElement
 const notSupport = () => {
   arButton.textContent = 'Not Supported'
   arButton.disabled = true
+  initThreeModel()
+  camera?.position.set(8, 2, -4)
+  tick()
 }
 
 let currentSession: any = null
