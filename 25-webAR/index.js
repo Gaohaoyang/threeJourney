@@ -57072,7 +57072,16 @@ var showStartAR = function showStartAR() {
     if (currentSession) {
       end();
     } else {
-      start();
+      // @ts-ignore
+      window.navigator.xr.isSessionSupported('immersive-ar').then(function (supported) {
+        if (supported) {
+          start();
+        } else {
+          notSupport();
+        }
+      })["catch"](function () {
+        notSupport();
+      });
     }
   });
 };
@@ -57087,16 +57096,7 @@ var initAr = /*#__PURE__*/function () {
         case 0:
           // 确保浏览器支持 WebXR
           if ('xr' in window.navigator) {
-            // @ts-ignore
-            window.navigator.xr.isSessionSupported('immersive-ar').then(function (supported) {
-              if (supported) {
-                showStartAR();
-              } else {
-                notSupport();
-              }
-            })["catch"](function () {
-              notSupport();
-            });
+            showStartAR();
           } else {
             notSupport();
           }
