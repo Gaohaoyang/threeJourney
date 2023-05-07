@@ -10,6 +10,7 @@ import stats from '../common/stats'
 let renderer: THREE.WebGLRenderer | null = null
 let scene: THREE.Scene | null = null
 let camera: THREE.PerspectiveCamera | null = null
+let controls: OrbitControls | null = null
 
 const initThreeModel = () => {
   // Canvas
@@ -35,7 +36,7 @@ const initThreeModel = () => {
   camera.position.set(8, 2, -4)
 
   // Controls
-  const controls = new OrbitControls(camera, canvas)
+  controls = new OrbitControls(camera, canvas)
   controls.enableDamping = true
   controls.zoomSpeed = 0.3
   // controls.target = new THREE.Vector3(0, 3, 0)
@@ -161,7 +162,7 @@ const initThreeModel = () => {
 
 const tick = () => {
   stats.begin()
-  // controls.update()
+  controls?.update()
 
   // Render
   if (scene && camera && renderer) {
@@ -188,9 +189,6 @@ const notSupport = () => {
 let currentSession: any = null
 
 const start = async () => {
-  if (!renderer) {
-    return
-  }
   // 默认开始 webxr 时所有 html 元素都会消失，想现实在 ar 里需要设置下
   // @ts-ignore
   currentSession = await navigator.xr.requestSession('immersive-ar', {
@@ -199,6 +197,9 @@ const start = async () => {
   })
 
   initThreeModel()
+  if (!renderer) {
+    return
+  }
   // three.js 现在有内置 support webxr，需要通过 renderer.xr => Web XR manager 来工作
   renderer.xr.enabled = true
 
@@ -230,6 +231,9 @@ const showStartAR = () => {
     start()
   }
 }
+
+// initThreeModel()
+// tick()
 
 const initAr = async () => {
   // 确保浏览器支持 WebXR
