@@ -56855,6 +56855,8 @@ var initThreeModel = function initThreeModel() {
   renderer.toneMappingExposure = 2.5;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_3__.PCFSoftShadowMap;
+  // three.js 现在有内置 support webxr，需要通过 renderer.xr => Web XR manager 来工作
+  renderer.xr.enabled = true;
   document.body.appendChild(renderer.domElement);
 
   // Camera
@@ -56872,6 +56874,7 @@ var initThreeModel = function initThreeModel() {
    * Objects
    */
   var testSphere = new three__WEBPACK_IMPORTED_MODULE_3__.Mesh(new three__WEBPACK_IMPORTED_MODULE_3__.SphereGeometry(0.1, 32, 32), new three__WEBPACK_IMPORTED_MODULE_3__.MeshStandardMaterial());
+  testSphere.position.set(0, 3, 0);
   scene.add(testSphere);
 
   /**
@@ -56994,19 +56997,16 @@ var start = /*#__PURE__*/function () {
           }
           return _context.abrupt("return");
         case 6:
-          // three.js 现在有内置 support webxr，需要通过 renderer.xr => Web XR manager 来工作
-          renderer.xr.enabled = true;
-
           // XR manager 会帮忙持续不断更新场景、相机的位置，然后渲染的物体能出现在锚定的物理世界里，作为开发人员只需要关注自己的 scene 就行
           // 当前物理世界的位置作为 AR 里虚拟世界的中心位置，还可以是 local floor 当前地面作为虚拟世界中心，不过可能这俩在 VR 里都有意义，在 AR 里只需 local 即可
           renderer.xr.setReferenceSpaceType('local');
           // three.js 没有 tracking 能力 需要 xr
-          _context.next = 10;
+          _context.next = 9;
           return renderer.xr.setSession(currentSession);
-        case 10:
+        case 9:
           arButton.textContent = 'End';
           tick();
-        case 12:
+        case 11:
         case "end":
           return _context.stop();
       }
