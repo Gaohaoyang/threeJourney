@@ -56825,6 +56825,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var renderer = null;
 var scene = null;
 var camera = null;
+var controls = null;
 var initThreeModel = function initThreeModel() {
   // Canvas
   var canvas = document.querySelector('#mainCanvas');
@@ -56849,7 +56850,7 @@ var initThreeModel = function initThreeModel() {
   camera.position.set(8, 2, -4);
 
   // Controls
-  var controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_0__.OrbitControls(camera, canvas);
+  controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_0__.OrbitControls(camera, canvas);
   controls.enableDamping = true;
   controls.zoomSpeed = 0.3;
   // controls.target = new THREE.Vector3(0, 3, 0)
@@ -56973,8 +56974,9 @@ var initThreeModel = function initThreeModel() {
 };
 
 var tick = function tick() {
+  var _controls;
   _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].begin();
-  // controls.update()
+  (_controls = controls) === null || _controls === void 0 ? void 0 : _controls.update();
 
   // Render
   if (scene && camera && renderer) {
@@ -57002,22 +57004,22 @@ var start = /*#__PURE__*/function () {
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          if (renderer) {
-            _context.next = 2;
-            break;
-          }
-          return _context.abrupt("return");
-        case 2:
-          _context.next = 4;
+          _context.next = 2;
           return navigator.xr.requestSession('immersive-ar', {
             optionalFeatures: ['dom-overlay'],
             domOverlay: {
               root: document.body
             }
           });
-        case 4:
+        case 2:
           currentSession = _context.sent;
           initThreeModel();
+          if (renderer) {
+            _context.next = 6;
+            break;
+          }
+          return _context.abrupt("return");
+        case 6:
           // three.js 现在有内置 support webxr，需要通过 renderer.xr => Web XR manager 来工作
           renderer.xr.enabled = true;
 
@@ -57072,6 +57074,10 @@ var showStartAR = function showStartAR() {
     start();
   }
 };
+
+// initThreeModel()
+// tick()
+
 var initAr = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
