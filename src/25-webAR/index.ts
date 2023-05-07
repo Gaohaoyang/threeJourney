@@ -1,172 +1,182 @@
 /* eslint-disable no-param-reassign */
 import * as THREE from 'three'
-import './style.css'
+// import './style.css'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 // import * as dat from 'lil-gui'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import stats from '../common/stats'
-import { listenResize } from '../common/utils'
+// import { listenResize } from '../common/utils'
 
-// Canvas
-const canvas = document.querySelector('#mainCanvas') as HTMLCanvasElement
+let renderer: THREE.WebGLRenderer | null = null
+let scene: THREE.Scene | null = null
+let camera: THREE.PerspectiveCamera | null = null
 
-// Scene
-const scene = new THREE.Scene()
+const initThreeModel = () => {
+  // Canvas
+  const canvas = document.querySelector('#mainCanvas') as HTMLCanvasElement
 
-// Gui
-// const gui = new dat.GUI()
-// const debugObject = {
-//   envMapIntensity: 1.5,
-// }
+  // Scene
+  scene = new THREE.Scene()
 
-// Size
-const sizes = {
-  width: window.innerWidth,
-  height: window.innerHeight,
-}
+  // Gui
+  // const gui = new dat.GUI()
+  // const debugObject = {
+  //   envMapIntensity: 1.5,
+  // }
 
-// Camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(8, 2, -4)
+  // Size
+  const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  }
 
-// Controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
-controls.zoomSpeed = 0.3
-// controls.target = new THREE.Vector3(0, 3, 0)
-// controls.autoRotate = true
+  // Camera
+  camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+  camera.position.set(8, 2, -4)
 
-/**
- * Objects
- */
-// const testSphere = new THREE.Mesh(
-//   new THREE.SphereGeometry(1, 32, 32),
-//   new THREE.MeshStandardMaterial()
-// )
-// scene.add(testSphere)
+  // Controls
+  const controls = new OrbitControls(camera, canvas)
+  controls.enableDamping = true
+  controls.zoomSpeed = 0.3
+  // controls.target = new THREE.Vector3(0, 3, 0)
+  // controls.autoRotate = true
 
-/**
- * Loaders
- */
-const gltfLoader = new GLTFLoader()
-// const cubeTextureLoader = new THREE.CubeTextureLoader()
+  /**
+   * Objects
+   */
+  // const testSphere = new THREE.Mesh(
+  //   new THREE.SphereGeometry(1, 32, 32),
+  //   new THREE.MeshStandardMaterial()
+  // )
+  // scene.add(testSphere)
 
-/**
- * Environment map
- */
-// const environmentMap = cubeTextureLoader.load([
-//   '../assets/textures/environmentMaps/3/px.jpg',
-//   '../assets/textures/environmentMaps/3/nx.jpg',
-//   '../assets/textures/environmentMaps/3/py.jpg',
-//   '../assets/textures/environmentMaps/3/ny.jpg',
-//   '../assets/textures/environmentMaps/3/pz.jpg',
-//   '../assets/textures/environmentMaps/3/nz.jpg',
-// ])
+  /**
+   * Loaders
+   */
+  const gltfLoader = new GLTFLoader()
+  // const cubeTextureLoader = new THREE.CubeTextureLoader()
 
-// environmentMap.encoding = THREE.sRGBEncoding
+  /**
+   * Environment map
+   */
+  // const environmentMap = cubeTextureLoader.load([
+  //   '../assets/textures/environmentMaps/3/px.jpg',
+  //   '../assets/textures/environmentMaps/3/nx.jpg',
+  //   '../assets/textures/environmentMaps/3/py.jpg',
+  //   '../assets/textures/environmentMaps/3/ny.jpg',
+  //   '../assets/textures/environmentMaps/3/pz.jpg',
+  //   '../assets/textures/environmentMaps/3/nz.jpg',
+  // ])
 
-// scene.background = environmentMap
-// scene.environment = environmentMap
+  // environmentMap.encoding = THREE.sRGBEncoding
 
-/**
- * Update all materials
- */
-const updateAllMaterials = () => {
-  scene.traverse((child) => {
-    if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
-      console.log(child)
-      // child.material.envMap = environmentMap
-      // child.material.envMapIntensity = debugObject.envMapIntensity
-      child.castShadow = true
-      child.receiveShadow = true
-    }
+  // scene.background = environmentMap
+  // scene.environment = environmentMap
+
+  /**
+   * Update all materials
+   */
+  const updateAllMaterials = () => {
+    scene?.traverse((child) => {
+      if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
+        console.log(child)
+        // child.material.envMap = environmentMap
+        // child.material.envMapIntensity = debugObject.envMapIntensity
+        child.castShadow = true
+        child.receiveShadow = true
+      }
+    })
+  }
+
+  // gui.add(debugObject, 'envMapIntensity').min(0).max(10).step(0.001)
+  //   .onChange(updateAllMaterials)
+
+  /**
+   * Models
+   */
+  gltfLoader.load('../assets/models/FlightHelmet/glTF/FlightHelmet.gltf', (gltf) => {
+    gltf.scene.scale.set(8, 8, 8)
+    gltf.scene.position.set(0, -3.4, 0)
+    gltf.scene.rotation.set(0, Math.PI * 0.5, 0)
+    // gui.add(gltf.scene.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001)
+    //   .name('rotation')
+    scene?.add(gltf.scene)
+    updateAllMaterials()
   })
+
+  /**
+   * Light
+   */
+  const directionLight = new THREE.DirectionalLight('#ffffff', 2.8)
+  directionLight.position.set(0.25, 3, -2.25)
+  scene.add(directionLight)
+
+  // gui.add(directionLight, 'intensity').min(0).max(10).step(0.001)
+  //   .name('lightIntensity')
+  // gui.add(directionLight.position, 'x').min(-5).max(5).step(0.001)
+  //   .name('lightX')
+  // gui.add(directionLight.position, 'y').min(-5).max(5).step(0.001)
+  //   .name('lightY')
+  // gui.add(directionLight.position, 'z').min(-5).max(5).step(0.001)
+  //   .name('lightZ')
+  directionLight.castShadow = true
+
+  const directionalLightCameraHelper = new THREE.CameraHelper(directionLight.shadow.camera)
+  scene.add(directionalLightCameraHelper)
+  directionalLightCameraHelper.visible = false
+
+  directionLight.shadow.camera.far = 15
+  directionLight.shadow.mapSize.set(1024, 1024)
+
+  /** axesHelper */
+  const axesHelper = new THREE.AxesHelper(5)
+  scene.add(axesHelper)
+  axesHelper.visible = false
+
+  // Renderer
+  renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true,
+  })
+
+  renderer.setSize(sizes.width, sizes.height)
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  renderer.physicallyCorrectLights = true
+  renderer.outputEncoding = THREE.sRGBEncoding
+  renderer.toneMapping = THREE.ReinhardToneMapping
+  renderer.toneMappingExposure = 2.5
+  renderer.shadowMap.enabled = true
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap
+
+  // gui.add(renderer, 'toneMapping', {
+  //   No: THREE.NoToneMapping,
+  //   Linear: THREE.LinearToneMapping,
+  //   Reinhard: THREE.ReinhardToneMapping,
+  //   Cineon: THREE.CineonToneMapping,
+  //   ACESFilmic: THREE.ACESFilmicToneMapping,
+  // })
+  // gui.add(renderer, 'toneMappingExposure').min(0).max(10).step(0.001)
+  // gui.add(controls, 'autoRotate')
 }
 
-// gui.add(debugObject, 'envMapIntensity').min(0).max(10).step(0.001)
-//   .onChange(updateAllMaterials)
-
-/**
- * Models
- */
-gltfLoader.load('../assets/models/FlightHelmet/glTF/FlightHelmet.gltf', (gltf) => {
-  gltf.scene.scale.set(8, 8, 8)
-  gltf.scene.position.set(0, -3.4, 0)
-  gltf.scene.rotation.set(0, Math.PI * 0.5, 0)
-  // gui.add(gltf.scene.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001)
-  //   .name('rotation')
-  scene.add(gltf.scene)
-  updateAllMaterials()
-})
-
-/**
- * Light
- */
-const directionLight = new THREE.DirectionalLight('#ffffff', 2.8)
-directionLight.position.set(0.25, 3, -2.25)
-scene.add(directionLight)
-
-// gui.add(directionLight, 'intensity').min(0).max(10).step(0.001)
-//   .name('lightIntensity')
-// gui.add(directionLight.position, 'x').min(-5).max(5).step(0.001)
-//   .name('lightX')
-// gui.add(directionLight.position, 'y').min(-5).max(5).step(0.001)
-//   .name('lightY')
-// gui.add(directionLight.position, 'z').min(-5).max(5).step(0.001)
-//   .name('lightZ')
-directionLight.castShadow = true
-
-const directionalLightCameraHelper = new THREE.CameraHelper(directionLight.shadow.camera)
-scene.add(directionalLightCameraHelper)
-directionalLightCameraHelper.visible = false
-
-directionLight.shadow.camera.far = 15
-directionLight.shadow.mapSize.set(1024, 1024)
-
-/** axesHelper */
-const axesHelper = new THREE.AxesHelper(5)
-scene.add(axesHelper)
-axesHelper.visible = false
-
-// Renderer
-const renderer = new THREE.WebGLRenderer({
-  canvas,
-  antialias: true,
-})
-
-renderer.setSize(sizes.width, sizes.height)
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-renderer.physicallyCorrectLights = true
-renderer.outputEncoding = THREE.sRGBEncoding
-renderer.toneMapping = THREE.ReinhardToneMapping
-renderer.toneMappingExposure = 2.5
-renderer.shadowMap.enabled = true
-renderer.shadowMap.type = THREE.PCFSoftShadowMap
-
-// gui.add(renderer, 'toneMapping', {
-//   No: THREE.NoToneMapping,
-//   Linear: THREE.LinearToneMapping,
-//   Reinhard: THREE.ReinhardToneMapping,
-//   Cineon: THREE.CineonToneMapping,
-//   ACESFilmic: THREE.ACESFilmicToneMapping,
-// })
-// gui.add(renderer, 'toneMappingExposure').min(0).max(10).step(0.001)
-// gui.add(controls, 'autoRotate')
-
-// Animations
 const tick = () => {
   stats.begin()
-  controls.update()
+  // controls.update()
 
   // Render
-  renderer.render(scene, camera)
+  if (scene && camera && renderer) {
+    renderer.render(scene, camera)
+  }
   stats.end()
   requestAnimationFrame(tick)
 }
+// tick()
+
+// Animations
 
 // tick()
 
-listenResize(sizes, camera, renderer)
+// listenResize(sizes, camera, renderer)
 
 const arButton = document.querySelector('#ar-button') as HTMLButtonElement
 
@@ -178,6 +188,9 @@ const notSupport = () => {
 let currentSession: any = null
 
 const start = async () => {
+  if (!renderer) {
+    return
+  }
   // 默认开始 webxr 时所有 html 元素都会消失，想现实在 ar 里需要设置下
   // @ts-ignore
   currentSession = await navigator.xr.requestSession('immersive-ar', {
@@ -185,6 +198,7 @@ const start = async () => {
     domOverlay: { root: document.body },
   })
 
+  initThreeModel()
   // three.js 现在有内置 support webxr，需要通过 renderer.xr => Web XR manager 来工作
   renderer.xr.enabled = true
 
@@ -195,11 +209,13 @@ const start = async () => {
   await renderer.xr.setSession(currentSession)
 
   arButton.textContent = 'End'
-
   tick()
 }
 
 const end = async () => {
+  if (!currentSession || !renderer) {
+    return
+  }
   currentSession.end()
   renderer.clear()
   renderer.setAnimationLoop(null)
