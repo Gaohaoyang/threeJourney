@@ -42,6 +42,8 @@ const initThreeModel = () => {
   renderer.toneMappingExposure = 2.5
   renderer.shadowMap.enabled = true
   renderer.shadowMap.type = THREE.PCFSoftShadowMap
+  // three.js 现在有内置 support webxr，需要通过 renderer.xr => Web XR manager 来工作
+  renderer.xr.enabled = true
   document.body.appendChild(renderer.domElement)
 
   // Camera
@@ -62,6 +64,7 @@ const initThreeModel = () => {
     new THREE.SphereGeometry(0.1, 32, 32),
     new THREE.MeshStandardMaterial()
   )
+  testSphere.position.set(0, 3, 0)
   scene.add(testSphere)
 
   /**
@@ -177,8 +180,6 @@ const start = async () => {
   if (!renderer) {
     return
   }
-  // three.js 现在有内置 support webxr，需要通过 renderer.xr => Web XR manager 来工作
-  renderer.xr.enabled = true
 
   // XR manager 会帮忙持续不断更新场景、相机的位置，然后渲染的物体能出现在锚定的物理世界里，作为开发人员只需要关注自己的 scene 就行
   // 当前物理世界的位置作为 AR 里虚拟世界的中心位置，还可以是 local floor 当前地面作为虚拟世界中心，不过可能这俩在 VR 里都有意义，在 AR 里只需 local 即可
