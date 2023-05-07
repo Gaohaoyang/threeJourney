@@ -13,9 +13,6 @@ let camera: THREE.PerspectiveCamera | null = null
 let controls: OrbitControls | null = null
 
 const initThreeModel = () => {
-  // Canvas
-  const canvas = document.querySelector('#mainCanvas') as HTMLCanvasElement
-
   // Scene
   scene = new THREE.Scene()
 
@@ -31,12 +28,28 @@ const initThreeModel = () => {
     height: window.innerHeight,
   }
 
+  // Renderer
+  renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    alpha: true,
+  })
+
+  renderer.setSize(sizes.width, sizes.height)
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  renderer.physicallyCorrectLights = true
+  renderer.outputEncoding = THREE.sRGBEncoding
+  renderer.toneMapping = THREE.ReinhardToneMapping
+  renderer.toneMappingExposure = 2.5
+  renderer.shadowMap.enabled = true
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap
+  document.body.appendChild(renderer.domElement)
+
   // Camera
   camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
   camera.position.set(8, 2, -4)
 
   // Controls
-  controls = new OrbitControls(camera, canvas)
+  controls = new OrbitControls(camera, renderer.domElement)
   controls.enableDamping = true
   controls.zoomSpeed = 0.3
   // controls.target = new THREE.Vector3(0, 3, 0)
@@ -56,23 +69,6 @@ const initThreeModel = () => {
    */
   const gltfLoader = new GLTFLoader()
   // const cubeTextureLoader = new THREE.CubeTextureLoader()
-
-  /**
-   * Environment map
-   */
-  // const environmentMap = cubeTextureLoader.load([
-  //   '../assets/textures/environmentMaps/3/px.jpg',
-  //   '../assets/textures/environmentMaps/3/nx.jpg',
-  //   '../assets/textures/environmentMaps/3/py.jpg',
-  //   '../assets/textures/environmentMaps/3/ny.jpg',
-  //   '../assets/textures/environmentMaps/3/pz.jpg',
-  //   '../assets/textures/environmentMaps/3/nz.jpg',
-  // ])
-
-  // environmentMap.encoding = THREE.sRGBEncoding
-
-  // scene.background = environmentMap
-  // scene.environment = environmentMap
 
   /**
    * Update all materials
@@ -134,22 +130,6 @@ const initThreeModel = () => {
   scene.add(axesHelper)
   axesHelper.visible = false
 
-  // Renderer
-  renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: true,
-    alpha: true,
-  })
-
-  renderer.setSize(sizes.width, sizes.height)
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-  renderer.physicallyCorrectLights = true
-  renderer.outputEncoding = THREE.sRGBEncoding
-  renderer.toneMapping = THREE.ReinhardToneMapping
-  renderer.toneMappingExposure = 2.5
-  renderer.shadowMap.enabled = true
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap
-
   // gui.add(renderer, 'toneMapping', {
   //   No: THREE.NoToneMapping,
   //   Linear: THREE.LinearToneMapping,
@@ -172,13 +152,6 @@ const tick = () => {
   stats.end()
   requestAnimationFrame(tick)
 }
-// tick()
-
-// Animations
-
-// tick()
-
-// listenResize(sizes, camera, renderer)
 
 const arButton = document.querySelector('#ar-button') as HTMLButtonElement
 
@@ -220,7 +193,6 @@ const end = async () => {
   }
   currentSession.end()
   renderer.clear()
-  renderer.setAnimationLoop(null)
 
   arButton.style.display = 'none'
 }
