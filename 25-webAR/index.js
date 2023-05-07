@@ -56974,7 +56974,7 @@ var notSupport = function notSupport() {
   arButton.textContent = 'Not Supported';
   arButton.disabled = true;
   initThreeModel();
-  (_camera = camera) === null || _camera === void 0 ? void 0 : _camera.position.set(1, 1, -2);
+  (_camera = camera) === null || _camera === void 0 ? void 0 : _camera.position.set(0.5, 0, -0.5);
   tick();
 };
 var currentSession = null;
