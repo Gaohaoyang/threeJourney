@@ -48,6 +48,7 @@ const initThreeModel = () => {
 
   // Camera
   camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.01, 10000)
+  camera?.position.set(0.5, 0, -0.5)
   // camera.position.set(8, 2, -4)
 
   // Controls
@@ -107,10 +108,10 @@ const initThreeModel = () => {
   /**
    * Light
    */
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.4)
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
   scene.add(ambientLight)
 
-  const directionLight = new THREE.DirectionalLight('#ffffff', 2)
+  const directionLight = new THREE.DirectionalLight('#ffffff', 2.3)
   directionLight.position.set(0.25, 3, -2.25)
   scene.add(directionLight)
 
@@ -164,7 +165,6 @@ const notSupport = () => {
   arButton.textContent = 'Not Supported'
   arButton.disabled = true
   initThreeModel()
-  camera?.position.set(0.5, 0, -0.5)
   tick()
 }
 
