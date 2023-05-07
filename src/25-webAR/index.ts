@@ -61,10 +61,10 @@ const initThreeModel = () => {
    * Objects
    */
   const testSphere = new THREE.Mesh(
-    new THREE.SphereGeometry(0.1, 32, 32),
+    new THREE.SphereGeometry(0.03, 32, 32),
     new THREE.MeshStandardMaterial(),
   )
-  testSphere.position.set(0, 0.5, -0.4)
+  testSphere.position.set(0, 0.2, 0)
   scene.add(testSphere)
 
   /**
@@ -95,8 +95,8 @@ const initThreeModel = () => {
    * Models
    */
   gltfLoader.load('../assets/models/FlightHelmet/glTF/FlightHelmet.gltf', (gltf) => {
-    gltf.scene.scale.set(0.3, 0.3, 0.3)
-    gltf.scene.position.set(0, -0.4, -0.4)
+    gltf.scene.scale.set(0.5, 0.5, 0.5)
+    gltf.scene.position.set(0, -0.3, 0)
     gltf.scene.rotation.set(0, Math.PI * 0.5, 0)
     // gui.add(gltf.scene.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001)
     //   .name('rotation')
@@ -107,7 +107,7 @@ const initThreeModel = () => {
   /**
    * Light
    */
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.4)
   scene.add(ambientLight)
 
   const directionLight = new THREE.DirectionalLight('#ffffff', 2)
@@ -164,7 +164,7 @@ const notSupport = () => {
   arButton.textContent = 'Not Supported'
   arButton.disabled = true
   initThreeModel()
-  camera?.position.set(8, 2, -4)
+  camera?.position.set(1, 1, -2)
   tick()
 }
 
