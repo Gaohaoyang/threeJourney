@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./node_modules/_three@0.139.2@three/build/three.module.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/_three@0.139.2@three/build/three.module.js ***!
-  \*****************************************************************/
+/***/ "./node_modules/three/build/three.module.js":
+/*!**************************************************!*\
+  !*** ./node_modules/three/build/three.module.js ***!
+  \**************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -51142,7 +51142,7 @@ var __webpack_exports__ = {};
   !*** ./src/00-helloThreejs/index.ts ***!
   \**************************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/_three@0.139.2@three/build/three.module.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
 
 var scene = new three__WEBPACK_IMPORTED_MODULE_0__.Scene(); // 创建场景
 
@@ -51153,10 +51153,9 @@ scene.add(cube);
 var camera = new three__WEBPACK_IMPORTED_MODULE_0__.PerspectiveCamera(45, 4 / 3, 1, 1000);
 camera.position.set(1, 1, 5);
 scene.add(camera); // 相机加入场景
-
 camera.lookAt(cube.position); // 相机视点设置为cube
-// 创建渲染器
 
+// 创建渲染器
 var renderer = new three__WEBPACK_IMPORTED_MODULE_0__.WebGLRenderer({
   canvas: document.querySelector('#mainCanvas')
 });
