@@ -229,7 +229,19 @@ const showStartAR = () => {
     if (currentSession) {
       end()
     } else {
-      start()
+      // @ts-ignore
+      window.navigator.xr
+        .isSessionSupported('immersive-ar')
+        .then((supported: boolean) => {
+          if (supported) {
+            start()
+          } else {
+            notSupport()
+          }
+        })
+        .catch(() => {
+          notSupport()
+        })
     }
   })
 }
@@ -240,19 +252,7 @@ const showStartAR = () => {
 const initAr = async () => {
   // 确保浏览器支持 WebXR
   if ('xr' in window.navigator) {
-    // @ts-ignore
-    window.navigator.xr
-      .isSessionSupported('immersive-ar')
-      .then((supported: boolean) => {
-        if (supported) {
-          showStartAR()
-        } else {
-          notSupport()
-        }
-      })
-      .catch(() => {
-        notSupport()
-      })
+    showStartAR()
   } else {
     notSupport()
   }
