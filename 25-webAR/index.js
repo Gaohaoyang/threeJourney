@@ -57068,11 +57068,13 @@ var end = /*#__PURE__*/function () {
   };
 }();
 var showStartAR = function showStartAR() {
-  if (currentSession) {
-    end();
-  } else {
-    start();
-  }
+  arButton.addEventListener('click', function () {
+    if (currentSession) {
+      end();
+    } else {
+      start();
+    }
+  });
 };
 
 // initThreeModel()
