@@ -55660,7 +55660,7 @@ var initThreeModel = function initThreeModel() {
    */
   var ambientLight = new three__WEBPACK_IMPORTED_MODULE_2__.AmbientLight(0xffffff, 0.5);
   scene.add(ambientLight);
-  var directionLight = new three__WEBPACK_IMPORTED_MODULE_2__.DirectionalLight('#ffffff', 2.8);
+  var directionLight = new three__WEBPACK_IMPORTED_MODULE_2__.DirectionalLight('#ffffff', 2);
   directionLight.position.set(0.25, 3, -2.25);
   scene.add(directionLight);
 
