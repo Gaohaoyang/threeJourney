@@ -56955,16 +56955,16 @@ var initThreeModel = function initThreeModel() {
 };
 
 var tick = function tick() {
-  var _controls;
-  _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].begin();
-  (_controls = controls) === null || _controls === void 0 ? void 0 : _controls.update();
-
-  // Render
-  if (scene && camera && renderer) {
-    renderer.render(scene, camera);
-  }
-  _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].end();
-  requestAnimationFrame(tick);
+  var _renderer;
+  (_renderer = renderer) === null || _renderer === void 0 ? void 0 : _renderer.setAnimationLoop(function () {
+    var _controls;
+    _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].begin();
+    (_controls = controls) === null || _controls === void 0 ? void 0 : _controls.update();
+    if (scene && camera && renderer) {
+      renderer.render(scene, camera);
+    }
+    _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].end();
+  });
 };
 var arButton = document.querySelector('#ar-button');
 var notSupport = function notSupport() {
