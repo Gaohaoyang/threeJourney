@@ -62,7 +62,7 @@ const initThreeModel = () => {
    */
   const testSphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.1, 32, 32),
-    new THREE.MeshStandardMaterial()
+    new THREE.MeshStandardMaterial(),
   )
   testSphere.position.set(0, 3, 0)
   scene.add(testSphere)
@@ -145,15 +145,14 @@ const initThreeModel = () => {
 }
 
 const tick = () => {
-  stats.begin()
-  controls?.update()
-
-  // Render
-  if (scene && camera && renderer) {
-    renderer.render(scene, camera)
-  }
-  stats.end()
-  requestAnimationFrame(tick)
+  renderer?.setAnimationLoop(() => {
+    stats.begin()
+    controls?.update()
+    if (scene && camera && renderer) {
+      renderer.render(scene, camera)
+    }
+    stats.end()
+  })
 }
 
 const arButton = document.querySelector('#ar-button') as HTMLButtonElement
