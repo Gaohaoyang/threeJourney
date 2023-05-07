@@ -164,7 +164,7 @@ const notSupport = () => {
   arButton.textContent = 'Not Supported'
   arButton.disabled = true
   initThreeModel()
-  camera?.position.set(1, 1, -2)
+  camera?.position.set(0.5, 0, -0.5)
   tick()
 }
 
