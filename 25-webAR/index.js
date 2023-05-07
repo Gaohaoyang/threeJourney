@@ -56827,9 +56827,6 @@ var scene = null;
 var camera = null;
 var controls = null;
 var initThreeModel = function initThreeModel() {
-  // Canvas
-  var canvas = document.querySelector('#mainCanvas');
-
   // Scene
   scene = new three__WEBPACK_IMPORTED_MODULE_3__.Scene();
 
@@ -56845,12 +56842,27 @@ var initThreeModel = function initThreeModel() {
     height: window.innerHeight
   };
 
+  // Renderer
+  renderer = new three__WEBPACK_IMPORTED_MODULE_3__.WebGLRenderer({
+    antialias: true,
+    alpha: true
+  });
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.physicallyCorrectLights = true;
+  renderer.outputEncoding = three__WEBPACK_IMPORTED_MODULE_3__.sRGBEncoding;
+  renderer.toneMapping = three__WEBPACK_IMPORTED_MODULE_3__.ReinhardToneMapping;
+  renderer.toneMappingExposure = 2.5;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_3__.PCFSoftShadowMap;
+  document.body.appendChild(renderer.domElement);
+
   // Camera
   camera = new three__WEBPACK_IMPORTED_MODULE_3__.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
   camera.position.set(8, 2, -4);
 
   // Controls
-  controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_0__.OrbitControls(camera, canvas);
+  controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_0__.OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.zoomSpeed = 0.3;
   // controls.target = new THREE.Vector3(0, 3, 0)
@@ -56870,23 +56882,6 @@ var initThreeModel = function initThreeModel() {
    */
   var gltfLoader = new three_examples_jsm_loaders_GLTFLoader__WEBPACK_IMPORTED_MODULE_1__.GLTFLoader();
   // const cubeTextureLoader = new THREE.CubeTextureLoader()
-
-  /**
-   * Environment map
-   */
-  // const environmentMap = cubeTextureLoader.load([
-  //   '../assets/textures/environmentMaps/3/px.jpg',
-  //   '../assets/textures/environmentMaps/3/nx.jpg',
-  //   '../assets/textures/environmentMaps/3/py.jpg',
-  //   '../assets/textures/environmentMaps/3/ny.jpg',
-  //   '../assets/textures/environmentMaps/3/pz.jpg',
-  //   '../assets/textures/environmentMaps/3/nz.jpg',
-  // ])
-
-  // environmentMap.encoding = THREE.sRGBEncoding
-
-  // scene.background = environmentMap
-  // scene.environment = environmentMap
 
   /**
    * Update all materials
@@ -56948,21 +56943,6 @@ var initThreeModel = function initThreeModel() {
   scene.add(axesHelper);
   axesHelper.visible = false;
 
-  // Renderer
-  renderer = new three__WEBPACK_IMPORTED_MODULE_3__.WebGLRenderer({
-    canvas: canvas,
-    antialias: true,
-    alpha: true
-  });
-  renderer.setSize(sizes.width, sizes.height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.physicallyCorrectLights = true;
-  renderer.outputEncoding = three__WEBPACK_IMPORTED_MODULE_3__.sRGBEncoding;
-  renderer.toneMapping = three__WEBPACK_IMPORTED_MODULE_3__.ReinhardToneMapping;
-  renderer.toneMappingExposure = 2.5;
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_3__.PCFSoftShadowMap;
-
   // gui.add(renderer, 'toneMapping', {
   //   No: THREE.NoToneMapping,
   //   Linear: THREE.LinearToneMapping,
@@ -56986,14 +56966,6 @@ var tick = function tick() {
   _common_stats__WEBPACK_IMPORTED_MODULE_2__["default"].end();
   requestAnimationFrame(tick);
 };
-// tick()
-
-// Animations
-
-// tick()
-
-// listenResize(sizes, camera, renderer)
-
 var arButton = document.querySelector('#ar-button');
 var notSupport = function notSupport() {
   arButton.textContent = 'Not Supported';
@@ -57056,9 +57028,8 @@ var end = /*#__PURE__*/function () {
         case 2:
           currentSession.end();
           renderer.clear();
-          renderer.setAnimationLoop(null);
           arButton.style.display = 'none';
-        case 6:
+        case 5:
         case "end":
           return _context2.stop();
       }
