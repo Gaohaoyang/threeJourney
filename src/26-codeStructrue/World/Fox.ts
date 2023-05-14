@@ -40,7 +40,7 @@ export default class Fox {
   }
 
   setAnimation() {
-    console.log(this.resource);
+    console.log(this.resource)
 
     this.animation.mixer = new THREE.AnimationMixer(this.model)
     this.animation.action = this.animation.mixer.clipAction(this.resource.animations[0])
