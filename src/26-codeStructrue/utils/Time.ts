@@ -1,9 +1,9 @@
 import EventEmitter from './EventEmitter'
 
 export default class Time extends EventEmitter {
-  start: number
+  private start: number
 
-  current: number
+  private current: number
 
   elapsed: number
 
@@ -23,7 +23,7 @@ export default class Time extends EventEmitter {
     })
   }
 
-  tick() {
+  private tick() {
     const currentTime = Date.now()
     this.delta = currentTime - this.current
     this.current = currentTime

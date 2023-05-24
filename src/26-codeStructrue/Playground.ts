@@ -21,7 +21,7 @@ export default class Playground {
 
   camera: Camera
 
-  renderer: Renderer
+  private renderer: Renderer
 
   world: World
 
@@ -49,10 +49,12 @@ export default class Playground {
     this.renderer = new Renderer()
     this.world = new World()
 
+    // resize event
     this.sizes.on('resize', () => {
       this.resize()
     })
 
+    // time tick event
     this.time.on('tick', () => {
       this.update()
     })
@@ -60,12 +62,12 @@ export default class Playground {
     this.scene.background = new THREE.Color('#666666')
   }
 
-  resize() {
+  private resize() {
     this.camera.resize()
     this.renderer.resize()
   }
 
-  update() {
+  private update() {
     this.camera.update()
     this.renderer.update()
     this.world.update()

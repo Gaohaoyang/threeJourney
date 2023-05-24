@@ -6,20 +6,22 @@
 class Main {}
 note right of Main
   Entrance
+  `new Playground(CanvasDom)`
 end note
 
-class Playground {
+class THREE {}
+class OrbitControls {}
+
+class Playground<<(S,#FF7700) Singleton>>{
   +HTMLCanvasElement canvas
   +Sizes sizes
+  +Time time
+  +Camera camera
+  +THREE.Scene scene
   +constructor(canvas)
-  ' +init()
-  ' +create()
-  ' +render()
-  ' +update()
-  ' +destroy()
+  -resize():void
+  -update():void
 }
-
-
 
 package utils <<Frame>>{
   class Sizes {
@@ -34,13 +36,56 @@ package utils <<Frame>>{
     +on(string name, void callback)
     +off(string name)
     +trigger(string name, args)
-    -off(string name)
+    +off(string name)
   }
+
+  class Time {
+    -number start
+    -number current
+    +number elapsed
+    +number delta
+    +constructor()
+    -tick():void
+  }
+}
+
+class Camera {
+  -Playground playground
+  -Sizes sizes
+  -THREE.Scene scene
+  -HTMLCanvasElement canvas
+  -OrbitControls controls
+  +THREE.PerspectiveCamera instance
+  -setInstance():void
+  -setControls():void
+  +resize():void
+  +update():void
+}
+
+class Renderer {
+  -THREE.WebGLRenderer instance
+  -THREE.Scene scene
+  -Playground playground
+  -Sizes sizes
+  -Camera camera
+  -setInstance():void
+  +resize():void
+  +update():void
 }
 
 
 Main --> Playground
 Playground --> Sizes
+Playground --> Time
+Playground --> THREE
+Playground <--> Camera
+Playground <--> Renderer
+Camera --> THREE
+Renderer -> THREE
+Renderer -> Sizes
+Renderer -> Camera
+Camera -> OrbitControls
 Sizes "extends" --|> EventEmitter
+Time "extends" --|> EventEmitter
 
 ```

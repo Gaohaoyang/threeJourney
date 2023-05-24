@@ -4,17 +4,17 @@ import Camera from './Camera'
 import Sizes from './utils/Sizes'
 
 export default class Renderer {
-  instance: THREE.WebGLRenderer
+  private instance: THREE.WebGLRenderer
 
-  canvas: HTMLCanvasElement
+  private canvas: HTMLCanvasElement
 
-  playground: Playground
+  private playground: Playground
 
-  sizes: Sizes
+  private sizes: Sizes
 
-  scene: THREE.Scene
+  private scene: THREE.Scene
 
-  camera: Camera
+  private camera: Camera
 
   constructor() {
     this.playground = new Playground()
@@ -26,7 +26,7 @@ export default class Renderer {
     this.setInstance()
   }
 
-  setInstance() {
+  private setInstance() {
     this.instance = new THREE.WebGLRenderer({
       canvas: this.canvas,
       antialias: true,

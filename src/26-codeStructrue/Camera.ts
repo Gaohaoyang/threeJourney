@@ -4,17 +4,17 @@ import Playground from './Playground'
 import Sizes from './utils/Sizes'
 
 export default class Camera {
-  playground: Playground
+  private playground: Playground
 
-  sizes: Sizes
+  private sizes: Sizes
 
-  scene: THREE.Scene
+  private scene: THREE.Scene
 
-  canvas: HTMLCanvasElement
+  private canvas: HTMLCanvasElement
 
   instance: THREE.PerspectiveCamera
 
-  controls: OrbitControls
+  private controls: OrbitControls
 
   constructor() {
     this.playground = new Playground()
@@ -26,13 +26,13 @@ export default class Camera {
     this.setControls()
   }
 
-  setInstance() {
+  private setInstance() {
     this.instance = new THREE.PerspectiveCamera(35, this.sizes.width / this.sizes.height, 0.1, 100)
     this.instance.position.set(6, 4, 10)
     this.scene.add(this.instance)
   }
 
-  setControls() {
+  private setControls() {
     this.controls = new OrbitControls(this.instance, this.canvas)
     this.controls.target.set(0, 1, 0)
     this.controls.enableDamping = true
