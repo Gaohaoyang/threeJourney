@@ -9,8 +9,8 @@ note right of Main
   `new Playground(CanvasDom)`
 end note
 
-class THREE {}
-class OrbitControls {}
+' class THREE {}
+' class OrbitControls {}
 
 class Playground<<(S,#FF7700) Singleton>>{
   +HTMLCanvasElement canvas
@@ -18,35 +18,10 @@ class Playground<<(S,#FF7700) Singleton>>{
   +Time time
   +Camera camera
   +THREE.Scene scene
+  -Renderer renderer
   +constructor(canvas)
   -resize():void
   -update():void
-}
-
-package utils <<Frame>>{
-  class Sizes {
-    +number width
-    +number height
-    +number pixelRatio
-    +constructor()
-    -void onResize()
-  }
-
-  class EventEmitter {
-    +on(string name, void callback)
-    +off(string name)
-    +trigger(string name, args)
-    +off(string name)
-  }
-
-  class Time {
-    -number start
-    -number current
-    +number elapsed
-    +number delta
-    +constructor()
-    -tick():void
-  }
 }
 
 class Camera {
@@ -73,19 +48,71 @@ class Renderer {
   +update():void
 }
 
+package utils <<Frame>>{
+  class Sizes {
+    +number width
+    +number height
+    +number pixelRatio
+    +constructor()
+    -void onResize()
+  }
+
+  class EventEmitter {
+    +on(string name, void callback)
+    +off(string name)
+    +trigger(string name, args)
+    +off(string name)
+  }
+
+  class Time {
+    -number start
+    -number current
+    +number elapsed
+    +number delta
+    +constructor()
+    -tick():void
+  }
+
+  class Resources {
+    constructor(sources)
+  }
+}
+
+package world <<Frame>> {
+  class World {
+    -Playground playground
+    -Environment environment
+    -THREE.Scene scene
+    +constructor()
+  }
+  class Environment {
+    -THREE.DirectionalLight sunLight
+    -Playground playground
+    -THREE.Scene scene
+    +constructor()
+    -setSunLight():void
+    -setEnvironmentMap():void
+  }
+  class Floor {}
+}
+
 
 Main --> Playground
-Playground --> Sizes
-Playground --> Time
-Playground --> THREE
+Playground ---> Sizes
+Playground ---> Time
+' Playground ----> THREE
+Playground <-- Environment
+World --> Environment
+Playground <--> World
 Playground <--> Camera
 Playground <--> Renderer
-Camera --> THREE
-Renderer -> THREE
-Renderer -> Sizes
+' Camera --> THREE
+' Renderer -> THREE
+Renderer --> Sizes
 Renderer -> Camera
-Camera -> OrbitControls
+' Camera --> OrbitControls
 Sizes "extends" --|> EventEmitter
 Time "extends" --|> EventEmitter
+Resources "extends" --|> EventEmitter
 
 ```

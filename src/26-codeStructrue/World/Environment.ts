@@ -4,11 +4,11 @@ import Playground from '../Playground'
 import Resources from '../utils/Resources'
 
 export default class Environment {
-  playground: Playground
+  private playground: Playground
 
-  scene: THREE.Scene
+  private scene: THREE.Scene
 
-  sunLight: THREE.DirectionalLight
+  private sunLight: THREE.DirectionalLight
 
   environmentMap: Record<string, any>
 
@@ -24,7 +24,7 @@ export default class Environment {
     this.setEnvironmentMap()
   }
 
-  setSunLight() {
+  private setSunLight() {
     this.sunLight = new THREE.DirectionalLight('#ffffff', 4)
     this.sunLight.castShadow = true
     this.sunLight.shadow.camera.far = 15
@@ -34,7 +34,7 @@ export default class Environment {
     this.scene.add(this.sunLight)
   }
 
-  setEnvironmentMap() {
+  private setEnvironmentMap() {
     this.environmentMap = {}
     this.environmentMap.intensity = 0.4
     this.environmentMap.texture = this.resources.items.environmentMapTexture
