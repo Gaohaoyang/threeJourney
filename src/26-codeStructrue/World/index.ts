@@ -10,13 +10,13 @@ export default class World {
 
   private scene: THREE.Scene
 
-  environment: Environment
+  private environment: Environment
 
-  resources: Resources
+  private resources: Resources
 
-  floor: Floor
+  private floor: Floor
 
-  fox: Fox
+  private fox: Fox
 
   constructor() {
     this.playground = new Playground()
@@ -31,11 +31,12 @@ export default class World {
     testMesh.position.set(0, 0.5, 0)
     this.scene.add(testMesh)
 
+    // Wait for resources to be ready
     this.resources.on('ready', () => {
       // Setup
+      this.environment = new Environment()
       this.floor = new Floor()
       this.fox = new Fox()
-      this.environment = new Environment()
     })
   }
 

@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 import EventEmitter from './EventEmitter'
 
 interface SourceType {
@@ -9,19 +9,19 @@ interface SourceType {
 }
 
 export default class Resources extends EventEmitter {
-  sources: SourceType[]
+  private sources: SourceType[]
 
-  items: Record<string, any>
+  private toLoad: number
 
-  toLoad: number
+  private loaded: number
 
-  loaded: number
-
-  loaders: {
+  private loaders: {
     gltfLoader: GLTFLoader
     textureLoader: THREE.TextureLoader
     cubeTextureLoader: THREE.CubeTextureLoader
   }
+
+  items: Record<string, THREE.CubeTexture | THREE.Texture | GLTF>
 
   constructor(sources: SourceType[]) {
     super()
@@ -37,7 +37,7 @@ export default class Resources extends EventEmitter {
     this.startLoading()
   }
 
-  setLoaders() {
+  private setLoaders() {
     this.loaders = {
       gltfLoader: new GLTFLoader(),
       textureLoader: new THREE.TextureLoader(),
@@ -45,26 +45,32 @@ export default class Resources extends EventEmitter {
     }
   }
 
-  startLoading() {
+  private startLoading() {
     // Load each source
     this.sources.forEach((source) => {
-      if (source.type === 'gltfModel') {
-        this.loaders.gltfLoader.load(source.path as string, (file) => {
-          this.sourceLoaded(source, file)
-        })
-      } else if (source.type === 'texture') {
-        this.loaders.textureLoader.load(source.path as string, (file) => {
-          this.sourceLoaded(source, file)
-        })
-      } else if (source.type === 'cubeTexture') {
-        this.loaders.cubeTextureLoader.load(source.path as string[], (file) => {
-          this.sourceLoaded(source, file)
-        })
+      switch (source.type) {
+        case 'gltfModel':
+          this.loaders.gltfLoader.load(source.path as string, (file) => {
+            this.sourceLoaded(source, file)
+          })
+          break
+        case 'texture':
+          this.loaders.textureLoader.load(source.path as string, (file) => {
+            this.sourceLoaded(source, file)
+          })
+          break
+        case 'cubeTexture':
+          this.loaders.cubeTextureLoader.load(source.path as string[], (file) => {
+            this.sourceLoaded(source, file)
+          })
+          break
+        default:
+          break
       }
     })
   }
 
-  sourceLoaded(source: SourceType, file: any) {
+  private sourceLoaded(source: SourceType, file: THREE.CubeTexture | THREE.Texture | GLTF) {
     this.items[source.name] = file
 
     this.loaded += 1

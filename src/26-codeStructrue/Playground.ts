@@ -5,7 +5,7 @@ import Camera from './Camera'
 import Renderer from './Renderer'
 import World from './World'
 import Resources from './utils/Resources'
-import sources from './sources'
+import sources from './World/sources'
 
 // eslint-disable-next-line no-use-before-define
 let instance: Playground | null = null
@@ -23,7 +23,7 @@ export default class Playground {
 
   private renderer: Renderer
 
-  world: World
+  private world: World
 
   resources: Resources
 

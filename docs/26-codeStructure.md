@@ -4,7 +4,7 @@
 
 ```plantuml
 class Main {}
-note right of Main
+note left of Main
   Entrance
   `new Playground(CanvasDom)`
 end note
@@ -18,6 +18,8 @@ class Playground<<(S,#FF7700) Singleton>>{
   +Time time
   +Camera camera
   +THREE.Scene scene
+  +Resources resources
+  -World world
   -Renderer renderer
   +constructor(canvas)
   -resize():void
@@ -74,7 +76,15 @@ package utils <<Frame>>{
   }
 
   class Resources {
-    constructor(sources)
+    -sources
+    -number toLoad
+    -number loaded
+    -loaders
+    +items
+    +constructor(sources)
+    -setLoaders():void
+    -startLoading():void
+    -sourceLoaded():void
   }
 }
 
@@ -83,27 +93,33 @@ package world <<Frame>> {
     -Playground playground
     -Environment environment
     -THREE.Scene scene
+    -Resources resources
     +constructor()
   }
   class Environment {
     -THREE.DirectionalLight sunLight
     -Playground playground
     -THREE.Scene scene
+    -environmentMap
+    -Resources resources
     +constructor()
     -setSunLight():void
     -setEnvironmentMap():void
   }
   class Floor {}
+  entity sources {}
 }
 
 
 Main --> Playground
 Playground ---> Sizes
 Playground ---> Time
+Playground ---> Resources
+Playground ...> sources
 ' Playground ----> THREE
 Playground <-- Environment
 World --> Environment
-Playground <--> World
+Playground <------> World
 Playground <--> Camera
 Playground <--> Renderer
 ' Camera --> THREE

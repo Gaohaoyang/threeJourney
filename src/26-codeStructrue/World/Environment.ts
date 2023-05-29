@@ -10,9 +10,9 @@ export default class Environment {
 
   private sunLight: THREE.DirectionalLight
 
-  environmentMap: Record<string, any>
+  private environmentMap: Record<string, any>
 
-  resources: Resources
+  private resources: Resources
 
   constructor() {
     this.playground = new Playground()
