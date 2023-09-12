@@ -92,6 +92,7 @@ package world <<Frame>> {
   class World {
     -Playground playground
     -Environment environment
+    -Floor floor
     -THREE.Scene scene
     -Resources resources
     +constructor()
@@ -106,7 +107,20 @@ package world <<Frame>> {
     -setSunLight():void
     -setEnvironmentMap():void
   }
-  class Floor {}
+  class Floor {
+    -Playground: playground
+    -THREE.Scene scene
+    -Resources resources
+    -THREE.CircleGeometry geometry
+    -textures
+    -THREE.MeshStandardMaterial material
+    -THREE.Mesh mesh
+    +constructor()
+    -setGeometry():void
+    -setMaterial():void
+    -setMesh():void
+    -setTextures():void
+  }
   entity sources {}
 }
 
@@ -119,6 +133,7 @@ Playground ...> sources
 ' Playground ----> THREE
 Playground <-- Environment
 World --> Environment
+World --> Floor
 Playground <------> World
 Playground <--> Camera
 Playground <--> Renderer

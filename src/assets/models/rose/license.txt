@@ -1,0 +1,11 @@
+Model Information:
+* title:	Rose
+* source:	https://sketchfab.com/3d-models/rose-6281bf3703584323bb4d8326f1f1b59d
+* author:	Heliona (https://sketchfab.com/Heliona)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Rose" (https://sketchfab.com/3d-models/rose-6281bf3703584323bb4d8326f1f1b59d) by Heliona (https://sketchfab.com/Heliona) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
