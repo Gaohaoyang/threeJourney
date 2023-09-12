@@ -59685,6 +59685,7 @@ scene.add(directionalLightCameraHelper);
 directionalLightCameraHelper.visible = false;
 directionLight.shadow.camera.far = 15;
 directionLight.shadow.mapSize.set(1024, 1024);
+directionLight.shadow.normalBias = 0.05;
 
 /** axesHelper */
 var axesHelper = new three__WEBPACK_IMPORTED_MODULE_5__.AxesHelper(5);
