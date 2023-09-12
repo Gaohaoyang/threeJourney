@@ -85,6 +85,8 @@ directionalLightCameraHelper.visible = false
 directionLight.shadow.camera.far = 15
 directionLight.shadow.mapSize.set(1024, 1024)
 
+directionLight.shadow.normalBias = 0.05
+
 /** axesHelper */
 const axesHelper = new THREE.AxesHelper(5)
 scene.add(axesHelper)
