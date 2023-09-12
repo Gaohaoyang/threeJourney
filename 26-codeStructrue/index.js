@@ -83,7 +83,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Renderer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Renderer */ "./src/26-codeStructrue/Renderer.ts");
 /* harmony import */ var _World__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./World */ "./src/26-codeStructrue/World/index.ts");
 /* harmony import */ var _utils_Resources__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/Resources */ "./src/26-codeStructrue/utils/Resources.ts");
-/* harmony import */ var _sources__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./sources */ "./src/26-codeStructrue/sources.ts");
+/* harmony import */ var _World_sources__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./World/sources */ "./src/26-codeStructrue/World/sources.ts");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -119,13 +119,17 @@ var Playground = /*#__PURE__*/function () {
     this.sizes = new _utils_Sizes__WEBPACK_IMPORTED_MODULE_0__["default"]();
     this.time = new _utils_Time__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.scene = new three__WEBPACK_IMPORTED_MODULE_7__.Scene();
-    this.resources = new _utils_Resources__WEBPACK_IMPORTED_MODULE_5__["default"](_sources__WEBPACK_IMPORTED_MODULE_6__["default"]);
+    this.resources = new _utils_Resources__WEBPACK_IMPORTED_MODULE_5__["default"](_World_sources__WEBPACK_IMPORTED_MODULE_6__["default"]);
     this.camera = new _Camera__WEBPACK_IMPORTED_MODULE_2__["default"]();
     this.renderer = new _Renderer__WEBPACK_IMPORTED_MODULE_3__["default"]();
     this.world = new _World__WEBPACK_IMPORTED_MODULE_4__["default"]();
+
+    // resize event
     this.sizes.on('resize', function () {
       _this.resize();
     });
+
+    // time tick event
     this.time.on('tick', function () {
       _this.update();
     });
@@ -215,10 +219,10 @@ var Renderer = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/26-codeStructrue/World/Enviroment.ts":
-/*!**************************************************!*\
-  !*** ./src/26-codeStructrue/World/Enviroment.ts ***!
-  \**************************************************/
+/***/ "./src/26-codeStructrue/World/Environment.ts":
+/*!***************************************************!*\
+  !*** ./src/26-codeStructrue/World/Environment.ts ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -439,8 +443,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ World)
 /* harmony export */ });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
 /* harmony import */ var _Playground__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Playground */ "./src/26-codeStructrue/Playground.ts");
-/* harmony import */ var _Enviroment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Enviroment */ "./src/26-codeStructrue/World/Enviroment.ts");
+/* harmony import */ var _Environment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Environment */ "./src/26-codeStructrue/World/Environment.ts");
 /* harmony import */ var _Floor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Floor */ "./src/26-codeStructrue/World/Floor.ts");
 /* harmony import */ var _Fox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Fox */ "./src/26-codeStructrue/World/Fox.ts");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -449,6 +454,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 
 
 
@@ -462,18 +468,16 @@ var World = /*#__PURE__*/function () {
     this.resources = this.playground.resources;
 
     // Test mesh
-    // const testMesh = new THREE.Mesh(
-    //   new THREE.BoxGeometry(1, 1, 1),
-    //   new THREE.MeshStandardMaterial(),
-    // )
-    // testMesh.position.set(0, 0.5, 0)
-    // this.scene.add(testMesh)
+    var testMesh = new three__WEBPACK_IMPORTED_MODULE_4__.Mesh(new three__WEBPACK_IMPORTED_MODULE_4__.BoxGeometry(1, 1, 1), new three__WEBPACK_IMPORTED_MODULE_4__.MeshStandardMaterial());
+    testMesh.position.set(0, 0.5, 0);
+    this.scene.add(testMesh);
 
+    // Wait for resources to be ready
     this.resources.on('ready', function () {
       // Setup
+      _this.environment = new _Environment__WEBPACK_IMPORTED_MODULE_1__["default"]();
       _this.floor = new _Floor__WEBPACK_IMPORTED_MODULE_2__["default"]();
       _this.fox = new _Fox__WEBPACK_IMPORTED_MODULE_3__["default"]();
-      _this.environment = new _Enviroment__WEBPACK_IMPORTED_MODULE_1__["default"]();
     });
   }
   _createClass(World, [{
@@ -490,10 +494,10 @@ var World = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/26-codeStructrue/sources.ts":
-/*!*****************************************!*\
-  !*** ./src/26-codeStructrue/sources.ts ***!
-  \*****************************************/
+/***/ "./src/26-codeStructrue/World/sources.ts":
+/*!***********************************************!*\
+  !*** ./src/26-codeStructrue/World/sources.ts ***!
+  \***********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -777,18 +781,24 @@ var Resources = /*#__PURE__*/function (_EventEmitter) {
       var _this2 = this;
       // Load each source
       this.sources.forEach(function (source) {
-        if (source.type === 'gltfModel') {
-          _this2.loaders.gltfLoader.load(source.path, function (file) {
-            _this2.sourceLoaded(source, file);
-          });
-        } else if (source.type === 'texture') {
-          _this2.loaders.textureLoader.load(source.path, function (file) {
-            _this2.sourceLoaded(source, file);
-          });
-        } else if (source.type === 'cubeTexture') {
-          _this2.loaders.cubeTextureLoader.load(source.path, function (file) {
-            _this2.sourceLoaded(source, file);
-          });
+        switch (source.type) {
+          case 'gltfModel':
+            _this2.loaders.gltfLoader.load(source.path, function (file) {
+              _this2.sourceLoaded(source, file);
+            });
+            break;
+          case 'texture':
+            _this2.loaders.textureLoader.load(source.path, function (file) {
+              _this2.sourceLoaded(source, file);
+            });
+            break;
+          case 'cubeTexture':
+            _this2.loaders.cubeTextureLoader.load(source.path, function (file) {
+              _this2.sourceLoaded(source, file);
+            });
+            break;
+          default:
+            break;
         }
       });
     }
@@ -820,11 +830,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _EventEmitter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EventEmitter */ "./src/26-codeStructrue/utils/EventEmitter.ts");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
@@ -845,17 +855,24 @@ var Sizes = /*#__PURE__*/function (_EventEmitter) {
     _this.width = window.innerWidth;
     _this.height = window.innerHeight;
     _this.pixelRatio = Math.min(window.devicePixelRatio, 2);
-
-    // Resize event
-    window.addEventListener('resize', function () {
-      _this.width = window.innerWidth;
-      _this.height = window.innerHeight;
-      _this.pixelRatio = Math.min(window.devicePixelRatio, 2);
-      _this.trigger('resize');
-    });
+    _this.onResize();
     return _this;
   }
-  return _createClass(Sizes);
+
+  // Resize event
+  _createClass(Sizes, [{
+    key: "onResize",
+    value: function onResize() {
+      var _this2 = this;
+      window.addEventListener('resize', function () {
+        _this2.width = window.innerWidth;
+        _this2.height = window.innerHeight;
+        _this2.pixelRatio = Math.min(window.devicePixelRatio, 2);
+        _this2.trigger('resize');
+      });
+    }
+  }]);
+  return Sizes;
 }(_EventEmitter__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 
