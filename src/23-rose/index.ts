@@ -61,6 +61,12 @@ let model: THREE.Group
  * Models
  */
 gltfLoader.load('../assets/models/rose/scene.gltf', (gltf) => {
+  const loadingEle = document.querySelector('#loading') as HTMLDivElement
+  loadingEle.style.opacity = '0'
+  setTimeout(() => {
+    loadingEle.style.display = 'none'
+  }, 300)
+
   gltf.scene.scale.set(3.5, 3.5, 3.5)
   gltf.scene.position.set(0, -2.5, 0)
   gltf.scene.rotation.set(0, Math.PI * 0.5, 0)
