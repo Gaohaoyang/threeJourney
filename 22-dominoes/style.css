@@ -1,0 +1,25 @@
+html,
+body {
+  overflow: hidden;
+  /* 避免滚动时出现问题 */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.webgl {
+  position: fixed;
+  top: 0;
+  left: 0;
+  outline: none;
+}
+
+.picCanvas{
+  width: 20px;
+  height: 10px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
