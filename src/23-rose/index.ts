@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import * as THREE from 'three'
-import './style.css'
+// import './style.css'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import * as dat from 'lil-gui'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
@@ -36,10 +36,42 @@ const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
 controls.zoomSpeed = 0.3
 
+const loadingManager = new THREE.LoadingManager()
+
+loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
+  console.log(`Started loading file: ${url}.\nLoaded ${itemsLoaded} of ${itemsTotal} files.`)
+}
+
+const loadingEle = document.querySelector('#loading') as HTMLDivElement
+loadingManager.onLoad = () => {
+  console.log('Loading complete!')
+  console.log('success')
+  setTimeout(() => {
+    loadingEle.style.opacity = '0'
+    setTimeout(() => {
+      loadingEle.style.display = 'none'
+    }, 200)
+  }, 200)
+}
+
+const progressEle = document.querySelector('#progress-bar-inner') as HTMLDivElement
+loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
+  console.log(`Loading file: ${url}.\nLoaded ${itemsLoaded} of ${itemsTotal} files.`)
+  // progress-bar-inner
+  // transform 0% -> 100%
+  if (itemsTotal > 2) {
+    progressEle.style.transform = `translateX(${(itemsLoaded / itemsTotal) * 100}%)`
+  }
+}
+
+loadingManager.onError = (url) => {
+  console.log(`There was an error loading ${url}`)
+}
+
 /**
  * Loaders
  */
-const gltfLoader = new GLTFLoader()
+const gltfLoader = new GLTFLoader(loadingManager)
 
 /**
  * Update all materials
@@ -60,20 +92,23 @@ let model: THREE.Group
 /**
  * Models
  */
-gltfLoader.load('../assets/models/rose/scene.gltf', (gltf) => {
-  const loadingEle = document.querySelector('#loading') as HTMLDivElement
-  loadingEle.style.opacity = '0'
-  setTimeout(() => {
-    loadingEle.style.display = 'none'
-  }, 300)
-
-  gltf.scene.scale.set(3.5, 3.5, 3.5)
-  gltf.scene.position.set(0, -2.5, 0)
-  gltf.scene.rotation.set(0, Math.PI * 0.5, 0)
-  model = gltf.scene
-  scene.add(gltf.scene)
-  updateAllMaterials()
-})
+gltfLoader.load(
+  'https://cdn.jsdelivr.net/gh/Gaohaoyang/pics/models/rose/scene.gltf',
+  (gltf) => {
+    gltf.scene.scale.set(3.5, 3.5, 3.5)
+    gltf.scene.position.set(0, -2.5, 0)
+    gltf.scene.rotation.set(0, Math.PI * 0.5, 0)
+    model = gltf.scene
+    setTimeout(() => {
+      scene.add(gltf.scene)
+    }, 200)
+    updateAllMaterials()
+  },
+  (progress) => {
+    console.log('progress')
+    console.log(progress)
+  }
+)
 
 /**
  * Light

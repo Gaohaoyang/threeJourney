@@ -3,16 +3,15 @@ const glob = require('glob')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 
-const generateHtmlPlugins = () => glob.sync('./src/**/index.html').map(
-  (item) => new HtmlWebpackPlugin({
-    template: item,
-    filename: `./${item.replace('/src', '').replace('./', '')}`,
-    inject: false,
-    templateParameters: {
-      path: `.${item.replace('/src', '').replace('.html', '.js')}`,
-    },
-  }),
-)
+const generateHtmlPlugins = () => glob.sync('./src/**/index.html').map((item) => new HtmlWebpackPlugin({
+  template: item,
+  filename: `./${item.replace('/src', '').replace('./', '')}`,
+  inject: false,
+  templateParameters: {
+    path: `.${item.replace('/src', '').replace('.html', '.js')}`,
+    pathCSS: `.${item.replace('/src', '').replace('index.html', 'style.css')}`,
+  },
+}))
 
 module.exports = {
   entry: glob.sync('./src/**/index.ts').reduce((acc, filePath) => {
@@ -69,6 +68,15 @@ module.exports = {
           to({ absoluteFilename }) {
             const pathAndName = absoluteFilename.split('src/')[1]
             return pathAndName
+          },
+        },
+        {
+          from: 'src/**/*.css', // Match all CSS files in the src directory
+          to({ context, absoluteFilename }) {
+            // Calculate the relative path of the file within the src directory
+            const relativePath = path.relative(context, absoluteFilename)
+            // Determine the destination path based on the relative path
+            return relativePath.split('src/')[1]
           },
         },
       ],

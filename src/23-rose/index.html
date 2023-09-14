@@ -5,31 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Rose for 5th Anniversary</title>
+    <!-- 添加link标签 -->
+    <link rel="stylesheet" href="<%= pathCSS %>" />
   </head>
 
   <body>
     <canvas id="mainCanvas" class="webgl"></canvas>
     <div
       id="loading"
-      class="text"
-      style="
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        font-family: sans-serif;
-        font-size: 20px;
-        /* color: #80CBC4; */
-        /* background-color: #004D40; */
-        transition: opacity 480ms ease;
-      "
     >
-      loading...
+      <div class="loading-text">Loading ...</div>
+      <div class="progress-bar">
+        <div class="progress-bar-inner" id="progress-bar-inner"></div>
+      </div>
     </div>
+
     <div class="text-area">
       <div class="text">5th Anniversary of HyG & Zy</div>
       <div class="text text-sub">2018.9.12 - 2023.9.12</div>

@@ -19,6 +19,8 @@ body {
   position: fixed;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
   outline: none;
 }
 
@@ -48,4 +50,47 @@ body {
 .text-sub {
   margin-top: 4px;
   font-size: 12px;
+}
+
+#loading {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-family: sans-serif;
+  transition: opacity 200ms ease;
+}
+
+.loading-text {
+  font-size: 22px;
+  font-family: sans-serif;
+  font-weight: 100;
+  color: #80CBC4;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.progress-bar {
+  width: 80%;
+  height: 3px;
+  background: #80CBC4;
+  margin-top: 20px;
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: 0px 0px 14px 1px rgba(0, 0, 0, 0.2);
+}
+
+.progress-bar-inner {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  left: -100%;
+  background: #004D40;
+  border-radius: 999px;
+  transition: transform 0.5s ease;
+  transform: translateX(10%);
 }
