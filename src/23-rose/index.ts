@@ -107,7 +107,7 @@ gltfLoader.load(
   (progress) => {
     console.log('progress')
     console.log(progress)
-  }
+  },
 )
 
 /**
