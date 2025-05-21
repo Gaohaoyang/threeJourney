@@ -24,12 +24,12 @@ export default class World {
     this.resources = this.playground.resources
 
     // Test mesh
-    const testMesh = new THREE.Mesh(
-      new THREE.BoxGeometry(1, 1, 1),
-      new THREE.MeshStandardMaterial(),
-    )
-    testMesh.position.set(0, 0.5, 0)
-    this.scene.add(testMesh)
+    // const testMesh = new THREE.Mesh(
+    //   new THREE.BoxGeometry(1, 1, 1),
+    //   new THREE.MeshStandardMaterial(),
+    // )
+    // testMesh.position.set(0, 0.5, 0)
+    // this.scene.add(testMesh)
 
     // Wait for resources to be ready
     this.resources.on('ready', () => {
