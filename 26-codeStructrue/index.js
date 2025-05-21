@@ -57553,7 +57553,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ World)
 /* harmony export */ });
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three */ "./node_modules/.pnpm/three@0.139.2/node_modules/three/build/three.module.js");
 /* harmony import */ var _Playground__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Playground */ "./src/26-codeStructrue/Playground.ts");
 /* harmony import */ var _Environment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Environment */ "./src/26-codeStructrue/World/Environment.ts");
 /* harmony import */ var _Floor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Floor */ "./src/26-codeStructrue/World/Floor.ts");
@@ -57568,7 +57567,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 
-
 var World = /*#__PURE__*/function () {
   function World() {
     var _this = this;
@@ -57578,9 +57576,12 @@ var World = /*#__PURE__*/function () {
     this.resources = this.playground.resources;
 
     // Test mesh
-    var testMesh = new three__WEBPACK_IMPORTED_MODULE_4__.Mesh(new three__WEBPACK_IMPORTED_MODULE_4__.BoxGeometry(1, 1, 1), new three__WEBPACK_IMPORTED_MODULE_4__.MeshStandardMaterial());
-    testMesh.position.set(0, 0.5, 0);
-    this.scene.add(testMesh);
+    // const testMesh = new THREE.Mesh(
+    //   new THREE.BoxGeometry(1, 1, 1),
+    //   new THREE.MeshStandardMaterial(),
+    // )
+    // testMesh.position.set(0, 0.5, 0)
+    // this.scene.add(testMesh)
 
     // Wait for resources to be ready
     this.resources.on('ready', function () {
