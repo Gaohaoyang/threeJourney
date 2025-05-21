@@ -8,7 +8,7 @@
     "build": "rm -rf demo && webpack",
     "eslint-init": "eslint --init",
     "deploy": "gh-pages -d demo",
-    "pub": "yarn build && yarn deploy"
+    "pub": "pnpm run build && pnpm run deploy"
   },
   "repository": {
     "type": "git",
